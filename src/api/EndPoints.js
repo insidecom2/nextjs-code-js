@@ -1,0 +1,12 @@
+export const USER = `/users`
+export const AUTH = `/auth`
+export const CATEGORY = `/category`
+export const CATEGORY_TYPE = `/categorytype`
+export const PRODUCTS = `/products`
+export const ORDER = `/order`
+export const PAYMENT = `/payment`
+export const STYLE = `/style`
+export const SIZE = `/size`
+export const MATERIAL = `/material`
+export const PRINT_FINISH = `/print-finish`
+export const PRINT_SIDE = `/print-side`
