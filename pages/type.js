@@ -13,7 +13,7 @@ import {
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageType from 'components/Settings/Type/ManageType'
-import UpdateType from 'components/settings/Type/UpdateType'
+import UpdateType from 'components/Settings/Type/UpdateType'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import {
