@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import { Button, Col, Popconfirm, Row, Space, Table, Typography } from 'antd'
+import { Switch, Button, Col, Popconfirm, Row, Space, Table, Typography,Form } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageSize from 'components/Settings/Size/ManageSize'
+import UpdateSize from 'components/Settings/Size/UpdateSize'
 import { useDispatch, useSelector } from 'react-redux'
-import { createSize, deleteSize, getSizeList } from 'store/reducers/size'
+import { createSize, deleteSize, getSizeList, getSizeTypeListById, isActiveSizeType, updateSize } from 'store/reducers/size'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 
 const Size = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
+  const [AntSelectNo, SetAntSelectNo] = useState(1);
+  const [visibleEdit, setVisibleEdit] = useState(false)
   const dispatch = useDispatch()
+  const [form] = Form.useForm()
 
   const { sizeList, isLoading } = useSelector(
     (state) => ({
@@ -32,7 +36,7 @@ const Size = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
+      render: (text, record, index) => <span>{Number(sizeList.findIndex(FindPos=>FindPos.id===text.id)) + 1}</span>
     },
     {
       title: 'Width',
@@ -41,7 +45,7 @@ const Size = (props) => {
     },
     {
       title: 'Length',
-      dataIndex: 'lenght',
+      dataIndex: 'length',
       key: 'length'
     },
     {
@@ -54,13 +58,28 @@ const Size = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a>edit</a>
+          <a className="ant-no" onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
             <a>delete</a>
           </Popconfirm>
         </Space>
+      )
+    },
+    {
+      title: 'Active',
+      key: 'is_active',
+      dataIndex: 'is_active',
+      render: (text, record, index) => (
+        <Form form={form} name="typeActive" layout="vertical">
+          <Form.Item
+            valuePropName="checked"
+            name={'active_' + record.id}
+            initialValue={text ? true : false}>
+            <Switch onChange={(e) => setActive(e, record)} />
+          </Form.Item>
+        </Form>
       )
     }
   ]
@@ -85,6 +104,28 @@ const Size = (props) => {
 
   const onCancel = () => {
     setVisible(false)
+  }
+  const setActive = async (e, record) => {
+    await dispatch(isActiveSizeType(record.id, e));
+  }
+  const onEdit = async (e, action, id) => {
+    let AntNo = document.querySelectorAll(".ant-space-item .ant-no"), GetPosition = Array.from(AntNo).indexOf(e.target) + 1;
+    SetAntSelectNo(GetPosition);
+    e.preventDefault()
+    setAction(action)
+    await dispatch(getSizeTypeListById(id))
+    await dispatch(getSizeList())
+    setVisibleEdit(true)
+  }
+
+  const onUpdateOk = async (id, data) => {
+    await setVisibleEdit(false)
+    await dispatch(updateSize(id, data))
+    await dispatch(getSizeList())
+  }
+
+  const onUpdateCancel = () => {
+    setVisibleEdit(false)
   }
 
   return (
@@ -112,6 +153,15 @@ const Size = (props) => {
           onOk={onOk}
           onCancel={onCancel}
           action={action}
+        />
+      )}
+       {visibleEdit && (
+        <UpdateSize
+          visible={visibleEdit}
+          onOk={onUpdateOk}
+          onCancel={onUpdateCancel}
+          action={action}
+          TrNo={AntSelectNo}
         />
       )}
     </MainLayout>

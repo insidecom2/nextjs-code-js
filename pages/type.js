@@ -62,11 +62,17 @@ const Type = (props) => {
     await fetchData()
   }
 
+  const [OldNo, SetOldNo] = useState(0); 
+  
   const columns = [
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
+      render: (text, record, index, e) => 
+      <span>{Number(categoryTypeList.findIndex(FindPos=>FindPos.id===text.id)) + 1}
+    
+      </span>
+
     },
     {
       title: 'Name',

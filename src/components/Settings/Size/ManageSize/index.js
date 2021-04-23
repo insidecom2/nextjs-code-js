@@ -9,7 +9,7 @@ const ManageSize = (props) => {
   const onFinish = (values) => {
     const data = {
       width: values.width,
-      lenght: values.length,
+      length: values.length,
       height: values.height
     }
 

@@ -7,6 +7,10 @@ const FETCH_SIZE_LIST_REQUEST = 'Size/FETCH_SIZE_LIST_REQUEST'
 const FETCH_SIZE_LIST_SUCCESS = 'Size/FETCH_SIZE_LIST_SUCCESS'
 const FETCH_SIZE_LIST_FAILURE = 'Size/FETCH_SIZE_LIST_FAILURE'
 
+const GET_SIZE_TYPE_REQUEST = 'Size/GET_SIZE_TYPE_REQUEST'
+const GET_SIZE_TYPE_SUCCESS = 'Size/GET_SIZE_TYPE_SUCCESS'
+const GET_SIZE_TYPE_FAILURE = 'Size/GET_SIZE_TYPE_FAILURE'
+
 const CREATE_SIZE_REQUEST = 'Size/CREATE_SIZE_REQUEST'
 const CREATE_SIZE_SUCCESS = 'Size/CREATE_SIZE_SUCCESS'
 const CREATE_SIZE_FAILURE = 'Size/CREATE_SIZE_FAILURE'
@@ -14,6 +18,14 @@ const CREATE_SIZE_FAILURE = 'Size/CREATE_SIZE_FAILURE'
 const DELETE_SIZE_REQUEST = 'Size/DELETE_SIZE_REQUEST'
 const DELETE_SIZE_SUCCESS = 'Size/DELETE_SIZE_SUCCESS'
 const DELETE_SIZE_FAILURE = 'Size/DELETE_SIZE_FAILURE'
+
+const UPDATE_SIZE_ACTIVE_REQUEST = 'Size/UPDATE_SIZE_ACTIVE_REQUEST'
+const UPDATE_SIZE_ACTIVE_SUCCESS = 'Size/UPDATE_SIZE_ACTIVE_SUCCESS'
+const UPDATE_SIZE_ACTIVE_FAILURE = 'Size/UPDATE_SIZE_ACTIVE_FAILURE'
+
+const UPDATE_SIZE_REQUEST = 'Size/UPDATE_SIZE_REQUEST'
+const UPDATE_SIZE_SUCCESS = 'Size/UPDATE_SIZE_SUCCESS'
+const UPDATE_SIZE_FAILURE = 'Size/UPDATE_SIZE_FAILURE'
 
 // Initialize State
 const initialState = {
@@ -25,6 +37,58 @@ const initialState = {
 // Default Reducer
 const size = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_SIZE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case UPDATE_SIZE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case UPDATE_SIZE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
+
+    case UPDATE_SIZE_ACTIVE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case UPDATE_SIZE_ACTIVE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case UPDATE_SIZE_ACTIVE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
+
+    case GET_SIZE_TYPE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case GET_SIZE_TYPE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        categoryType: action.payload
+      }
+    case GET_SIZE_TYPE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
+
     case FETCH_SIZE_LIST_REQUEST:
       return {
         ...state,
@@ -105,6 +169,30 @@ export const getSizeList = () => {
   }
 }
 
+export const getSizeTypeListById = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_SIZE_TYPE_REQUEST
+      })
+
+      const response = await API.get(EndPoints.SIZE + '/' + id)
+      // console.log(EndPoints.SIZE + '/' + id)
+      if (response.status === HTTP_STATUS_CODE.OK) {
+
+        dispatch({
+          type: GET_SIZE_TYPE_SUCCESS,
+          payload: response.data.data
+        })
+      }
+    } catch (err) {
+      dispatch({
+        type: GET_SIZE_TYPE_FAILURE
+      })
+    }
+  }
+}
+
 export const createSize = (data) => {
   return async (dispatch) => {
     try {
@@ -149,6 +237,70 @@ export const deleteSize = (id) => {
       dispatch({
         type: DELETE_SIZE_FAILURE
       })
+    }
+  }
+}
+
+export const isActiveSizeType = (id, data) => {
+  
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_SIZE_ACTIVE_REQUEST
+      })
+      let formData = { is_active: data }
+      console.log(formData)
+      const response = await API.put(
+        EndPoints.SIZE + '/active/' + id,
+        formData
+      )
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: UPDATE_SIZE_ACTIVE_SUCCESS,
+          payload: response.data.data
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_SIZE_ACTIVE_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
+    }
+  }
+}
+
+export const updateSize = (id, data) => {
+  
+  return async (dispatch) => {
+    
+    try {
+      dispatch({
+        type: UPDATE_SIZE_REQUEST
+      })
+      // let formData = new FormData()
+      // formData.append('width', data.width)
+      // formData.append('height', data.height)
+      // formData.append('length', data.length)
+      console.log(data)
+      const response = await API.put(
+        EndPoints.SIZE + '/' + id,
+        data
+      )
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: UPDATE_SIZE_TYPE_SUCCESS,
+          payload: response.data.data
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_SIZE_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
     }
   }
 }
