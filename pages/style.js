@@ -13,8 +13,8 @@ const Style = (props) => {
   const [visible, setVisible] = useState(false)
   const [AntSelectNo, SetAntSelectNo] = useState(1);
   const [visibleEdit, setVisibleEdit] = useState(false)
-  const dispatch = useDispatch()
   const [form] = Form.useForm()
+  const dispatch = useDispatch()
 
   const { styleList, isLoading } = useSelector(
     (state) => ({
@@ -111,8 +111,8 @@ const Style = (props) => {
 
   const onUpdateOk = async (id, data) => {
     await setVisibleEdit(false)
-    // await dispatch(updateSize(id, data))
-    // await dispatch(getSizeList())
+    await dispatch(UpdateStyle(id, data))
+    await dispatch(getSizeList())
   }
 
   const onUpdateCancel = () => {

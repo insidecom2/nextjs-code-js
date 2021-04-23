@@ -23,6 +23,10 @@ const GET_STYLE_REQUEST = 'Style/GET_STYLE_REQUEST'
 const GET_STYLE_SUCCESS = 'Style/GET_STYLE_SUCCESS'
 const GET_STYLE_FAILURE = 'Style/GET_STYLE_FAILURE'
 
+const UPDATE_STYLE_REQUEST = 'Style/UPDATE_STYLE_REQUEST'
+const UPDATE_STYLE_SUCCESS = 'Style/UPDATE_STYLE_SUCCESS'
+const UPDATE_STYLE_FAILURE = 'Style/UPDATE_STYLE_FAILURE'
+
 // Initialize State
 const initialState = {
   isLoading: false,
@@ -33,6 +37,22 @@ const initialState = {
 // Default Reducer
 const style = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_STYLE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case UPDATE_STYLE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case UPDATE_STYLE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
     case GET_STYLE_REQUEST:
       return {
         ...state,
@@ -245,6 +265,48 @@ export const getStyleById = (id) => {
       dispatch({
         type: GET_STYLE_FAILURE
       })
+    }
+  }
+}
+
+export const updateStyle = (id, data) => {
+
+  // console.log(data.img)
+  return async (dispatch) => {
+    // console.log('img', data.image.file)
+    try {
+      dispatch({
+        type: UPDATE_STYLE_REQUEST
+      })
+
+      const formData = new FormData();
+      formData.set('name', data.name)
+      formData.set('render_2d', data.render_2d)
+      formData.set('render_3d', data.render_3d)
+      formData.set('video_link', data.video_link)
+      formData.append('image', data.image)
+      const config = {
+        headers: {'content-type': 'multipart/form-data'}
+      }
+    //  console.log(config)
+      const response = await API.put(
+        EndPoints.STYLE + '/' + id,
+        formData
+        ,  
+        config
+      )
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: UPDATE_STYLE_SUCCESS,
+          payload: response.data.data
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_STYLE_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
     }
   }
 }
