@@ -36,13 +36,12 @@ const UpdateType = (props) => {
   }
 
   const onFinish = (values) => {
-    console.log(values.image)
+    console.log(values.image.originFileObj)
     const data = {
       name: values.name,
-      image: values.image,
+      image: values.image.originFileObj,
       category: values.category
     }
-
     onOk(type.id, data)
   }
 

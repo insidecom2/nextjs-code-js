@@ -198,20 +198,29 @@ export const getCategoryTypeListById = (id) => {
 }
 
 export const updateCategoryType = (id, data) => {
+
+  // console.log(data.img)
   return async (dispatch) => {
-    console.log('img', data.image.file)
+    // console.log('img', data.image.file)
     try {
       dispatch({
         type: UPDATE_CATEGORY_TYPE_REQUEST
       })
-      let formData = new FormData()
-      formData.append('image', data.image)
-      formData.append('name', data.name)
-      formData.append('category', data.category)
+      // let formData = new FormData()
+      // formData.append('image', data.image)
+      // formData.append('name', data.name)
+      // formData.append('category', data.category)
+          
 
+      console.log(formData.append)
       const response = await API.put(
         EndPoints.CATEGORY_TYPE + '/' + id,
-        formData
+        {
+          'name': data.name,
+          'category': data.category
+        }
+        ,  
+        {'image': data.img}
       )
 
       if (response.status === HTTP_STATUS_CODE.OK) {
