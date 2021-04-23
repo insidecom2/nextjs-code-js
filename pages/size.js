@@ -58,7 +58,7 @@ const Size = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a className="ant-no" onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
+          <a  onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>

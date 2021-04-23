@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import { Button, Col, Popconfirm, Row, Space, Table, Typography } from 'antd'
+import {Switch, Button, Col, Popconfirm, Row, Space, Table, Typography,Form  } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageStyle from 'components/Settings/Style/ManageStyle'
+import UpdateStyle from 'components/Settings/Style/UpdateStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { createStyle, deleteStyle, getStyleList } from 'store/reducers/style'
+import { createStyle, deleteStyle, getStyleList, isActiveStyle, getStyleById } from 'store/reducers/style'
 
 const Style = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
+  const [AntSelectNo, SetAntSelectNo] = useState(1);
+  const [visibleEdit, setVisibleEdit] = useState(false)
   const dispatch = useDispatch()
+  const [form] = Form.useForm()
 
   const { styleList, isLoading } = useSelector(
     (state) => ({
@@ -32,7 +36,7 @@ const Style = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
+      render: (text, record, index) => <span>{Number(styleList.findIndex(FindPos=>FindPos.id===text.id)) + 1}</span>
     },
     {
       title: 'Name',
@@ -44,13 +48,28 @@ const Style = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a>edit</a>
+          <a  onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
             <a>delete</a>
           </Popconfirm>
         </Space>
+      )
+    },
+    {
+      title: 'Active',
+      key: 'is_active',
+      dataIndex: 'is_active',
+      render: (text, record, index) => (
+        <Form form={form} name="typeActive" layout="vertical">
+          <Form.Item
+            valuePropName="checked"
+            name={'active_' + record.id}
+            initialValue={text ? true : false}>
+            <Switch onChange={(e) => setActive(e, record)} />
+          </Form.Item>
+        </Form>
       )
     }
   ]
@@ -75,6 +94,29 @@ const Style = (props) => {
 
   const onCancel = () => {
     setVisible(false)
+  }
+  const setActive = async (e, record) => {
+    await dispatch(isActiveStyle(record.id, e));
+  }
+
+  const onEdit = async (e, action, id) => {
+    let GetPosition = Number(styleList.findIndex(FindPos=>FindPos.id===id)) + 1;
+    SetAntSelectNo(GetPosition);
+    e.preventDefault()
+    setAction(action)
+    await dispatch(getStyleById(id))
+    await dispatch(getStyleList())
+    setVisibleEdit(true)
+  }
+
+  const onUpdateOk = async (id, data) => {
+    await setVisibleEdit(false)
+    // await dispatch(updateSize(id, data))
+    // await dispatch(getSizeList())
+  }
+
+  const onUpdateCancel = () => {
+    setVisibleEdit(false)
   }
 
   return (
@@ -104,6 +146,15 @@ const Style = (props) => {
           onOk={onOk}
           onCancel={onCancel}
           action={action}
+        />
+      )}
+      {visibleEdit && (
+        <UpdateStyle
+          visible={visibleEdit}
+          onOk={onUpdateOk}
+          onCancel={onUpdateCancel}
+          action={action}
+          TrNo={AntSelectNo}
         />
       )}
     </MainLayout>

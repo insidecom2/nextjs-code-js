@@ -15,6 +15,14 @@ const DELETE_STYLE_REQUEST = 'Style/DELETE_STYLE_REQUEST'
 const DELETE_STYLE_SUCCESS = 'Style/DELETE_STYLE_SUCCESS'
 const DELETE_STYLE_FAILURE = 'Style/DELETE_STYLE_FAILURE'
 
+const UPDATE_STYLE_ACTIVE_REQUEST = 'Style/UPDATE_STYLE_ACTIVE_REQUEST'
+const UPDATE_STYLE_ACTIVE_SUCCESS = 'Style/UPDATE_STYLE_ACTIVE_SUCCESS'
+const UPDATE_STYLE_ACTIVE_FAILURE = 'Style/UPDATE_STYLE_ACTIVE_FAILURE'
+
+const GET_STYLE_REQUEST = 'Style/GET_STYLE_REQUEST'
+const GET_STYLE_SUCCESS = 'Style/GET_STYLE_SUCCESS'
+const GET_STYLE_FAILURE = 'Style/GET_STYLE_FAILURE'
+
 // Initialize State
 const initialState = {
   isLoading: false,
@@ -25,6 +33,39 @@ const initialState = {
 // Default Reducer
 const style = (state = initialState, action) => {
   switch (action.type) {
+    case GET_STYLE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case GET_STYLE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        categoryType: action.payload
+      }
+    case GET_STYLE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
+    case UPDATE_STYLE_ACTIVE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case UPDATE_STYLE_ACTIVE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case UPDATE_STYLE_ACTIVE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
     case FETCH_STYLE_LIST_REQUEST:
       return {
         ...state,
@@ -148,6 +189,61 @@ export const deleteStyle = (id) => {
       message.error(RESPONSE_MESSAGE.FAILURE)
       dispatch({
         type: DELETE_STYLE_FAILURE
+      })
+    }
+  }
+}
+
+export const isActiveStyle = (id, data) => {
+  
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_STYLE_ACTIVE_REQUEST
+      })
+      let formData = { is_active: data }
+      console.log(formData)
+      const response = await API.put(
+        EndPoints.STYLE + '/active/' + id,
+        formData
+      )
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: UPDATE_STYLE_ACTIVE_SUCCESS,
+          payload: response.data.data
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_STYLE_ACTIVE_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
+    }
+  }
+}
+
+
+export const getStyleById = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_STYLE_REQUEST
+      })
+
+      const response = await API.get(EndPoints.STYLE + '/' + id)
+      // console.log(EndPoints.SIZE + '/' + id)
+      if (response.status === HTTP_STATUS_CODE.OK) {
+
+        dispatch({
+          type: GET_STYLE_SUCCESS,
+          payload: response.data.data
+        })
+      }
+    } catch (err) {
+      dispatch({
+        type: GET_STYLE_FAILURE
       })
     }
   }
