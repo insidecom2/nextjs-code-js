@@ -109,7 +109,7 @@ const Size = (props) => {
     await dispatch(isActiveSizeType(record.id, e));
   }
   const onEdit = async (e, action, id) => {
-    let AntNo = document.querySelectorAll(".ant-space-item .ant-no"), GetPosition = Array.from(AntNo).indexOf(e.target) + 1;
+    let GetPosition = Number(sizeList.findIndex(FindPos=>FindPos.id===id)) + 1;
     SetAntSelectNo(GetPosition);
     e.preventDefault()
     setAction(action)
