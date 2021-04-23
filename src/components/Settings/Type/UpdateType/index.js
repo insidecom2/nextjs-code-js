@@ -76,7 +76,7 @@ const UpdateType = (props) => {
           Submit
         </Button>
       ]}>
-      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
+      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical" >
         <p>Code : {type.code}</p>
         <Form.Item
           label="Category"
@@ -109,7 +109,7 @@ const UpdateType = (props) => {
           <Input />
         </Form.Item>
 
-        <Form.Item label="Image" name="image">
+        <Form.Item label="Image" name="image" valuePropName="fileList">
          
           <Upload 
             name="avatar"
