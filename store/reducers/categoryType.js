@@ -206,23 +206,21 @@ export const updateCategoryType = (id, data) => {
       dispatch({
         type: UPDATE_CATEGORY_TYPE_REQUEST
       })
-      // let formData = new FormData()
-      // formData.append('image', data.image)
-      // formData.append('name', data.name)
-      // formData.append('category', data.category)
-          
 
-      console.log(formData.append)
+      const formData = new FormData();
+      formData.set('name', data.name)
+      formData.set('category', data.category)
+      formData.append('image', data.image)
+      const config = {
+        headers: {'content-type': 'multipart/form-data'}
+      }
+    //  console.log(config)
       const response = await API.put(
         EndPoints.CATEGORY_TYPE + '/' + id,
-        {
-          'name': data.name,
-          'category': data.category
-        }
+        formData
         ,  
-        {'image': data.img}
+        config
       )
-
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: UPDATE_CATEGORY_TYPE_SUCCESS,
