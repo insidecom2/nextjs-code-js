@@ -107,11 +107,12 @@ const UpdateType = (props) => {
           ]}
           initialValue={type.name}>
           <Input />
-        </Form.Item>
 
-        <Form.Item label="Image" name="image" valuePropName="fileList">
-         
-          <Upload 
+        </Form.Item>
+        {/* valuePropName="fileList" */}
+        {/* <Form.Item   name="image" > */}
+        <Form.Item name="image"  label="Image">
+          <Upload  label="Image"
             name="avatar"
             listType="picture-card"
             className="avatar-uploader"

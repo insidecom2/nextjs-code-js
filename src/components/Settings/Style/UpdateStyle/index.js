@@ -1,30 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
-import { useSelector } from 'react-redux'
+import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
+import { useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 const UpdateStyle = (props) => {
   const { visible, onOk, onCancel, action } = props
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
   const [form] = Form.useForm()
- 
-
-
   const { type } = useSelector(
     (state) => ({
       type: state.style.categoryType
     }),
     []
   )
-console.log(type)
+// console.log(type)
   function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
   }
   
-
   const onFinish = (values) => {
     // console.log(values.image)
     const data = {
@@ -32,9 +28,10 @@ console.log(type)
       image: values.image.file,
       render_2d: values.render_2d,
       render_3d: values.render_3d,
-      video_link: values.video_link
+      video_link: values.video
     }
-    onOk(type.id, data)
+    console.log(values)
+//    onOk(type.id, data)
   }
 
   function beforeUpload(file) {
@@ -92,7 +89,7 @@ console.log(type)
         </Form.Item>
         <Form.Item
           label="2D"
-          name="2d"
+          name="render_2d"
           rules={[
             {
               required: true,
@@ -104,7 +101,7 @@ console.log(type)
         </Form.Item>
         <Form.Item
           label="3D"
-          name="3d"
+          name="render_3d"
           rules={[
             {
               required: true,
