@@ -31,7 +31,7 @@ const UpdateStyle = (props) => {
       video_link: values.video
     }
     console.log(values)
-//    onOk(type.id, data)
+   onOk(type.id, data)
   }
 
   function beforeUpload(file) {
