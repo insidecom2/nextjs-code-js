@@ -280,11 +280,11 @@ export const updateStyle = (id, data) => {
       })
 
       const formData = new FormData();
+      formData.append('image', data.image)
       formData.set('name', data.name)
       formData.set('render_2d', data.render_2d)
       formData.set('render_3d', data.render_3d)
       formData.set('video_link', data.video_link)
-      formData.append('image', data.image)
       const config = {
         headers: {'content-type': 'multipart/form-data'}
       }
