@@ -36,6 +36,7 @@ const initialState = {
 
 // Default Reducer
 const style = (state = initialState, action) => {
+  // console.log(action)
   switch (action.type) {
     case UPDATE_STYLE_REQUEST:
       return {
@@ -271,7 +272,7 @@ export const getStyleById = (id) => {
 
 export const updateStyle = (id, data) => {
 
-  // console.log(data.img)
+  // console.log(data.image)
   return async (dispatch) => {
     // console.log('img', data.image.file)
     try {
@@ -280,11 +281,12 @@ export const updateStyle = (id, data) => {
       })
 
       const formData = new FormData();
-      formData.append('image', data.image)
       formData.set('name', data.name)
       formData.set('render_2d', data.render_2d)
       formData.set('render_3d', data.render_3d)
       formData.set('video_link', data.video_link)
+      formData.append('image', data.image)
+
       const config = {
         headers: {'content-type': 'multipart/form-data'}
       }
@@ -296,6 +298,7 @@ export const updateStyle = (id, data) => {
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {
+        console.log(response.data.data)
         dispatch({
           type: UPDATE_STYLE_SUCCESS,
           payload: response.data.data

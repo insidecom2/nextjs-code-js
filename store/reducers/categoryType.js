@@ -199,7 +199,7 @@ export const getCategoryTypeListById = (id) => {
 
 export const updateCategoryType = (id, data) => {
 
-  // console.log(data.img)
+  // console.log(data.image)
   return async (dispatch) => {
     // console.log('img', data.image.file)
     try {

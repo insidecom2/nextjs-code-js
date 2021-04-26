@@ -155,6 +155,7 @@ const Style = (props) => {
           onCancel={onUpdateCancel}
           action={action}
           TrNo={AntSelectNo}
+          TrNo={AntSelectNo}
         />
       )}
     </MainLayout>

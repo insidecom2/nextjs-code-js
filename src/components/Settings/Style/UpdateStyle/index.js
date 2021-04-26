@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 const UpdateStyle = (props) => {
-  const { visible, onOk, onCancel, action } = props
+  const { visible, onOk, onCancel, action, TrNo } = props
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
   const [form] = Form.useForm()
@@ -14,6 +14,11 @@ const UpdateStyle = (props) => {
     }),
     []
   )
+   console.log(type)
+  useEffect(() => {
+       setimageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgolBdeaXdt7hZ4G28YiA8shOCg4jkBg08uA&usqp=CAU");
+  },[]);
+
 // console.log(type)
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -30,7 +35,7 @@ const UpdateStyle = (props) => {
       render_3d: values.render_3d,
       video_link: values.video
     }
-    console.log(values)
+    // console.log(values)
    onOk(type.id, data)
   }
 
@@ -74,7 +79,7 @@ const UpdateStyle = (props) => {
         </Button>
       ]}>
       <Form form={form} name="manageType" onFinish={onFinish} layout="vertical" >
-        <p>No : {1}</p>
+        <p>No : {TrNo}</p>
         <Form.Item
           label="Name"
           name="name"
