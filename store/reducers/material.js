@@ -11,6 +11,10 @@ const CREATE_MATERIAL_REQUEST = 'Material/CREATE_MATERIAL_REQUEST'
 const CREATE_MATERIAL_SUCCESS = 'Material/CREATE_MATERIAL_SUCCESS'
 const CREATE_MATERIAL_FAILURE = 'Material/CREATE_MATERIAL_FAILURE'
 
+const ACTIVE_MATERIAL_REQUEST = 'Material/ACTIVE_MATERIAL_REQUEST'
+const ACTIVE_MATERIAL_SUCCESS = 'Material/ACTIVE_MATERIAL_SUCCESS'
+const ACTIVE_MATERIAL_FAILURE = 'Material/ACTIVE_MATERIAL_FAILURE'
+
 const DELETE_MATERIAL_REQUEST = 'Material/DELETE_MATERIAL_REQUEST'
 const DELETE_MATERIAL_SUCCESS = 'Material/DELETE_MATERIAL_SUCCESS'
 const DELETE_MATERIAL_FAILURE = 'Material/DELETE_MATERIAL_FAILURE'
@@ -149,6 +153,36 @@ export const deleteMaterial = (id) => {
       dispatch({
         type: DELETE_MATERIAL_FAILURE
       })
+    }
+  }
+}
+
+export const isActiveMaterial = (id, data) => {
+  
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: ACTIVE_MATERIAL_REQUEST
+      })
+      let formData = { is_active: data }
+      console.log(formData)
+      const response = await API.put(
+        EndPoints.MATERIAL + '/active/' + id,
+        formData
+      )
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: ACTIVE_MATERIAL_SUCCESS,
+          payload: response.data.data
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      dispatch({
+        type: ACTIVE_MATERIAL_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
     }
   }
 }

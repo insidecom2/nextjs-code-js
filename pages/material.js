@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import { Button, Col, Popconfirm, Row, Space, Table, Typography } from 'antd'
+import { Switch, Button, Col, Popconfirm, Row, Space, Table, Typography ,Form } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageMaterial from 'components/Settings/Material/ManageMaterial'
 import {
   createMaterial,
   deleteMaterial,
-  getMaterialList
+  getMaterialList,
+  isActiveMaterial
 } from 'store/reducers/material'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
@@ -15,6 +16,7 @@ const Material = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
+  const [form] = Form.useForm()
 
   const { materialList, isLoading } = useSelector(
     (state) => ({
@@ -56,6 +58,21 @@ const Material = (props) => {
           </Popconfirm>
         </Space>
       )
+    },
+    {
+      title: 'Active',
+      key: 'is_active',
+      dataIndex: 'is_active',
+      render: (text, record, index) => (
+        <Form form={form} name="typeActive" layout="vertical">
+          <Form.Item
+            valuePropName="checked"
+            name={'active_' + record.id}
+            initialValue={text ? true : false}>
+            <Switch onChange={(e) => setActive(e, record)} />
+          </Form.Item>
+        </Form>
+      )
     }
   ]
 
@@ -75,6 +92,10 @@ const Material = (props) => {
     await setVisible(false)
     await dispatch(createMaterial(data))
     await dispatch(getMaterialList())
+  }
+
+  const setActive = async (e, record) => {
+   await dispatch(isActiveMaterial(record.id, e));
   }
 
   const onCancel = () => {
