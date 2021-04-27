@@ -279,11 +279,7 @@ export const updateSize = (id, data) => {
       dispatch({
         type: UPDATE_SIZE_REQUEST
       })
-      // let formData = new FormData()
-      // formData.append('width', data.width)
-      // formData.append('height', data.height)
-      // formData.append('length', data.length)
-      console.log(data)
+
       const response = await API.put(
         EndPoints.SIZE + '/' + id,
         data

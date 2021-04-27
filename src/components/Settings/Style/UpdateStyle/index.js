@@ -14,7 +14,7 @@ const UpdateStyle = (props) => {
     }),
     []
   )
-   console.log(type)
+
   useEffect(() => {
        setimageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgolBdeaXdt7hZ4G28YiA8shOCg4jkBg08uA&usqp=CAU");
   },[]);
@@ -30,7 +30,7 @@ const UpdateStyle = (props) => {
     // console.log(values.image)
     const data = {
       name: values.name,
-      image: values.image.file,
+      image: values.image.file.originFileObj,
       render_2d: values.render_2d,
       render_3d: values.render_3d,
       video_link: values.video
