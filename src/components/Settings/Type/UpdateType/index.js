@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
 import { useSelector } from 'react-redux'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 const UpdateType = (props) => {
   const { visible, onOk, onCancel, action } = props
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
-  const [imageUrl, setimageUrl] = useState("")
-
-
+  const [imageUrl, setimageUrl] = useState('')
 
   const { categoryList, isLoading, type } = useSelector(
     (state) => ({
@@ -21,46 +19,42 @@ const UpdateType = (props) => {
   )
 
   function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
+    const reader = new FileReader()
+    reader.addEventListener('load', () => callback(reader.result))
+    reader.readAsDataURL(img)
   }
-  
 
   const onFinish = (values) => {
-    // console.log(values.image)
     const data = {
       name: values.name,
-      image: values.image.file,
+      image: values.image.file.originFileObj,
       category: values.category
     }
     onOk(type.id, data)
   }
 
   function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
+      message.error('You can only upload JPG/PNG file!')
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
+      message.error('Image must smaller than 2MB!')
     }
-    return isJpgOrPng && isLt2M;
+    return isJpgOrPng && isLt2M
   }
-  const handleChange = info => {
+  const handleChange = (info) => {
     if (info.file.status === 'uploading') {
       setloading(true)
-      return;
+      return
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       setloading(false)
-      getBase64(info.file.originFileObj, imageUrl =>
-        setimageUrl(imageUrl)
-      );
+      getBase64(info.file.originFileObj, (imageUrl) => setimageUrl(imageUrl))
     }
-  };
+  }
 
   return (
     <Modal
@@ -76,7 +70,7 @@ const UpdateType = (props) => {
           Submit
         </Button>
       ]}>
-      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical" >
+      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
         <p>Code : {type.code}</p>
         <Form.Item
           label="Category"
@@ -107,12 +101,12 @@ const UpdateType = (props) => {
           ]}
           initialValue={type.name}>
           <Input />
-
         </Form.Item>
         {/* valuePropName="fileList" */}
         {/* <Form.Item   name="image" > */}
-        <Form.Item name="image"  label="Image">
-          <Upload  label="Image"
+        <Form.Item name="image" label="Image">
+          <Upload
+            label="Image"
             name="avatar"
             listType="picture-card"
             className="avatar-uploader"
@@ -121,23 +115,21 @@ const UpdateType = (props) => {
             beforeUpload={beforeUpload}
             onChange={handleChange}>
             <div>
-  
-               
-           
               {imageUrl ? (
                 <img src={imageUrl} alt="avatar" style={{ height: '100px' }} />
               ) : (
                 <div style={{ marginTop: 8 }}>
-                  {
-                   loading ? <LoadingOutlined /> : 
-                     <div><PlusOutlined /><br/><label>Upload</label></div>  
-                  }
+                  {loading ? (
+                    <LoadingOutlined />
+                  ) : (
+                    <div>
+                      <PlusOutlined />
+                      <br />
+                      <label>Upload</label>
+                    </div>
+                  )}
                 </div>
-              )
-              }
-              
-          
-              
+              )}
             </div>
           </Upload>
         </Form.Item>
