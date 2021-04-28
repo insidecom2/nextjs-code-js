@@ -6,7 +6,7 @@ import ManageStyle from 'components/Settings/Style/ManageStyle'
 import UpdateStyle from 'components/Settings/Style/UpdateStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { createStyle, deleteStyle, getStyleList, isActiveStyle, getStyleById, updateStyle } from 'store/reducers/style'
+import { createStyle, deleteStyle, getStyleList, updateActiveStyle, getStyleById, updateStyle } from 'store/reducers/style'
 
 const Style = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -96,7 +96,7 @@ const Style = (props) => {
     setVisible(false)
   }
   const setActive = async (e, record) => {
-    await dispatch(isActiveStyle(record.id, e));
+    await dispatch(updateActiveStyle(record.id, e));
   }
 
   const onEdit = async (e, action, id) => {

@@ -241,7 +241,7 @@ export const deleteSize = (id) => {
   }
 }
 
-export const isActiveSizeType = (id, data) => {
+export const updateActiveSizeType = (id, data) => {
   
   return async (dispatch) => {
     try {
@@ -249,7 +249,7 @@ export const isActiveSizeType = (id, data) => {
         type: UPDATE_SIZE_ACTIVE_REQUEST
       })
       let formData = { is_active: data }
-      console.log(formData)
+ 
       const response = await API.put(
         EndPoints.SIZE + '/active/' + id,
         formData

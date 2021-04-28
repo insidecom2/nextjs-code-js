@@ -8,7 +8,7 @@ import {
   createPrintFinish,
   deletePrintFinish,
   getPrintFinishList,
-  isActivePrintFinish,
+  updateActivePrintFinish,
   getPrintFinishById,
   updatePrintFinish
 } from 'store/reducers/printFinish'
@@ -103,7 +103,7 @@ const PrintFinish = (props) => {
     setVisible(false)
   }
   const setActive = async (e, record) => {
-    await dispatch(isActivePrintFinish(record.id, e))
+    await dispatch(updateActivePrintFinish(record.id, e))
   }
 
   const onEdit = async (e, action, id) => {

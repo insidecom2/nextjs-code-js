@@ -36,7 +36,7 @@ const initialState = {
 
 // Default Reducer
 const style = (state = initialState, action) => {
-  // console.log(action)
+
   switch (action.type) {
     case UPDATE_STYLE_REQUEST:
       return {
@@ -215,7 +215,7 @@ export const deleteStyle = (id) => {
   }
 }
 
-export const isActiveStyle = (id, data) => {
+export const updateActiveStyle = (id, data) => {
   
   return async (dispatch) => {
     try {
@@ -223,7 +223,7 @@ export const isActiveStyle = (id, data) => {
         type: UPDATE_STYLE_ACTIVE_REQUEST
       })
       let formData = { is_active: data }
-      console.log(formData)
+
       const response = await API.put(
         EndPoints.STYLE + '/active/' + id,
         formData
@@ -254,7 +254,7 @@ export const getStyleById = (id) => {
       })
 
       const response = await API.get(EndPoints.STYLE + '/' + id)
-      // console.log(EndPoints.SIZE + '/' + id)
+     
       if (response.status === HTTP_STATUS_CODE.OK) {
 
         dispatch({
@@ -272,9 +272,9 @@ export const getStyleById = (id) => {
 
 export const updateStyle = (id, data) => {
 
-  // console.log(data.image)
+
   return async (dispatch) => {
-    // console.log('img', data.image.file)
+  
     try {
       dispatch({
         type: UPDATE_STYLE_REQUEST
@@ -290,7 +290,7 @@ export const updateStyle = (id, data) => {
       const config = {
         headers: {'content-type': 'multipart/form-data'}
       }
-    //  console.log(config)
+  
       const response = await API.put(
         EndPoints.STYLE + '/' + id,
         formData
@@ -298,7 +298,7 @@ export const updateStyle = (id, data) => {
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {
-        console.log(response.data.data)
+     
         dispatch({
           type: UPDATE_STYLE_SUCCESS,
           payload: response.data.data

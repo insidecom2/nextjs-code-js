@@ -17,7 +17,7 @@ import {
   createCategory,
   deleteCategory,
   getCategoryList,
-  isActiveCategory,
+  updateActiveCategory,
   getCategoryListById,
   updateCategory
 } from 'store/reducers/category'
@@ -41,7 +41,7 @@ const Category = (props) => {
   )
 
   const setActive = async (e, record) => {
-    await dispatch(isActiveCategory(record.id, e))
+    await dispatch(updateActiveCategory(record.id, e))
   }
 
   const fetchData = async () => {

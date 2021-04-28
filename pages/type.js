@@ -22,7 +22,7 @@ import {
   getCategoryTypeList,
   getCategoryTypeListById,
   updateCategoryType,
-  isActiveCategoryType
+  updateActiveCategoryType
 } from 'store/reducers/categoryType'
 import { getCategoryList } from 'store/reducers/category'
 
@@ -42,7 +42,7 @@ const Type = (props) => {
   )
 
   const setActive = async (e, record) => {
-    await dispatch(isActiveCategoryType(record.id, e))
+    await dispatch(updateActiveCategoryType(record.id, e))
   }
 
   const fetchData = async () => {

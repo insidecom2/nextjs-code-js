@@ -220,7 +220,7 @@ export const updateCategory = (id, data) => {
   }
 }
 
-export const isActiveCategory = (id, data) => {
+export const updateActiveCategory = (id, data) => {
   return async (dispatch) => {
     try {
       dispatch({

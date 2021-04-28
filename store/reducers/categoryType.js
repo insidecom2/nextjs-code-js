@@ -199,9 +199,9 @@ export const getCategoryTypeListById = (id) => {
 
 export const updateCategoryType = (id, data) => {
 
-  // console.log(data.image)
+ 
   return async (dispatch) => {
-    // console.log('img', data.image.file)
+  
     try {
       dispatch({
         type: UPDATE_CATEGORY_TYPE_REQUEST
@@ -214,7 +214,7 @@ export const updateCategoryType = (id, data) => {
       const config = {
         headers: {'content-type': 'multipart/form-data'}
       }
-    //  console.log(config)
+   
       const response = await API.put(
         EndPoints.CATEGORY_TYPE + '/' + id,
         formData
@@ -237,7 +237,7 @@ export const updateCategoryType = (id, data) => {
   }
 }
 
-export const isActiveCategoryType = (id, data) => {
+export const updateActiveCategoryType = (id, data) => {
   return async (dispatch) => {
     try {
       dispatch({

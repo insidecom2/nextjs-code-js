@@ -5,7 +5,7 @@ import { ACTION } from 'utils/constants.js'
 import ManageSize from 'components/Settings/Size/ManageSize'
 import UpdateSize from 'components/Settings/Size/UpdateSize'
 import { useDispatch, useSelector } from 'react-redux'
-import { createSize, deleteSize, getSizeList, getSizeTypeListById, isActiveSizeType, updateSize } from 'store/reducers/size'
+import { createSize, deleteSize, getSizeList, getSizeTypeListById, updateActiveSizeType, updateSize } from 'store/reducers/size'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 
 const Size = (props) => {
@@ -106,7 +106,7 @@ const Size = (props) => {
     setVisible(false)
   }
   const setActive = async (e, record) => {
-    await dispatch(isActiveSizeType(record.id, e));
+    await dispatch(updateActiveSizeType(record.id, e));
   }
   const onEdit = async (e, action, id) => {
     let GetPosition = Number(sizeList.findIndex(FindPos=>FindPos.id===id)) + 1;

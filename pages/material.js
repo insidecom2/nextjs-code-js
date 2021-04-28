@@ -19,7 +19,7 @@ import {
   createMaterial,
   deleteMaterial,
   getMaterialList,
-  isActiveMaterial,
+  updateActiveMaterial,
   getMaterialById,
   updateMaterial
 } from 'store/reducers/material'
@@ -112,7 +112,7 @@ const Material = (props) => {
   }
 
   const setActive = async (e, record) => {
-    await dispatch(isActiveMaterial(record.id, e))
+    await dispatch(updateActiveMaterial(record.id, e))
   }
 
   const onCancel = () => {

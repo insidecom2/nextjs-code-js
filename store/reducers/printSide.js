@@ -223,7 +223,7 @@ export const deletePrintSide = (id) => {
   }
 }
 
-export const isActivePrintSide = (id, data) => {
+export const updateActivePrintSide = (id, data) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -260,7 +260,7 @@ export const getPrintSideById = (id) => {
       })
 
       const response = await API.get(EndPoints.PRINT_SIDE + '/' + id)
-      // console.log(EndPoints.SIZE + '/' + id)
+    
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: FETCH_PRINT_SIDE_ID_SUCCESS,
@@ -276,9 +276,9 @@ export const getPrintSideById = (id) => {
 }
 
 export const updatePrintSide = (id, data) => {
-  // console.log(data.image)
+
   return async (dispatch) => {
-    // console.log('img', data.image.file)
+  
     try {
       dispatch({
         type: UPDATE_PRINT_SIDE_REQUEST

@@ -9,7 +9,7 @@ import {
   createPrintSide,
   deletePrintSide,
   getPrintSideList,
-  isActivePrintSide,
+  updateActivePrintSide,
   getPrintSideById,
   updatePrintSide
 } from 'store/reducers/printSide'
@@ -104,7 +104,7 @@ const PrintSides = (props) => {
   }
 
   const setActive = async (e, record) => {
-    await dispatch(isActivePrintSide(record.id, e))
+    await dispatch(updateActivePrintSide(record.id, e))
   }
 
   const onEdit = async (e, action, id) => {
