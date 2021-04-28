@@ -1,35 +1,74 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Modal, Select } from 'antd'
-import { useSelector } from 'react-redux'
+import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
+import { useSelector } from 'react-redux';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const ManageType = (props) => {
-  const { visible, onOk, onCancel, action } = props
+  const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
-
-  const onFinish = (values) => {
-    const data = {
-      code: values.code,
-      name: values.name,
-      image: `https://picsum.photos/200`,
-      category: values.category
-    }
-
-    onOk(data)
-  }
-
-  const { categoryList, isLoading } = useSelector(
+  const [loading, setloading] = useState(false)
+  const [imageUrl, setimageUrl] = useState()
+  const { categoryList, typeName, typeId, typeCategory, typeCode } = useSelector(
     (state) => ({
-      isLoading: state.categoryType.isLoading,
+      typeName: action==='Edit'?state.categoryType.categoryType.name:"",
+      typeCategory: action==='Edit'?state.categoryType.categoryType.category.code:"",
+      typeId: action==='Edit'?state.categoryType.categoryType.id:"",
+      typeCode: action==='Edit'?state.categoryType.categoryType.code:"",
       categoryList: state.category.categoryList
     }),
     []
   )
 
+  const onFinish = (values) => {
+    const data = {
+      code: values.code,
+      name: values.name,
+      image: values.image.file.originFileObj,
+      category: values.category
+    }
+
+    onOk(typeId, data)
+  }
+
+  useEffect(() => {
+    setimageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgolBdeaXdt7hZ4G28YiA8shOCg4jkBg08uA&usqp=CAU");
+},[]);
+
+
+function getBase64(img, callback) {
+ const reader = new FileReader();
+ reader.addEventListener('load', () => callback(reader.result));
+ reader.readAsDataURL(img);
+}
+  function beforeUpload(file) {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  }
+  const handleChange = info => {
+    if (info.file.status === 'uploading') {
+      setloading(true)
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      setloading(false)
+      getBase64(info.file.originFileObj, imageUrl =>
+        setimageUrl(imageUrl)
+      );
+    }
+  };
   return (
     <Modal
       closable={false}
-      title={`${action} Category Type`}
+      title={`${action} Type`}
       visible={visible}
       destroyOnClose={true}
       footer={[
@@ -40,7 +79,8 @@ const ManageType = (props) => {
           Submit
         </Button>
       ]}>
-      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
+      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical" >
+        <p>No : {TrNo}</p>
         <Form.Item
           label="Category"
           name="category"
@@ -49,7 +89,8 @@ const ManageType = (props) => {
               required: true,
               message: 'Please input your Type!'
             }
-          ]}>
+          ]}
+          initialValue={typeCategory}>
           <Select>
             {categoryList.map((val) => (
               <Select.Option key={val.id} value={val.id}>
@@ -59,14 +100,15 @@ const ManageType = (props) => {
           </Select>
         </Form.Item>
         <Form.Item
-          label="Type Name"
+          label="Name"
           name="name"
           rules={[
             {
               required: true,
-              message: 'Please input your Type Name!'
+              message: 'Please input your name!'
             }
-          ]}>
+          ]}
+          initialValue={typeName}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -75,10 +117,43 @@ const ManageType = (props) => {
           rules={[
             {
               required: true,
-              message: 'Please input your Code!'
+              message: 'Please input your code!'
             }
-          ]}>
+          ]}
+          initialValue={typeCode}>
           <Input />
+        </Form.Item>
+     
+        <Form.Item label="Image" name="image" >
+         
+          <Upload 
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            beforeUpload={beforeUpload}
+            onChange={handleChange}>
+            <div>
+  
+               
+           
+              {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ height: '100px' }} />
+              ) : (
+                <div style={{ marginTop: 8 }}>
+                  {
+                   loading ? <LoadingOutlined /> : 
+                     <div><PlusOutlined /><br/><label>Upload</label></div>  
+                  }
+                </div>
+              )
+              }
+              
+          
+              
+            </div>
+          </Upload>
         </Form.Item>
       </Form>
     </Modal>

@@ -157,7 +157,18 @@ export const createCategoryType = (data) => {
         type: CREATE_CATEGORY_TYPE_REQUEST
       })
 
-      const response = await API.post(EndPoints.CATEGORY_TYPE, data)
+      const formData = new FormData();
+      formData.set('code', data.code)
+      formData.set('name', data.name)
+      formData.set('category', data.category)
+      formData.append('image', data.image)
+      const config = {
+        headers: {'content-type': 'multipart/form-data'}
+      }
+
+      const response = await API.post(EndPoints.CATEGORY_TYPE, formData
+        ,  
+        config)
 
       if (response.status === HTTP_STATUS_CODE.CREATED) {
         dispatch({

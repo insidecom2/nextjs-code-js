@@ -13,7 +13,6 @@ import {
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageType from 'components/Settings/Type/ManageType'
-import UpdateType from 'components/Settings/Type/UpdateType'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import {
@@ -29,8 +28,8 @@ import { getCategoryList } from 'store/reducers/category'
 const Type = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const [visibleEdit, setVisibleEdit] = useState(false)
   const dispatch = useDispatch()
+  const [AntSelectNo, SetAntSelectNo] = useState(1)
   const [form] = Form.useForm()
 
   const { categoryTypeList, isLoading } = useSelector(
@@ -53,16 +52,11 @@ const Type = (props) => {
     fetchData()
   }, [])
 
-  const getValue = async (e) => {
-    console.log(e)
-  }
   const confirm = async (e, record) => {
     e.preventDefault()
     await dispatch(deleteCategoryType(record.id))
     await fetchData()
   }
-
-  const [OldNo, SetOldNo] = useState(0); 
   
   const columns = [
     {
@@ -119,33 +113,29 @@ const Type = (props) => {
   }
 
   const onEdit = async (e, action, id) => {
+    const GetPosition =
+    Number(categoryTypeList.findIndex((FindPos) => FindPos.id === id)) + 1
+    SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
+
     await dispatch(getCategoryTypeListById(id))
     await dispatch(getCategoryList())
-    setVisibleEdit(true)
-  }
-
-  const onOk = async (data) => {
-    await setVisible(false)
-    console.log(data)
-    await dispatch(createCategoryType(data))
-    await dispatch(getCategoryTypeList())
+    setVisible(true)
   }
 
   const onCancel = () => {
     setVisible(false)
   }
 
-  const onUpdateOk = async (id, data) => {
-    await setVisibleEdit(false)
-    await dispatch(updateCategoryType(id, data))
-    await dispatch(getCategoryTypeList())
+  const onOk = async (GetId, data) => {
+    await setVisible(false)
+    String(action) !== 'Edit'
+      ? await dispatch(createCategoryType(data))
+      : await dispatch(updateCategoryType(GetId, data))
+      await dispatch(getCategoryTypeList())
   }
 
-  const onUpdateCancel = () => {
-    setVisibleEdit(false)
-  }
 
   return (
     <MainLayout>
@@ -172,14 +162,7 @@ const Type = (props) => {
           onOk={onOk}
           onCancel={onCancel}
           action={action}
-        />
-      )}
-      {visibleEdit && (
-        <UpdateType
-          visible={visibleEdit}
-          onOk={onUpdateOk}
-          onCancel={onUpdateCancel}
-          action={action}
+          TrNo={AntSelectNo}
         />
       )}
     </MainLayout>
