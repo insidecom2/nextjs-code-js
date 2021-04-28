@@ -167,26 +167,22 @@ export const getMaterialList = () => {
 }
 
 export const createMaterial = (data) => {
-
   // console.log(data)
   return async (dispatch) => {
     try {
       dispatch({
         type: CREATE_MATERIAL_REQUEST
       })
-       
-      const formData = new FormData();
+
+      const formData = new FormData()
       formData.set('name', data.name)
       formData.set('code', data.code)
       formData.append('image', data.image)
       const config = {
-        headers: {'content-type': 'multipart/form-data'}
+        headers: { 'content-type': 'multipart/form-data' }
       }
 
-      const response = await API.post(EndPoints.MATERIAL, formData
-        ,
-        config
-        )
+      const response = await API.post(EndPoints.MATERIAL, formData, config)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
@@ -228,13 +224,12 @@ export const deleteMaterial = (id) => {
 }
 
 export const isActiveMaterial = (id, data) => {
-  
   return async (dispatch) => {
     try {
       dispatch({
         type: ACTIVE_MATERIAL_REQUEST
       })
-      let formData = { is_active: data }
+      const formData = { is_active: data }
       console.log(formData)
       const response = await API.put(
         EndPoints.MATERIAL + '/active/' + id,
@@ -267,7 +262,6 @@ export const getMaterialById = (id) => {
       const response = await API.get(EndPoints.MATERIAL + '/' + id)
       // console.log(EndPoints.SIZE + '/' + id)
       if (response.status === HTTP_STATUS_CODE.OK) {
-
         dispatch({
           type: FETCH_MATERIAL_ID_SUCCESS,
           payload: response.data.data
@@ -282,7 +276,6 @@ export const getMaterialById = (id) => {
 }
 
 export const updateMaterial = (id, data) => {
-
   // console.log(data.image)
   return async (dispatch) => {
     // console.log('img', data.image.file)
@@ -290,17 +283,16 @@ export const updateMaterial = (id, data) => {
       dispatch({
         type: UPDATE_MATERIAL_REQUEST
       })
-      const formData = new FormData();
+      const formData = new FormData()
       formData.set('name', data.name)
       formData.set('code', data.name)
       formData.append('image', data.image)
       const config = {
-        headers: {'content-type': 'multipart/form-data'}
+        headers: { 'content-type': 'multipart/form-data' }
       }
       const response = await API.put(
         EndPoints.MATERIAL + '/' + id,
-        formData
-        ,  
+        formData,
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {

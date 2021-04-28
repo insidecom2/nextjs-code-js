@@ -73,9 +73,6 @@ const ManageSize = (props) => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item valuePropName="checked" label="Active" name="is_active">
-          <Switch />
-        </Form.Item>
       </Form>
     </Modal>
   )

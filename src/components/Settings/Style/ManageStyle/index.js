@@ -48,9 +48,7 @@ const ManageStyle = (props) => {
           ]}>
           <Input />
         </Form.Item>
-        <Form.Item valuePropName="checked" label="Active" name="is_active">
-          <Switch />
-        </Form.Item>
+
       </Form>
     </Modal>
   )

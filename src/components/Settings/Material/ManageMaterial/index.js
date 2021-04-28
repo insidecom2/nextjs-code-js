@@ -87,7 +87,7 @@ function getBase64(img, callback) {
               message: 'Please input your name!'
             }
           ]}
-          initialValue={typeName?typeName:""}>
+          initialValue={typeName}>
           <Input />
         </Form.Item>
         <Form.Item
