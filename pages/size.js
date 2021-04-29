@@ -91,6 +91,7 @@ const Size = (props) => {
   }
 
   const onClick = (e, action) => {
+    SetAntSelectNo(sizeList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)

@@ -75,6 +75,7 @@ const Style = (props) => {
   ]
 
   const onClick = (e, action) => {
+    SetAntSelectNo(styleList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)

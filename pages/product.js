@@ -68,6 +68,7 @@ const Products = (props) => {
   ]
 
   const onClick = (e, action) => {
+    SetAntSelectNo(productsList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)

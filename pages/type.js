@@ -107,14 +107,14 @@ const Type = (props) => {
 
   const onClick = async (e, action) => {
     e.preventDefault()
+    SetAntSelectNo(categoryTypeList.length + 1)
     await dispatch(getCategoryList())
     setAction(action)
     setVisible(true)
   }
 
   const onEdit = async (e, action, id) => {
-    const GetPosition =
-    Number(categoryTypeList.findIndex((FindPos) => FindPos.id === id)) + 1
+    const GetPosition = Number(categoryTypeList.findIndex((FindPos) => FindPos.id === id)) + 1
     SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)

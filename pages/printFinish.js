@@ -86,6 +86,7 @@ const PrintFinish = (props) => {
   }
 
   const onClick = (e, action) => {
+    SetAntSelectNo(printFinishList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)

@@ -83,7 +83,7 @@ const Material = (props) => {
           <Form.Item
             valuePropName="checked"
             name={'active_' + record.id}
-            initialValue={!!text}>
+            initialValue={!text}>
             <Switch onChange={(e) => setActive(e, record)} />
           </Form.Item>
         </Form>
@@ -98,6 +98,7 @@ const Material = (props) => {
   }
 
   const onClick = (e, action) => {
+    SetAntSelectNo(materialList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)

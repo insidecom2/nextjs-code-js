@@ -9,17 +9,18 @@ const ManageType = (props) => {
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
-  const { categoryList, typeName, typeId, typeCategory, typeCode } = useSelector(
+  const { categoryList, typeName, typeId, typeCategory, typeCode, defaultImage } = useSelector(
     (state) => ({
       typeName: action==='Edit'?state.categoryType.categoryType.name:"",
       typeCategory: action==='Edit'?state.categoryType.categoryType.category.code:"",
       typeId: action==='Edit'?state.categoryType.categoryType.id:"",
       typeCode: action==='Edit'?state.categoryType.categoryType.code:"",
-      categoryList: state.category.categoryList
+      categoryList: state.category.categoryList,
+      defaultImage: action==='Edit'?state.categoryType.categoryType.category.image:""
     }),
     []
   )
-
+console.log(defaultImage)
   const onFinish = (values) => {
     const data = {
       code: values.code,
