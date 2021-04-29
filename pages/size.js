@@ -3,7 +3,6 @@ import MainLayout from 'components/Layout/MainLayout'
 import { Switch, Button, Col, Popconfirm, Row, Space, Table, Typography,Form } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageSize from 'components/Settings/Size/ManageSize'
-import UpdateSize from 'components/Settings/Size/UpdateSize'
 import { useDispatch, useSelector } from 'react-redux'
 import { createSize, deleteSize, getSizeList, getSizeTypeListById, updateActiveSizeType, updateSize } from 'store/reducers/size'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
@@ -12,7 +11,6 @@ const Size = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
   const [AntSelectNo, SetAntSelectNo] = useState(1);
-  const [visibleEdit, setVisibleEdit] = useState(false)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
 
@@ -97,18 +95,15 @@ const Size = (props) => {
     setVisible(true)
   }
 
-  const onOk = async (data) => {
-    await setVisible(false)
-    await dispatch(createSize(data))
-    await dispatch(getSizeList())
-  }
 
   const onCancel = () => {
     setVisible(false)
   }
+
   const setActive = async (e, record) => {
     await dispatch(updateActiveSizeType(record.id, e));
   }
+
   const onEdit = async (e, action, id) => {
     let GetPosition = Number(sizeList.findIndex(FindPos=>FindPos.id===id)) + 1;
     SetAntSelectNo(GetPosition);
@@ -116,17 +111,15 @@ const Size = (props) => {
     setAction(action)
     await dispatch(getSizeTypeListById(id))
     await dispatch(getSizeList())
-    setVisibleEdit(true)
+    setVisible(true)
   }
 
-  const onUpdateOk = async (id, data) => {
-    await setVisibleEdit(false)
-    await dispatch(updateSize(id, data))
+  const onOk = async (GetId, data) => {
+    await setVisible(false)
+    String(action) !== 'Edit'
+      ? await dispatch(createSize(data))
+      : await dispatch(updateSize(GetId, data))
     await dispatch(getSizeList())
-  }
-
-  const onUpdateCancel = () => {
-    setVisibleEdit(false)
   }
 
   return (
@@ -153,14 +146,6 @@ const Size = (props) => {
           visible={visible}
           onOk={onOk}
           onCancel={onCancel}
-          action={action}
-        />
-      )}
-       {visibleEdit && (
-        <UpdateSize
-          visible={visibleEdit}
-          onOk={onUpdateOk}
-          onCancel={onUpdateCancel}
           action={action}
           TrNo={AntSelectNo}
         />
