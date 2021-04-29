@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
 import { useSelector } from 'react-redux';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const ManageSize = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props

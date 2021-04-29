@@ -28,7 +28,7 @@ import UpdateCategory from 'components/Settings/Category/UpdateCategory'
 const Category = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const [visibleEdit, setVisibleEdit] = useState(false)
+  const [AntSelectNo, SetAntSelectNo] = useState(1);
   const dispatch = useDispatch()
   const [form] = Form.useForm()
 
@@ -101,36 +101,31 @@ const Category = (props) => {
   ]
 
   const onClick = (e, action) => {
+    SetAntSelectNo(categoryList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
   }
 
   const onEdit = async (e, action, id) => {
+    let GetPosition = Number(categoryList.findIndex(FindPos=>FindPos.id===id)) + 1;
+    SetAntSelectNo(GetPosition);
     e.preventDefault()
     setAction(action)
     await dispatch(getCategoryListById(id))
-    await setVisibleEdit(true)
-  }
-
-  const onOk = async (data) => {
-    await setVisible(false)
-    await dispatch(createCategory(data))
-    await dispatch(getCategoryList())
+    setVisible(true)
   }
 
   const onCancel = () => {
     setVisible(false)
   }
 
-  const onUpdateOk = async (id, data) => {
-    await setVisibleEdit(false)
-    await dispatch(updateCategory(id, data))
+  const onOk = async (GetId, data) => {
+    await setVisible(false)
+    String(action) !== 'Edit'
+      ? await dispatch(createCategory(data))
+      : await dispatch(updateCategory(GetId, data))
     await dispatch(getCategoryList())
-  }
-
-  const onUpdateCancel = () => {
-    setVisibleEdit(false)
   }
 
   return (
@@ -160,15 +155,7 @@ const Category = (props) => {
           onOk={onOk}
           onCancel={onCancel}
           action={action}
-        />
-      )}
-
-      {visibleEdit && (
-        <UpdateCategory
-          visible={visibleEdit}
-          onOk={onUpdateOk}
-          onCancel={onUpdateCancel}
-          action={action}
+          TrNo={AntSelectNo}
         />
       )}
     </MainLayout>

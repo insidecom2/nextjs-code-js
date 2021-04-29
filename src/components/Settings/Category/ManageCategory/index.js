@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Modal, Switch } from 'antd'
+import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
+import { useSelector } from 'react-redux';
 
 const ManageCategory = (props) => {
-  const { visible, onOk, onCancel, action } = props
+  const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
+
+  const { typeCode, typeName, typeId } = useSelector(
+    (state) => ({
+      typeCode: action==='Edit'?state.category.category.code:"",
+      typeName: action==='Edit'?state.category.category.name:"",
+      typeId: action==='Edit'?state.category.category.id:""
+    }),
+    []
+  )
 
   const onFinish = (values) => {
     const data = {
       code: values.code,
       name: values.name
     }
-    onOk(data)
+    onOk(typeId, data)
   }
 
   return (
@@ -24,35 +34,40 @@ const ManageCategory = (props) => {
         <Button key="cancel" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button form="manageCategory" key="ok" type="primary" htmlType="submit">
+        <Button form="updateCategory" key="ok" type="primary" htmlType="submit">
           Submit
         </Button>
       ]}>
+      <h4>No : {TrNo}</h4>
       <Form
         form={form}
-        name="manageCategory"
+        name="updateCategory"
         onFinish={onFinish}
         layout="vertical">
         <Form.Item
-          label="Category Name"
+          label="Category Code:"
+          name="code"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Category Code!'
+            }
+          ]}
+          initialValue={typeCode}>
+         { action!=='Edit'?<Input />:<label>{typeCode}</label>
+
+}
+        </Form.Item>
+        <Form.Item
+          label="Category Name:"
           name="name"
           rules={[
             {
               required: true,
               message: 'Please input your Category Name!'
             }
-          ]}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Code"
-          name="code"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Code!'
-            }
-          ]}>
+          ]}
+          initialValue={typeName}>
           <Input />
         </Form.Item>
       </Form>
