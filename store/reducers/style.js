@@ -174,7 +174,18 @@ export const createStyle = (data) => {
         type: CREATE_STYLE_REQUEST
       })
 
-      const response = await API.post(EndPoints.STYLE, data)
+      const formData = new FormData();
+      formData.set('name', data.name)
+      formData.set('render_2d', data.render_2d)
+      formData.set('render_3d', data.render_3d)
+      formData.set('video_link', data.video_link)
+      formData.append('image', data.image)
+
+      const config = {
+        headers: {'content-type': 'multipart/form-data'}
+      }
+
+      const response = await API.post(EndPoints.STYLE, formData, config)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({

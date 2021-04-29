@@ -118,10 +118,9 @@ const Type = (props) => {
     SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
-
     await dispatch(getCategoryTypeListById(id))
     await dispatch(getCategoryList())
-    setVisible(true)
+    await setVisible(true)
   }
 
   const onCancel = () => {

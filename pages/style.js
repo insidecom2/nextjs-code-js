@@ -3,7 +3,6 @@ import MainLayout from 'components/Layout/MainLayout'
 import {Switch, Button, Col, Popconfirm, Row, Space, Table, Typography,Form  } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageStyle from 'components/Settings/Style/ManageStyle'
-import UpdateStyle from 'components/Settings/Style/UpdateStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { createStyle, deleteStyle, getStyleList, updateActiveStyle, getStyleById, updateStyle } from 'store/reducers/style'
@@ -12,7 +11,6 @@ const Style = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
   const [AntSelectNo, SetAntSelectNo] = useState(1);
-  const [visibleEdit, setVisibleEdit] = useState(false)
   const [form] = Form.useForm()
   const dispatch = useDispatch()
 
@@ -81,12 +79,6 @@ const Style = (props) => {
     setVisible(true)
   }
 
-  const onOk = async (data) => {
-    await setVisible(false)
-    await dispatch(createStyle(data))
-    await dispatch(getStyleList())
-  }
-
   const confirm = async (e, record) => {
     e.preventDefault()
     await dispatch(deleteStyle(record.id))
@@ -107,17 +99,15 @@ const Style = (props) => {
     setAction(action)
     await dispatch(getStyleById(id))
     await dispatch(getStyleList())
-    setVisibleEdit(true)
+    setVisible(true)
   }
 
-  const onUpdateOk = async (id, data) => {
-    await setVisibleEdit(false)
-    await dispatch(updateStyle(id, data))
+  const onOk = async (GetId, data) => {
+    await setVisible(false)
+    String(action) !== 'Edit'
+      ? await dispatch(createStyle(data))
+      : await dispatch(updateStyle(GetId, data))
     await dispatch(getStyleList())
-  }
-
-  const onUpdateCancel = () => {
-    setVisibleEdit(false)
   }
 
   return (
@@ -146,14 +136,6 @@ const Style = (props) => {
           visible={visible}
           onOk={onOk}
           onCancel={onCancel}
-          action={action}
-        />
-      )}
-      {visibleEdit && (
-        <UpdateStyle
-          visible={visibleEdit}
-          onOk={onUpdateOk}
-          onCancel={onUpdateCancel}
           action={action}
           TrNo={AntSelectNo}
         />

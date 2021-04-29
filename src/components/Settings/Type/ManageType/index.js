@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
 import { useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-
+import { ACTION } from 'utils/constants.js'
 const ManageType = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
@@ -11,23 +11,17 @@ const ManageType = (props) => {
   const [imageUrl, setimageUrl] = useState()
   const {
     categoryList,
-    typeName,
     typeId,
-    typeCategory,
-    typeCode,
-    defaultImage
+    defaultImage,
+    categoryType
   } = useSelector(
     (state) => ({
-      typeName: action === 'Edit' ? state.categoryType.categoryType.name : '',
-      typeCategory:
-        action === 'Edit' ? state.categoryType.categoryType.category.id : '',
-      typeId: action === 'Edit' ? state.categoryType.categoryType.id : '',
-      typeCode: action === 'Edit' ? state.categoryType.categoryType.code : '',
       categoryList: state.category.categoryList,
       defaultImage:
         action === 'Edit'
           ? 'http://' + state.categoryType.categoryType.image
-          : ''
+          : '',
+          categoryType:state.categoryType.categoryType
     }),
     []
   )
@@ -36,7 +30,7 @@ const ManageType = (props) => {
     const data = {
       code: values.code,
       name: values.name,
-      image: values.image.file.originFileObj,
+      image: values.image===undefined?"":values.image.file.originFileObj,
       category: values.category
     }
 
@@ -46,6 +40,18 @@ const ManageType = (props) => {
   useEffect(() => {
     setimageUrl(defaultImage)
   }, [])
+
+
+  useEffect(() => {
+    if (action === ACTION.EDIT) {
+         form.setFieldsValue({
+          category:categoryType.category.id,
+          name:categoryType.category.name,
+          code:categoryType.category.code
+         })    
+    } 
+  
+  }, [categoryType])
 
   function getBase64(img, callback) {
     const reader = new FileReader()
@@ -99,7 +105,8 @@ const ManageType = (props) => {
               message: 'Please input your Type!'
             }
           ]}
-          initialValue={typeCategory}>
+          
+          >
           <Select>
             {categoryList.map((val) => (
               <Select.Option key={val.id} value={val.id}>
@@ -117,7 +124,7 @@ const ManageType = (props) => {
               message: 'Please input your name!'
             }
           ]}
-          initialValue={typeName}>
+          >
           <Input />
         </Form.Item>
         <Form.Item
@@ -129,7 +136,7 @@ const ManageType = (props) => {
               message: 'Please input your code!'
             }
           ]}
-          initialValue={typeCode}>
+          >
           <Input />
         </Form.Item>
 
