@@ -8,9 +8,9 @@ import {
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch , useSelector} from 'react-redux'
 import { logout } from 'store/reducers/auth'
-
+import { setMenu } from 'store/reducers/menu';
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
 
@@ -19,12 +19,21 @@ const MainLayout = (props) => {
   const [collapsed, setCollapsed] = useState(false)
   const dispatch = useDispatch()
 
+
+  const { selectedMenu } = useSelector(
+    (state) => ({
+      selectedMenu:state.menu.selectedMenu
+    }),
+    []
+  )
+
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
 
-  const onClick = async (url) => {
+  const onClick = async (e, url) => {
     await router.push(`/${url}`)
+    await dispatch(setMenu(e.key))
   }
 
   const menu = (
@@ -48,39 +57,39 @@ const MainLayout = (props) => {
           <TitleDashboard>Digibox Dashboard</TitleDashboard>
         </div>
         <Divider />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+        <Menu theme="dark" selectedKeys={[selectedMenu]} mode="inline" defaultOpenKeys={['sub1']}>
           <Menu.Item
             key="1"
             icon={<PieChartOutlined />}
-            onClick={() => onClick('dashboard')}>
+            onClick={(e) => onClick(e,'dashboard')}>
             Dashboard
           </Menu.Item>
           <Menu.Item
             key="9"
             icon={<ShoppingOutlined />}
-            onClick={() => onClick('product')}>
+            onClick={(e) => onClick(e,'product')}>
             Products
           </Menu.Item>
-          <SubMenu key="sub1" icon={<SettingOutlined />} title="Setting">
-            <Menu.Item key="2" onClick={() => onClick('category')}>
+          <SubMenu key="sub1" icon={<SettingOutlined />} title="Setting" >
+            <Menu.Item key="2" onClick={(e) => onClick(e,'category')}>
               Category
             </Menu.Item>
-            <Menu.Item key="3" onClick={() => onClick('type')}>
+            <Menu.Item key="3" onClick={(e) => onClick(e,'type')}>
               Type
             </Menu.Item>
-            <Menu.Item key="4" onClick={() => onClick('style')}>
+            <Menu.Item key="4" onClick={(e) => onClick(e,'style')}>
               Style
             </Menu.Item>
-            <Menu.Item key="5" onClick={() => onClick('size')}>
+            <Menu.Item key="5" onClick={(e) => onClick(e,'size')}>
               Size
             </Menu.Item>
-            <Menu.Item key="6" onClick={() => onClick('material')}>
+            <Menu.Item key="6" onClick={(e) => onClick(e,'material')}>
               Material
             </Menu.Item>
-            <Menu.Item key="7" onClick={() => onClick('printFinish')}>
+            <Menu.Item key="7" onClick={(e) => onClick(e,'printFinish')}>
               Print Finish
             </Menu.Item>
-            <Menu.Item key="8" onClick={() => onClick('printSides')}>
+            <Menu.Item key="8" onClick={(e) => onClick(e,'printSides')}>
               Print Sides
             </Menu.Item>
           </SubMenu>
