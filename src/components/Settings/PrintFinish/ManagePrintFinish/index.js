@@ -26,7 +26,7 @@ const ManagePrintFinish = (props) => {
     const data = {
       name: values.name,
       code: values.code,
-      image: values.image.file.originFileObj
+      image: values.image===undefined?"":values.image.file.originFileObj
     }
     onOk(typeId, data)
   }
