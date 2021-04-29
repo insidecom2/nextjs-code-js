@@ -7,9 +7,8 @@ const ManageSize = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
 
-  const { typeId, SizeValue } = useSelector(
+  const { SizeValue } = useSelector(
     (state) => ({
-      typeId: action==='Edit'?state.size.categoryType.id:"",
       SizeValue: state.size.categoryType
     }),
     []
@@ -21,7 +20,7 @@ const ManageSize = (props) => {
       height: values.height,
       length: values.length
     }
-    onOk(typeId, data)
+    onOk(SizeValue.id, data)
   }
 
   useEffect(() => {

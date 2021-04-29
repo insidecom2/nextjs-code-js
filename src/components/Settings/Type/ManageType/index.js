@@ -11,12 +11,10 @@ const ManageType = (props) => {
   const [imageUrl, setimageUrl] = useState()
   const {
     categoryList,
-    typeId,
     defaultImage,
     categoryType
   } = useSelector(
     (state) => ({
-      typeId: action==='Edit'?state.categoryType.categoryType.id:"",
       categoryList: state.category.categoryList,
       defaultImage:
         action === 'Edit'
@@ -35,7 +33,7 @@ const ManageType = (props) => {
       category: values.category
     }
 
-    onOk(typeId, data)
+    onOk(categoryType.id, data)
   }
 
   useEffect(() => {
