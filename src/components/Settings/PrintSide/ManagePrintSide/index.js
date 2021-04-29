@@ -3,21 +3,20 @@ import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-
+import { ACTION } from 'utils/constants.js'
 const ManagePrintSide = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
-  const { typeName, typeCode, typeId, defaultImage } = useSelector(
+  const { typeName, typeCode, typeId, defaultImage, PrintSideValue } = useSelector(
     (state) => ({
-      typeName: action==='Edit'?state.printSide.categoryType.name:"",
-      typeCode: action==='Edit'?state.printSide.categoryType.code:"",
       typeId: action==='Edit'?state.printSide.categoryType.id:"",
       defaultImage:
         action === 'Edit'
           ? 'http://' + state.printSide.categoryType.image
-          : ''
+          : '',
+       PrintSideValue: state.printSide.categoryType
     }),
     []
   )
@@ -34,6 +33,15 @@ const ManagePrintSide = (props) => {
   useEffect(() => {
     setimageUrl(defaultImage);
 },[]);
+
+useEffect(() => {
+  if (action === ACTION.EDIT) {
+    form.setFieldsValue({
+      name:PrintSideValue.name,
+      code:PrintSideValue.code
+    })    
+} 
+},[PrintSideValue]);
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -90,7 +98,7 @@ function getBase64(img, callback) {
               message: 'Please input your name!'
             }
           ]}
-          initialValue={typeName}>
+        >
           <Input />
         </Form.Item>
         <Form.Item
@@ -102,7 +110,7 @@ function getBase64(img, callback) {
               message: 'Please input your code!'
             }
           ]}
-          initialValue={typeCode}>
+          >
           <Input />
         </Form.Item>
      

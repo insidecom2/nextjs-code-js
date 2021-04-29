@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
 import { useSelector } from 'react-redux';
-
+import { ACTION } from 'utils/constants.js'
 const ManageSize = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
 
-  const { typeWidth, typeHeight, typeLength, typeId } = useSelector(
+  const { typeId, SizeValue } = useSelector(
     (state) => ({
-      typeWidth: action==='Edit'?state.size.categoryType.width:"",
-      typeHeight: action==='Edit'?state.size.categoryType.height:"",
-      typeLength: action==='Edit'?state.size.categoryType.length:"",
-      typeId: action==='Edit'?state.size.categoryType.id:""
+      typeId: action==='Edit'?state.size.categoryType.id:"",
+      SizeValue: state.size.categoryType
     }),
     []
   )
@@ -25,6 +23,16 @@ const ManageSize = (props) => {
     }
     onOk(typeId, data)
   }
+
+  useEffect(() => {
+    if (action === ACTION.EDIT) {
+      form.setFieldsValue({
+        width:SizeValue.width,
+        height:SizeValue.height,
+        length:SizeValue.length
+      })    
+  } 
+  },[SizeValue]);
 
   return (
     <Modal
@@ -51,7 +59,7 @@ const ManageSize = (props) => {
             message: 'Please input width!'
           }
         ]}
-        initialValue={typeWidth}>
+       >
         <Input />
       </Form.Item>
       <Form.Item
@@ -63,7 +71,7 @@ const ManageSize = (props) => {
             message: 'Please input height!'
           }
         ]}
-        initialValue={typeHeight}>
+       >
         <Input />
       </Form.Item>
       <Form.Item
@@ -75,7 +83,7 @@ const ManageSize = (props) => {
             message: 'Please input length!'
           }
         ]}
-        initialValue={typeLength}>
+       >
         <Input />
       </Form.Item>
 

@@ -23,7 +23,6 @@ import {
 } from 'store/reducers/category'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import ManageCategory from 'components/Settings/Category/ManageCategory'
-import UpdateCategory from 'components/Settings/Category/UpdateCategory'
 
 const Category = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)

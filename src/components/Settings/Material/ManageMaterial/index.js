@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { ACTION } from 'utils/constants.js'
 
 const ManageMaterial = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
-  const { typeName, typeCode, typeId, defaultImage } = useSelector(
+  const { typeId, defaultImage, MaterialValue } = useSelector(
     (state) => ({
-      typeName: action==='Edit'?state.material.categoryType.name:"",
-      typeCode: action==='Edit'?state.material.categoryType.code:"",
+      MaterialValue: state.material.categoryType,
       typeId: action==='Edit'?state.material.categoryType.id:"",
       defaultImage:
         action === 'Edit'
@@ -34,6 +34,15 @@ const ManageMaterial = (props) => {
   useEffect(() => {
     setimageUrl(defaultImage);
 },[]);
+
+useEffect(() => {
+  if (action === ACTION.EDIT) {
+    form.setFieldsValue({
+      name:MaterialValue.name,
+      code:MaterialValue.code
+    })    
+} 
+},[MaterialValue]);
 
 // console.log(type)
 function getBase64(img, callback) {
@@ -91,7 +100,7 @@ function getBase64(img, callback) {
               message: 'Please input your name!'
             }
           ]}
-          initialValue={typeName}>
+          >
           <Input />
         </Form.Item>
         <Form.Item
@@ -103,7 +112,7 @@ function getBase64(img, callback) {
               message: 'Please input your code!'
             }
           ]}
-          initialValue={typeCode}>
+         >
           <Input />
         </Form.Item>
      

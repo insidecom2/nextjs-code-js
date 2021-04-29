@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
 import { useSelector } from 'react-redux';
+import { ACTION } from 'utils/constants.js';
 
 const ManageCategory = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
 
-  const { typeCode, typeName, typeId } = useSelector(
+  const { typeId, CategoryValue } = useSelector(
     (state) => ({
-      typeCode: action==='Edit'?state.category.category.code:"",
-      typeName: action==='Edit'?state.category.category.name:"",
+      CategoryValue: state.category.category,
       typeId: action==='Edit'?state.category.category.id:""
     }),
     []
@@ -23,6 +23,15 @@ const ManageCategory = (props) => {
     }
     onOk(typeId, data)
   }
+
+  useEffect(() => {
+    if (action === ACTION.EDIT) {
+      form.setFieldsValue({
+        name:CategoryValue.name,
+        code:CategoryValue.code
+      })    
+  } 
+  },[CategoryValue]);
 
   return (
     <Modal
@@ -53,8 +62,8 @@ const ManageCategory = (props) => {
               message: 'Please input your Category Code!'
             }
           ]}
-          initialValue={typeCode}>
-         { action!=='Edit'?<Input />:<label>{typeCode}</label>
+         >
+         { action!=='Edit'?<Input />:<label>{CategoryValue.code}</label>
 
 }
         </Form.Item>
@@ -67,7 +76,7 @@ const ManageCategory = (props) => {
               message: 'Please input your Category Name!'
             }
           ]}
-          initialValue={typeName}>
+         >
           <Input />
         </Form.Item>
       </Form>

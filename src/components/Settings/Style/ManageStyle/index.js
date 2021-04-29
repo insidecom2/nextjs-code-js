@@ -3,20 +3,17 @@ import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-
+import { ACTION } from 'utils/constants.js'
 const ManageStyle = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
 
-  const { typeName, type2D , type3D,typeVdo ,typeId, defaultImage } = useSelector(
+  const { typeId, defaultImage, styleValue } = useSelector(
     (state) => ({
-      typeName: action==='Edit'?state.style.categoryType.name:"",
-      type2D: action==='Edit'?state.style.categoryType.render_2d:"",
-      type3D: action==='Edit'?state.style.categoryType.render_3d:"",
-      typeVdo: action==='Edit'?state.style.categoryType.video_link:"",
       typeId: action==='Edit'?state.style.categoryType.id:"",
+      styleValue: state.style.categoryType,
       defaultImage:
         action === 'Edit'
           ? 'http://' + state.style.categoryType.image
@@ -40,6 +37,18 @@ const ManageStyle = (props) => {
   useEffect(() => {
     setimageUrl(defaultImage);
 },[]);
+
+useEffect(() => {
+  if (action === ACTION.EDIT) {
+    form.setFieldsValue({
+      name:styleValue.name,
+      render_2d:styleValue.render_2d,
+      render_3d:styleValue.render_3d,
+      video:styleValue.video_link
+    })    
+} 
+},[styleValue]);
+
 
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -96,7 +105,7 @@ const ManageStyle = (props) => {
               message: 'Please input your name!'
             }
           ]}
-          initialValue={typeName}>
+         >
           <Input />
         </Form.Item>
         <Form.Item
@@ -108,7 +117,7 @@ const ManageStyle = (props) => {
               message: 'Please input your 2D!'
             }
           ]}
-          initialValue={type2D}>
+        >
           <Input />
         </Form.Item>
         <Form.Item
@@ -120,7 +129,7 @@ const ManageStyle = (props) => {
               message: 'Please input your 3D!'
             }
           ]}
-          initialValue={type3D}>
+   >
           <Input />
         </Form.Item>
         <Form.Item
@@ -132,7 +141,7 @@ const ManageStyle = (props) => {
               message: 'Please input your video link!'
             }
           ]}
-          initialValue={typeVdo}>
+       >
           <Input />
         </Form.Item>
 
