@@ -9,11 +9,15 @@ const ManagePrintSide = (props) => {
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
-  const { typeName, typeCode, typeId } = useSelector(
+  const { typeName, typeCode, typeId, defaultImage } = useSelector(
     (state) => ({
       typeName: action==='Edit'?state.printSide.categoryType.name:"",
       typeCode: action==='Edit'?state.printSide.categoryType.code:"",
       typeId: action==='Edit'?state.printSide.categoryType.id:"",
+      defaultImage:
+        action === 'Edit'
+          ? 'http://' + state.printSide.categoryType.image
+          : ''
     }),
     []
   )
@@ -28,7 +32,7 @@ const ManagePrintSide = (props) => {
   }
 
   useEffect(() => {
-    setimageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgolBdeaXdt7hZ4G28YiA8shOCg4jkBg08uA&usqp=CAU");
+    setimageUrl(defaultImage);
 },[]);
 
 function getBase64(img, callback) {

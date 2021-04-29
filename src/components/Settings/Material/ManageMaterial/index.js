@@ -9,11 +9,15 @@ const ManageMaterial = (props) => {
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
-  const { typeName, typeCode, typeId } = useSelector(
+  const { typeName, typeCode, typeId, defaultImage } = useSelector(
     (state) => ({
       typeName: action==='Edit'?state.material.categoryType.name:"",
       typeCode: action==='Edit'?state.material.categoryType.code:"",
-      typeId: action==='Edit'?state.material.categoryType.id:""
+      typeId: action==='Edit'?state.material.categoryType.id:"",
+      defaultImage:
+        action === 'Edit'
+          ? 'http://' + state.material.categoryType.image
+          : ''
     }),
     []
   )
@@ -28,7 +32,7 @@ const ManageMaterial = (props) => {
   }
 
   useEffect(() => {
-    setimageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgolBdeaXdt7hZ4G28YiA8shOCg4jkBg08uA&usqp=CAU");
+    setimageUrl(defaultImage);
 },[]);
 
 // console.log(type)
