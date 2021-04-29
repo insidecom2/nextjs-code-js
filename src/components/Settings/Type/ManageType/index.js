@@ -16,6 +16,7 @@ const ManageType = (props) => {
     categoryType
   } = useSelector(
     (state) => ({
+      typeId: action==='Edit'?state.categoryType.categoryType.id:"",
       categoryList: state.category.categoryList,
       defaultImage:
         action === 'Edit'
