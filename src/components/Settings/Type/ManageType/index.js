@@ -147,7 +147,9 @@ const ManageType = (props) => {
             showUploadList={false}
             // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             beforeUpload={beforeUpload}
-            onChange={handleChange}>
+            onChange={handleChange}
+            fileList={null}
+            >
             <div>
               {imageUrl ? (
                 <img src={imageUrl} alt="avatar" style={{ height: '100px' }} />

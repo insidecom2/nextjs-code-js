@@ -117,6 +117,7 @@ function getBase64(img, callback) {
         <Form.Item label="Image" name="image" >
          
           <Upload 
+            fileList={null}
             name="avatar"
             listType="picture-card"
             className="avatar-uploader"
