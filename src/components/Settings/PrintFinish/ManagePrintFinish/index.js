@@ -15,7 +15,7 @@ const ManagePrintFinish = (props) => {
       typeId: action==='Edit'?state.printFinish.categoryType.id:"",
       defaultImage:
         action === 'Edit'
-          ? 'http://' + state.printFinish.categoryType.image
+          ? state.printFinish.categoryType.image
           : '',
       PrintFinishValue: state.printFinish.categoryType     
     }),
@@ -31,10 +31,6 @@ const ManagePrintFinish = (props) => {
     onOk(typeId, data)
   }
 
-  useEffect(() => {
-    setimageUrl(defaultImage);
-},[]);
-
 useEffect(() => {
   if (action === ACTION.EDIT) {
     form.setFieldsValue({
@@ -42,6 +38,7 @@ useEffect(() => {
       code:PrintFinishValue.code
     })    
 } 
+setimageUrl(defaultImage);
 },[PrintFinishValue]);
 
 function getBase64(img, callback) {
@@ -63,14 +60,14 @@ function getBase64(img, callback) {
    const handleChange = info => {
      if (info.file.status === 'uploading') {
        setloading(true)
+       getBase64(info.file.originFileObj, imageUrl =>
+        setimageUrl(imageUrl)
+      );
        return;
      }
      if (info.file.status === 'done') {
        // Get this url from response in real world.
        setloading(false)
-       getBase64(info.file.originFileObj, imageUrl =>
-         setimageUrl(imageUrl)
-       );
      }
    };
 

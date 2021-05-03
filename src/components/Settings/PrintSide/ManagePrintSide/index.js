@@ -14,7 +14,7 @@ const ManagePrintSide = (props) => {
       typeId: action==='Edit'?state.printSide.categoryType.id:"",
       defaultImage:
         action === 'Edit'
-          ? 'http://' + state.printSide.categoryType.image
+          ? state.printSide.categoryType.image
           : '',
        PrintSideValue: state.printSide.categoryType
     }),
@@ -30,10 +30,6 @@ const ManagePrintSide = (props) => {
     onOk(typeId, data)
   }
 
-  useEffect(() => {
-    setimageUrl(defaultImage);
-},[]);
-
 useEffect(() => {
   if (action === ACTION.EDIT) {
     form.setFieldsValue({
@@ -41,6 +37,7 @@ useEffect(() => {
       code:PrintSideValue.code
     })    
 } 
+setimageUrl(defaultImage);
 },[PrintSideValue]);
 
 function getBase64(img, callback) {
@@ -62,14 +59,14 @@ function getBase64(img, callback) {
    const handleChange = info => {
      if (info.file.status === 'uploading') {
        setloading(true)
+       getBase64(info.file.originFileObj, imageUrl =>
+        setimageUrl(imageUrl)
+      );
        return;
      }
      if (info.file.status === 'done') {
        // Get this url from response in real world.
        setloading(false)
-       getBase64(info.file.originFileObj, imageUrl =>
-         setimageUrl(imageUrl)
-       );
      }
    };
 
@@ -122,7 +119,6 @@ function getBase64(img, callback) {
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             beforeUpload={beforeUpload}
             onChange={handleChange}>
             <div>

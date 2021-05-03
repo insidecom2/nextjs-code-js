@@ -16,7 +16,7 @@ const ManageStyle = (props) => {
       styleValue: state.style.categoryType,
       defaultImage:
         action === 'Edit'
-          ? 'http://' + state.style.categoryType.image
+          ? state.style.categoryType.image
           : ''
     }),
     []
@@ -34,10 +34,6 @@ const ManageStyle = (props) => {
     onOk(typeId, data)
   }
 
-  useEffect(() => {
-    setimageUrl(defaultImage);
-},[]);
-
 useEffect(() => {
   if (action === ACTION.EDIT) {
     form.setFieldsValue({
@@ -47,6 +43,7 @@ useEffect(() => {
       video:styleValue.video_link
     })    
 } 
+setimageUrl(defaultImage);
 },[styleValue]);
 
 
@@ -69,14 +66,14 @@ useEffect(() => {
      const handleChange = info => {
        if (info.file.status === 'uploading') {
          setloading(true)
+         getBase64(info.file.originFileObj, imageUrl =>
+          setimageUrl(imageUrl));
          return;
        }
        if (info.file.status === 'done') {
          // Get this url from response in real world.
          setloading(false)
-         getBase64(info.file.originFileObj, imageUrl =>
-           setimageUrl(imageUrl)
-         );
+        
        }
      };
 

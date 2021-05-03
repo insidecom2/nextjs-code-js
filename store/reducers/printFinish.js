@@ -285,7 +285,7 @@ export const updatePrintFinish = (id, data) => {
       })
       const formData = new FormData()
       formData.set('name', data.name)
-      formData.set('code', data.name)
+      formData.set('code', data.code)
       formData.append('image', data.image)
       const config = {
         headers: { 'content-type': 'multipart/form-data' }

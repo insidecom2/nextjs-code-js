@@ -16,7 +16,7 @@ const ManageMaterial = (props) => {
       typeId: action==='Edit'?state.material.categoryType.id:"",
       defaultImage:
         action === 'Edit'
-          ? 'http://' + state.material.categoryType.image
+          ? state.material.categoryType.image
           : ''
     }),
     []
@@ -31,10 +31,6 @@ const ManageMaterial = (props) => {
     onOk(typeId, data)
   }
 
-  useEffect(() => {
-    setimageUrl(defaultImage);
-},[]);
-
 useEffect(() => {
   if (action === ACTION.EDIT) {
     form.setFieldsValue({
@@ -42,6 +38,7 @@ useEffect(() => {
       code:MaterialValue.code
     })    
 } 
+setimageUrl(defaultImage);
 },[MaterialValue]);
 
 // console.log(type)
@@ -64,14 +61,14 @@ function getBase64(img, callback) {
   const handleChange = info => {
     if (info.file.status === 'uploading') {
       setloading(true)
+      getBase64(info.file.originFileObj, imageUrl =>
+        setimageUrl(imageUrl)
+      );
       return;
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       setloading(false)
-      getBase64(info.file.originFileObj, imageUrl =>
-        setimageUrl(imageUrl)
-      );
     }
   };
 

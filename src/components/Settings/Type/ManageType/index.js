@@ -18,7 +18,7 @@ const ManageType = (props) => {
       categoryList: state.category.categoryList,
       defaultImage:
         action === 'Edit'
-          ? 'http://' + state.categoryType.categoryType.image
+          ? state.categoryType.categoryType.image
           : '',
           categoryType:state.categoryType.categoryType
     }),
@@ -37,11 +37,6 @@ const ManageType = (props) => {
   }
 
   useEffect(() => {
-    setimageUrl(defaultImage)
-  }, [])
-
-
-  useEffect(() => {
     if (action === ACTION.EDIT) {
          form.setFieldsValue({
           category:categoryType.category.id,
@@ -49,7 +44,7 @@ const ManageType = (props) => {
           code:categoryType.category.code
          })    
     } 
-  
+    setimageUrl(defaultImage)
   }, [categoryType])
 
   function getBase64(img, callback) {
@@ -71,12 +66,12 @@ const ManageType = (props) => {
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
       setloading(true)
+      getBase64(info.file.originFileObj, (imageUrl) => setimageUrl(imageUrl))
       return
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       setloading(false)
-      getBase64(info.file.originFileObj, (imageUrl) => setimageUrl(imageUrl))
     }
   }
   return (
@@ -145,7 +140,6 @@ const ManageType = (props) => {
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             beforeUpload={beforeUpload}
             onChange={handleChange}
             fileList={null}
