@@ -178,8 +178,15 @@ export const createPrintFinish = (data) => {
       dispatch({
         type: CREATE_PRINT_FINISH_REQUEST
       })
+      const formData = new FormData()
+      formData.set('name', data.name)
+      formData.set('code', data.code)
+      formData.append('image', data.image)
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
 
-      const response = await API.post(EndPoints.PRINT_FINISH, data)
+      const response = await API.post(EndPoints.PRINT_FINISH, formData, config)
 
       if (
         response.status === HTTP_STATUS_CODE.OK ||
