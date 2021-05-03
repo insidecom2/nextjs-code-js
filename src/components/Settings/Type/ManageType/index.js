@@ -1,51 +1,60 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Upload,
+  Icon,
+  message,
+  Row
+} from 'antd'
 import { useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
+import _ from 'lodash'
+
 const ManageType = (props) => {
-  const { visible, onOk, onCancel, action, TrNo } = props
+  const { visible, onOk, onCancel, action, typeSelected } = props
   const [form] = Form.useForm()
-  const [loading, setloading] = useState(false)
-  const [imageUrl, setimageUrl] = useState()
-  const {
-    categoryList,
-    defaultImage,
-    categoryType
-  } = useSelector(
+  const [loading, setLoading] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
+  const { categoryList, categoryType } = useSelector(
     (state) => ({
-      categoryList: state.category.categoryList,
-      defaultImage:
-        action === 'Edit'
-          ? state.categoryType.categoryType.image
-          : '',
-          categoryType:state.categoryType.categoryType
+      categoryList: state.category.categoryList
     }),
     []
   )
 
   const onFinish = (values) => {
+    console.log('values', values)
+
     const data = {
       code: values.code,
       name: values.name,
-      image: values.image===undefined?"":values.image.file.originFileObj,
+      image: values.image === undefined ? '' : values.image.file.originFileObj,
       category: values.category
     }
 
-    onOk(categoryType.id, data)
+    if (action === ACTION.EDIT) {
+      data.id = typeSelected.id
+    }
+
+    onOk(data)
   }
 
   useEffect(() => {
-    if (action === ACTION.EDIT) {
-         form.setFieldsValue({
-          category:categoryType.category.id,
-          name:categoryType.category.name,
-          code:categoryType.category.code
-         })    
-    } 
-    setimageUrl(defaultImage)
-  }, [categoryType])
+    if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
+      form.setFieldsValue({
+        category: typeSelected.id,
+        name: typeSelected.name,
+        code: typeSelected.code
+      })
+      setImageUrl(typeSelected.image)
+    }
+  }, [typeSelected])
 
   function getBase64(img, callback) {
     const reader = new FileReader()
@@ -65,15 +74,16 @@ const ManageType = (props) => {
   }
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
-      setloading(true)
-      getBase64(info.file.originFileObj, (imageUrl) => setimageUrl(imageUrl))
+      setLoading(true)
       return
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
-      setloading(false)
+      setLoading(false)
+      getBase64(info.file.originFileObj, (imageUrl) => setImageUrl(imageUrl))
     }
   }
+
   return (
     <Modal
       closable={false}
@@ -89,7 +99,6 @@ const ManageType = (props) => {
         </Button>
       ]}>
       <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
-        <p>No : {TrNo}</p>
         <Form.Item
           label="Category"
           name="category"
@@ -98,9 +107,7 @@ const ManageType = (props) => {
               required: true,
               message: 'Please input your Type!'
             }
-          ]}
-          
-          >
+          ]}>
           <Select>
             {categoryList.map((val) => (
               <Select.Option key={val.id} value={val.id}>
@@ -117,8 +124,7 @@ const ManageType = (props) => {
               required: true,
               message: 'Please input your name!'
             }
-          ]}
-          >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -129,40 +135,43 @@ const ManageType = (props) => {
               required: true,
               message: 'Please input your code!'
             }
-          ]}
-          >
+          ]}>
           <Input />
         </Form.Item>
-
-        <Form.Item label="Image" name="image">
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
-            fileList={null}
-            >
-            <div>
-              {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ height: '100px' }} />
-              ) : (
-                <div style={{ marginTop: 8 }}>
-                  {loading ? (
-                    <LoadingOutlined />
-                  ) : (
-                    <div>
-                      <PlusOutlined />
-                      <br />
-                      <label>Upload</label>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </Upload>
-        </Form.Item>
+        <Row justify="center">
+          <Form.Item label="Image" name="image">
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}>
+              <div>
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{ height: '100px' }}
+                  />
+                ) : (
+                  <div style={{ marginTop: 8 }}>
+                    {loading ? (
+                      <LoadingOutlined />
+                    ) : (
+                      <div>
+                        <PlusOutlined />
+                        <br />
+                        <label>Upload</label>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </Upload>
+          </Form.Item>
+        </Row>
       </Form>
     </Modal>
   )

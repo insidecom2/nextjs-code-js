@@ -157,18 +157,11 @@ export const createCategoryType = (data) => {
         type: CREATE_CATEGORY_TYPE_REQUEST
       })
 
-      const formData = new FormData();
-      formData.set('code', data.code)
-      formData.set('name', data.name)
-      formData.set('category', data.category)
-      formData.append('image', data.image)
       const config = {
-        headers: {'content-type': 'multipart/form-data'}
+        headers: { 'content-type': 'multipart/form-data' }
       }
 
-      const response = await API.post(EndPoints.CATEGORY_TYPE, formData
-        ,  
-        config)
+      const response = await API.post(EndPoints.CATEGORY_TYPE, data, config)
 
       if (response.status === HTTP_STATUS_CODE.CREATED) {
         dispatch({
@@ -209,27 +202,19 @@ export const getCategoryTypeListById = (id) => {
 }
 
 export const updateCategoryType = (id, data) => {
-
- 
   return async (dispatch) => {
-  
     try {
       dispatch({
         type: UPDATE_CATEGORY_TYPE_REQUEST
       })
 
-      const formData = new FormData();
-      formData.set('name', data.name)
-      formData.set('category', data.category)
-      formData.append('image', data.image)
       const config = {
-        headers: {'content-type': 'multipart/form-data'}
+        headers: { 'content-type': 'multipart/form-data' }
       }
-   
+
       const response = await API.put(
         EndPoints.CATEGORY_TYPE + '/' + id,
-        formData
-        ,  
+        data,
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {
@@ -254,7 +239,7 @@ export const updateActiveCategoryType = (id, data) => {
       dispatch({
         type: UPDATE_CATEGORY_TYPE_REQUEST
       })
-      let formData = { is_active: data }
+      const formData = { is_active: data }
 
       const response = await API.put(
         EndPoints.CATEGORY_TYPE + '/active/' + id,
