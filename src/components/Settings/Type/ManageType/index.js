@@ -40,13 +40,12 @@ const ManageType = (props) => {
     async function fetchData() {
       await dispatch(getCategoryList())
     }
-
     fetchData()
   }, [])
 
   useDeepEffect(() => {
     if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
-      console.log(typeSelected.category)
+      // console.log(typeSelected.category)
       form.setFieldsValue({
         category: typeSelected.category.id,
         name: typeSelected.name,
@@ -145,7 +144,7 @@ const ManageType = (props) => {
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               beforeUpload={beforeUpload}
               onChange={handleChange}>
               <div>

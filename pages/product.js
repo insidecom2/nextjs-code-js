@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import { Button, Col, Popconfirm, Row, Space, Table, Typography } from 'antd'
+import { Switch, Button, Col, Popconfirm, Row, Space, Table, Typography } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import CreateProducts from 'components/products/CreateProduct'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,7 +9,8 @@ import useDeepEffect from 'utils/hooks/useDeepEffect'
 import {
   createProducts,
   deleteProducts,
-  getProductsList
+  getProductsList,
+  updateActiveProducts
 } from 'store/reducers/products'
 
 const Products = (props) => {
@@ -45,7 +46,9 @@ const Products = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
+      render: (text) => <span>{Number(
+        productsList.findIndex((FindPos) => FindPos.id === text.id)
+      ) + 1}</span>
     },
     {
       title: 'Name',
@@ -66,6 +69,14 @@ const Products = (props) => {
           </Popconfirm>
         </Space>
       )
+    },
+    {
+      title: 'Active',
+      key: 'is_active',
+      dataIndex: 'is_active',
+      render: (text, record, index) => (
+        <Switch onChange={(e) => setActive(e, record)} checked={text} />
+      )
     }
   ]
 
@@ -85,6 +96,12 @@ const Products = (props) => {
   const onCancel = () => {
     setVisible(false)
   }
+
+  const setActive = async (e, record) => {
+    await dispatch(updateActiveProducts(record.id, e))
+    await dispatch(getProductsList())
+  }
+
   return (
     <MainLayout>
       <Row>

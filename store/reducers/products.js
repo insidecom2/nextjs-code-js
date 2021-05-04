@@ -15,6 +15,10 @@ const DELETE_PRODUCTS_REQUEST = 'Products/DELETE_PRODUCTS_REQUEST'
 const DELETE_PRODUCTS_SUCCESS = 'Products/DELETE_PRODUCTS_SUCCESS'
 const DELETE_PRODUCTS_FAILURE = 'v/DELETE_PRODUCTS_FAILURE'
 
+const UPDATE_PRODUCTS_REQUEST = 'Products/UPDATE_PRODUCTS_REQUEST'
+const UPDATE_PRODUCTS_SUCCESS = 'Products/UPDATE_PRODUCTS_SUCCESS'
+const UPDATE_PRODUCTS_FAILURE = 'Products/UPDATE_PRODUCTS_FAILURE'
+
 // Initialize State
 const initialState = {
   isLoading: false,
@@ -25,6 +29,22 @@ const initialState = {
 // Default Reducer
 const products = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_PRODUCTS_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case UPDATE_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case UPDATE_PRODUCTS_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
     case FETCH_PRODUCTS_LIST_REQUEST:
       return {
         ...state,
@@ -148,6 +168,35 @@ export const deleteProducts = (id) => {
       dispatch({
         type: DELETE_PRODUCTS_FAILURE
       })
+    }
+  }
+}
+
+export const updateActiveProducts = (id, data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_PRODUCTS_REQUEST
+      })
+      const formData = { is_active: data }
+
+      const response = await API.put(
+        EndPoints.PRODUCTS + '/active/' + id,
+        formData
+      )
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: UPDATE_PRODUCTS_SUCCESS,
+          payload: response.data.data
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_PRODUCTS_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
     }
   }
 }
