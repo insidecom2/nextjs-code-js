@@ -112,8 +112,6 @@ const Type = (props) => {
     e.preventDefault()
     setTypeSelected(id)
     setAction(action)
-    await dispatch(getCategoryTypeListById(id))
-    await dispatch(getCategoryList())
     await setVisible(true)
   }
 

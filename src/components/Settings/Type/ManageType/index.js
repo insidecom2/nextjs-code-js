@@ -21,7 +21,7 @@ const ManageType = (props) => {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
-  const { categoryList, categoryType } = useSelector(
+  const { categoryList } = useSelector(
     (state) => ({
       categoryList: state.category.categoryList
     }),
@@ -29,8 +29,6 @@ const ManageType = (props) => {
   )
 
   const onFinish = (values) => {
-    console.log('values', values)
-
     const data = {
       code: values.code,
       name: values.name,
@@ -48,7 +46,7 @@ const ManageType = (props) => {
   useEffect(() => {
     if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
       form.setFieldsValue({
-        category: typeSelected.id,
+        category: typeSelected.category.id,
         name: typeSelected.name,
         code: typeSelected.code
       })
