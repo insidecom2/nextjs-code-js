@@ -16,7 +16,9 @@ import {
 const Products = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
+  const [AntSelectNo, SetAntSelectNo] = useState(1)
   const dispatch = useDispatch()
+  const [typeSelected, setTypeSelected] = useState(null)
 
   const { productsList, isLoading } = useSelector(
     (state) => ({
@@ -26,7 +28,7 @@ const Products = (props) => {
     []
   )
 
-  console.log(productsList)
+  // console.log(productsList)
 
   const fetchData = async () => {
     await dispatch(getProductsList())
@@ -57,11 +59,18 @@ const Products = (props) => {
       render: (text) => <span>{text.toString().toUpperCase()}</span>
     },
     {
+      title: 'Category / Type',
+      dataIndex: 'category_type',
+      key: 'name',
+      render: (text) => <span>{text.category.name+" / "+text.name}
+      </span>
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
@@ -95,11 +104,22 @@ const Products = (props) => {
 
   const onCancel = () => {
     setVisible(false)
+    setTypeSelected(null)
   }
 
   const setActive = async (e, record) => {
     await dispatch(updateActiveProducts(record.id, e))
     await dispatch(getProductsList())
+  }
+
+  const onEdit = async (e, action, record) => {
+    const GetPosition =
+      Number(productsList.findIndex((FindPos) => FindPos.id === record.id)) + 1
+    SetAntSelectNo(GetPosition)
+    e.preventDefault()
+    await setTypeSelected(record)
+    await setAction(action)
+    await setVisible(true)
   }
 
   return (
@@ -129,6 +149,7 @@ const Products = (props) => {
           onOk={onOk}
           onCancel={onCancel}
           action={action}
+          TrNo={AntSelectNo}
         />
       )}
     </MainLayout>

@@ -164,6 +164,7 @@ const Type = (props) => {
           onCancel={onCancel}
           action={action}
           typeSelected={typeSelected}
+          TrNo={AntSelectNo}
         />
       )}
     </MainLayout>

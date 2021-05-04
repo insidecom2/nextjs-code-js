@@ -7,7 +7,7 @@ import { getCategoryList } from 'store/reducers/category'
 import { getCategoryTypeList } from 'store/reducers/categoryType'
 
 const CreateProducts = (props) => {
-  const { visible, onOk, onCancel, action } = props
+  const { visible, onOk, onCancel, action, TrNo} = props
   const [form] = Form.useForm()
   const [type, settype] = useState([])
   const dispatch = useDispatch()
@@ -16,7 +16,7 @@ const CreateProducts = (props) => {
     dispatch(getCategoryList())
     dispatch(getCategoryTypeList())
   }, [])
-
+  
   const { categoryList, isLoading, typeList } = useSelector(
     (state) => ({
       categoryList: state.category.categoryList,
