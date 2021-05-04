@@ -25,6 +25,8 @@ const Products = (props) => {
     []
   )
 
+  console.log(productsList)
+
   const fetchData = async () => {
     await dispatch(getProductsList())
   }
