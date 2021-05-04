@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Switch, Select, InputNumber } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
-import category, { getCategoryList } from 'store/reducers/category'
+import { getCategoryList } from 'store/reducers/category'
 import { getCategoryTypeList } from 'store/reducers/categoryType'
 
 const CreateProducts = (props) => {

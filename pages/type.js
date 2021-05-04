@@ -108,10 +108,10 @@ const Type = (props) => {
     setVisible(true)
   }
 
-  const onEdit = async (e, action, id) => {
+  const onEdit = async (e, action, record) => {
     e.preventDefault()
-    setTypeSelected(id)
-    setAction(action)
+    await setTypeSelected(record)
+    await setAction(action)
     await setVisible(true)
   }
 

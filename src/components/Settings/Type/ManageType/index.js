@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Select,
-  Upload,
-  Icon,
-  message,
-  Row
-} from 'antd'
-import { useSelector } from 'react-redux'
+import { Button, Form, Input, message, Modal, Row, Select, Upload } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
 import _ from 'lodash'
+import useDeepEffect from 'utils/hooks/useDeepEffect'
+import { getCategoryList } from 'store/reducers/category'
 
 const ManageType = (props) => {
   const { visible, onOk, onCancel, action, typeSelected } = props
   const [form] = Form.useForm()
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
   const { categoryList } = useSelector(
@@ -43,8 +36,17 @@ const ManageType = (props) => {
     onOk(data)
   }
 
-  useEffect(() => {
+  useDeepEffect(() => {
+    async function fetchData() {
+      await dispatch(getCategoryList())
+    }
+
+    fetchData()
+  }, [])
+
+  useDeepEffect(() => {
     if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
+      console.log(typeSelected.category)
       form.setFieldsValue({
         category: typeSelected.category.id,
         name: typeSelected.name,
@@ -137,7 +139,7 @@ const ManageType = (props) => {
           <Input />
         </Form.Item>
         <Row justify="center">
-          <Form.Item label="Image" name="image">
+          <Form.Item label="Image" name="image" valuePropName="upload">
             <Upload
               name="avatar"
               listType="picture-card"
