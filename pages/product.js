@@ -10,7 +10,8 @@ import {
   createProducts,
   deleteProducts,
   getProductsList,
-  updateActiveProducts
+  updateActiveProducts,
+  updateProducts
 } from 'store/reducers/products'
 
 const Products = (props) => {
@@ -98,7 +99,18 @@ const Products = (props) => {
 
   const onOk = async (data) => {
     await setVisible(false)
-    await dispatch(createProducts(data))
+    
+    const formData = new FormData()
+    formData.set('data', data.data)
+    formData.append('images', data.images)
+    formData.set('quantity', data.quantity)
+
+    if (action === ACTION.CREATE) {
+      await dispatch(createProducts(formData))
+    } else if (action === ACTION.EDIT) {
+      await dispatch(updateProducts(data.id, formData))
+    }
+
     await dispatch(getProductsList())
   }
 
@@ -150,6 +162,7 @@ const Products = (props) => {
           onCancel={onCancel}
           action={action}
           TrNo={AntSelectNo}
+          typeSelected={typeSelected}
         />
       )}
     </MainLayout>

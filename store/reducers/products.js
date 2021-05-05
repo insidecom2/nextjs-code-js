@@ -200,3 +200,35 @@ export const updateActiveProducts = (id, data) => {
     }
   }
 }
+
+export const updateProducts = (id, data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_PRODUCTS_REQUEST
+      })
+
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+
+      const response = await API.put(
+        EndPoints.PRODUCTS + '/' + id,
+        data,
+        config
+      )
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: UPDATE_PRODUCTS_SUCCESS,
+          payload: response.data.data
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_PRODUCTS_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
+    }
+  }
+}
