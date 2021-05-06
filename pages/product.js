@@ -101,7 +101,7 @@ const Products = (props) => {
     await setVisible(false)
     
     const formData = new FormData()
-    formData.set('data', data.data)
+    formData.set('data', JSON.stringify(data.data))
     formData.append('images', data.images)
     formData.set('quantity', data.quantity)
 
