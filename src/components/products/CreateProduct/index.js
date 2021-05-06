@@ -50,20 +50,20 @@ const CreateProducts = (props) => {
     }
   }, [typeSelected])
 
-  const { categoryList, isLoading, typeList, productsList } = useSelector(
+
+  const { categoryList, typeList, productsList } = useSelector(
     (state) => ({
       productsList: state.products.productsList,
       categoryList: state.category.categoryList,
-      isLoading: state.category.isLoading,
       typeList: state.categoryType.categoryTypeList
     }),
     []
   )
-// console.log(productsList)
-  const onSelectCategory = async (value) => {
-    await settype(typeList.filter((key) => key.category == value))
-  }
 
+  const onSelectCategory = async (value) => {
+    await settype(typeList.filter((key) => key.category.id == value))
+  }
+  
   const onFinish = (values) => {
     const dataList = {
      data:{
@@ -150,9 +150,10 @@ const CreateProducts = (props) => {
               }
             ]}>
             <Select>
-              {typeList.map((val2) => (
+              {type.map((val2) => (
                 <Select.Option key={val2.id} value={val2.id}>
-                  {val2.name}
+                  {val2.name
+                  }
                 </Select.Option>
               ))}
             </Select>
