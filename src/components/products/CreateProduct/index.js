@@ -97,7 +97,6 @@ const CreateProducts = (props) => {
     if (action === ACTION.EDIT) {
       dataList.id = typeSelected.id
     }
-    console.log(dataList.images)
     onOk(dataList)
   }
 

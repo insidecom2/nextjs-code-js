@@ -113,9 +113,9 @@ const Products = (props) => {
     console.log(data.images)
     const formData = new FormData()
     formData.set('data', JSON.stringify(data.data))
-    formData.append('images[]', data.images[0])
-    formData.append('images[]', data.images[1])
-    formData.append('images[]', data.images[2])
+    for (let Count=0;Count<data.images.length;Count++) {
+         formData.append('images[]', data.images[Count])
+    }
     formData.set('quantity', JSON.stringify(data.quantity))
 
     if (action === ACTION.CREATE) {
