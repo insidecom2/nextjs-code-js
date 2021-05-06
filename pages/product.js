@@ -102,8 +102,8 @@ const Products = (props) => {
     
     const formData = new FormData()
     formData.set('data', JSON.stringify(data.data))
-    formData.append('images', JSON.stringify(data.images))
-    formData.set('quantity', data.quantity)
+    formData.append('images', data.images)
+    formData.set('quantity', JSON.stringify(data.quantity))
 
     if (action === ACTION.CREATE) {
       await dispatch(createProducts(formData))
