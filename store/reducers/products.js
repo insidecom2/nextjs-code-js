@@ -202,6 +202,7 @@ export const updateActiveProducts = (id, data) => {
 }
 
 export const updateProducts = (id, data) => {
+  
   return async (dispatch) => {
     try {
       dispatch({

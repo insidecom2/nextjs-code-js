@@ -76,9 +76,7 @@ const CreateProducts = (props) => {
       size: values.size
      },
      images:
-       
-       values.image.fileList
-        
+      values.image === undefined ? [] : values.image.fileList 
      ,
      quantity:[
       {
