@@ -63,7 +63,7 @@ const CreateProducts = (props) => {
   const onSelectCategory = async (value) => {
     await settype(typeList.filter((key) => key.category.id == value))
   }
-  
+
   const onFinish = (values) => {
     const dataList = {
      data:{
@@ -131,10 +131,10 @@ const CreateProducts = (props) => {
             ]}
             >
               {/* onChange={onSelectCategory} */}
-            <Select  onChange={onSelectCategory}
+            <Select  onChange={onSelectCategory} 
             >
               {categoryList.map((val) => (
-                <Select.Option key={val.id} value={val.id}>
+                <Select.Option key={val.id} value={val.id} >
                   {val.name}
                 </Select.Option>
               ))}
@@ -149,7 +149,7 @@ const CreateProducts = (props) => {
                 message: 'Please input your Type!'
               }
             ]}>
-            <Select>
+            <Select >
               {type.map((val2) => (
                 <Select.Option key={val2.id} value={val2.id}>
                   {val2.name
@@ -321,7 +321,7 @@ const CreateProducts = (props) => {
            </div> 
          
       </div>
-   
+    
 
       </Form>
     </Modal>

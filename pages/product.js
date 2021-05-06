@@ -102,7 +102,7 @@ const Products = (props) => {
     
     const formData = new FormData()
     formData.set('data', JSON.stringify(data.data))
-    formData.append('images', data.images)
+    formData.append('images', JSON.stringify(data.images))
     formData.set('quantity', data.quantity)
 
     if (action === ACTION.CREATE) {
