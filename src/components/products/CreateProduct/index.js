@@ -74,8 +74,6 @@ const CreateProducts = (props) => {
   }
 
   const onFinish = (values) => {
-    const imageUpload = values.image.fileList.map((key) => key.originFileObj)
-
     const dataList = {
       data: {
         code: values.code,
@@ -86,7 +84,7 @@ const CreateProducts = (props) => {
         weight: values.weight,
         size: values.size
       },
-      images: values.image === undefined ? [] : imageUpload,
+      images: values.image === undefined ? [] : values.image.fileList.map((key) => key.originFileObj),
       quantity: [
         {
           quantity: 0,

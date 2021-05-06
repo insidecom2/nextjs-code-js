@@ -117,7 +117,6 @@ const Products = (props) => {
          formData.append('images[]', data.images[Count])
     }
     formData.set('quantity', JSON.stringify(data.quantity))
-
     if (action === ACTION.CREATE) {
       await dispatch(createProducts(formData))
     } else if (action === ACTION.EDIT) {
