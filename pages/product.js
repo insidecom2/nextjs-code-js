@@ -1,6 +1,15 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import { Switch, Button, Col, Popconfirm, Row, Space, Table, Typography } from 'antd'
+import {
+  Switch,
+  Button,
+  Col,
+  Popconfirm,
+  Row,
+  Space,
+  Table,
+  Typography
+} from 'antd'
 import { ACTION } from 'utils/constants.js'
 import CreateProducts from 'components/products/CreateProduct'
 import { useDispatch, useSelector } from 'react-redux'
@@ -49,9 +58,12 @@ const Products = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text) => <span>{Number(
-        productsList.findIndex((FindPos) => FindPos.id === text.id)
-      ) + 1}</span>
+      render: (text) => (
+        <span>
+          {Number(productsList.findIndex((FindPos) => FindPos.id === text.id)) +
+            1}
+        </span>
+      )
     },
     {
       title: 'Name',
@@ -63,8 +75,7 @@ const Products = (props) => {
       title: 'Category / Type',
       dataIndex: 'category_type',
       key: 'name',
-      render: (text) => <span>{text.category.name+" / "+text.name}
-      </span>
+      render: (text) => <span>{text.category.name + ' / ' + text.name}</span>
     },
     {
       title: 'Action',
@@ -99,11 +110,13 @@ const Products = (props) => {
 
   const onOk = async (data) => {
     await setVisible(false)
-    
+    console.log(data.images)
     const formData = new FormData()
     formData.set('data', JSON.stringify(data.data))
-    formData.append('images', JSON.stringify(data.images))
-    formData.set('quantity', data.quantity)
+    formData.append('images[]', data.images[0])
+    formData.append('images[]', data.images[1])
+    formData.append('images[]', data.images[2])
+    formData.set('quantity', JSON.stringify(data.quantity))
 
     if (action === ACTION.CREATE) {
       await dispatch(createProducts(formData))
