@@ -29,16 +29,19 @@ const CreateProducts = (props) => {
   const { Step } = Steps
   const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
-  const [CountDFResult,SetCountDFResult] = useState("Next");
+  const [CountDFResult, SetCountDFResult] = useState('Next')
 
   const next = () => {
-    let CheckDFValue = document.querySelectorAll(".ant-select-selection-item");
-      SetCountDFResult("เลือกให้ครบ")
-    if (Array.from(CheckDFValue).filter((InsideValue)=>String(InsideValue.title)!=="").length>1) {
-      SetCountDFResult("Next")
+    let CheckDFValue = document.querySelectorAll('.ant-select-selection-item')
+    SetCountDFResult('เลือกให้ครบ')
+    if (
+      Array.from(CheckDFValue).filter(
+        (InsideValue) => String(InsideValue.title) !== ''
+      ).length > 1
+    ) {
+      SetCountDFResult('Next')
       setCurrent(current + 1)
-    } 
-    
+    }
   }
 
   const prev = () => {
@@ -55,11 +58,12 @@ const CreateProducts = (props) => {
 
   useDeepEffect(() => {
     if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
-      // console.log(typeSelected)
       form.setFieldsValue({
         code: typeSelected.code,
         name: typeSelected.name,
         detail: typeSelected.detail,
+        category: typeSelected.category_type.category.id,
+        type: typeSelected.category_type.id,
         price: typeSelected.price,
         weight: typeSelected.weight,
         size: typeSelected.size
@@ -91,7 +95,10 @@ const CreateProducts = (props) => {
         weight: values.weight,
         size: values.size
       },
-      images: values.image === undefined ? [] : values.image.fileList.map((key) => key.originFileObj),
+      images:
+        values.image === undefined
+          ? []
+          : values.image.fileList.map((key) => key.originFileObj),
       quantity: [
         {
           quantity: 0,
@@ -284,7 +291,6 @@ const CreateProducts = (props) => {
     }
   }
 
-
   return (
     <Modal
       closable={false}
@@ -297,28 +303,31 @@ const CreateProducts = (props) => {
             Cancel
           </Button>
           {current > 0 && (
-            <Button key="previous" style={{ margin: '0 8px' }} onClick={() => prev()}>
+            <Button
+              key="previous"
+              style={{ margin: '0 8px' }}
+              onClick={() => prev()}>
               Previous
             </Button>
           )}
-        </span>
-        ,
-        <span key="span02" >
-          {current < steps.length - 1 &&(
-            <Button key="next" type="primary" onClick={() => next()}>
-             {CountDFResult
-
-      }
+        </span>,
+        <span key="span02">
+          {current < steps.length - 1 && (
+            <Button
+              key="next"
+              type="primary"
+              form="manageType"
+              htmlType="submit">
+              {CountDFResult}
             </Button>
           )}
           {current === steps.length - 1 && (
-            <Button  form="manageType" key="ok" type="primary" htmlType="submit">
+            <Button form="manageType" key="ok" type="primary" htmlType="submit">
               Submit
             </Button>
           )}
         </span>
-      ]}
-      >
+      ]}>
       <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
         <Steps current={current}>
           {steps.map((item) => (
