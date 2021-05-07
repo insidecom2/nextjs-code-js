@@ -23,7 +23,81 @@ import TextArea from 'antd/lib/input/TextArea'
 import { getCategoryList } from 'store/reducers/category'
 import { getCategoryTypeList } from 'store/reducers/categoryType'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { deleteQuantityPrice, getProductsList } from 'store/reducers/products'
+import { deleteQuantityPrice, getProductsList, updateQuantityPrice } from 'store/reducers/products'
+
+const ModalQP = (props) => {
+const { QPRecord, QPNo, qpCB } = props;
+const [form] = Form.useForm()
+const dispatch = useDispatch()
+
+
+useDeepEffect(() => {
+      form.setFieldsValue({
+        quantity: QPRecord.quantity,
+        price: QPRecord.price
+      })
+  }, [])
+
+  const OnOK = async (SendQP) => {
+    console.log(SendQP)
+    const formData = new FormData()
+    formData.set('quantity', JSON.stringify(SendQP.quantity))
+    formData.set('price', JSON.stringify(SendQP.price))
+    await dispatch(updateQuantityPrice(QPRecord.id, formData))
+    await dispatch(getProductsList())
+  }
+
+// console.log(QPRecord)
+const onFinish = (values) => {
+ const data = {
+  quantity: values.quantity,
+  price: values.price
+}
+OnOK(data)
+}
+
+return<>
+<label>No:{QPNo}
+</label>
+<Form form={form} name="manageQP"  layout="vertical" onFinish={onFinish} >
+<Form.Item
+            label="Quantity"
+            name="quantity"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your Quantity!'
+              }
+            ]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Price"
+            name="price"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your Price!'
+              }
+            ]}>
+            <Input />
+          </Form.Item>
+
+ </Form> 
+<span>
+<Button key="CancelQP" type="primary" onClick={()=>qpCB(false)}  style={{ margin: '0 8px' }}>
+             Cancel
+            </Button>
+<Button form="manageQP" key="SaveQP" type="primary"  htmlType="submit"  style={{ margin: '0 8px' }}>
+             Save
+            </Button>
+  </span>  
+
+
+</>
+};
+
 const CreateProducts = (props) => {
   const { visible, onOk, onCancel, action, TrNo, typeSelected } = props
   const [form] = Form.useForm()
@@ -102,6 +176,19 @@ const CreateProducts = (props) => {
     
   }, [typeList,typeSelected])
  
+  const [EditQP,SetEditQP] = useState(false);
+  const [GetRecordQP, SetGetRecordQP] = useState();
+  const [PositionOfQP, SetPositionOfQP] = useState();
+  const onEdit = async (e, record) => {
+    const GetPosition =
+      Number(productsList[0].product_quantity_price.findIndex((FindPos) => FindPos.id === record.id)) + 1
+    e.preventDefault()
+    await SetPositionOfQP(GetPosition)  
+    await SetGetRecordQP(record)
+    await SetEditQP(true)
+  }
+ 
+  const QPCallBack = (GetStatus) =>SetEditQP(GetStatus)
   const onFinish = (values) => {
     const dataList = {
       data: {
@@ -163,7 +250,7 @@ const CreateProducts = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a >edit</a>
+          <a onClick={(e) => onEdit(e, record)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
@@ -319,14 +406,15 @@ const CreateProducts = (props) => {
       content: (
         <>
           <Form.Item valuePropName="Last" label="Last" name="is_Last">
-            
-            <Table
+            {!EditQP &&
+            (<Table
         bordered
         loading={isLoading}
         columns={columns}
         dataSource={productsList[0].product_quantity_price}
         rowKey={(record) => record.id}
-      />
+      />)
+            }
           </Form.Item>
       
         </>
@@ -370,10 +458,10 @@ const CreateProducts = (props) => {
       destroyOnClose={true}
       footer={[
         <span key="span01" style={{ margin: '0 8px' }}>
-          <Button key="cancel" onClick={onCancel}>
+          {!EditQP &&(<Button key="cancel" onClick={onCancel}>
             Cancel
-          </Button>
-          {current > 0 && (
+          </Button>)}
+          {current > 0 && !EditQP && (
             <Button
               key="previous"
               style={{ margin: '0 8px' }}
@@ -389,7 +477,7 @@ const CreateProducts = (props) => {
              Next
             </Button>
           )}
-          {current === steps.length - 1 && (
+          {current === steps.length - 1 && !EditQP && (
             <Button form="manageType" key="ok" type="primary" htmlType="submit">
               Submit
             </Button>
@@ -414,6 +502,10 @@ const CreateProducts = (props) => {
           </div>
         </div>
       </Form>
+
+      {EditQP &&
+      (<ModalQP QPRecord={GetRecordQP} QPNo={PositionOfQP} qpCB={QPCallBack}  />)
+      }
     </Modal>
   )
 }
