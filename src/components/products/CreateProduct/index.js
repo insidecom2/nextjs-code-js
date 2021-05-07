@@ -39,11 +39,11 @@ const CreateProducts = (props) => {
       productsList: state.products.productsList,
       categoryList: state.category.categoryList,
       typeList: state.categoryType.categoryTypeList,
-      isLoading: state.products.isLoading
+      isLoading: state.products.isLoading,
     }),
     []
   )
-
+console.log(productsList[0].product_quantity_price)
   const next = () => {
       setCurrent(current + 1)
   }
@@ -134,21 +134,22 @@ const CreateProducts = (props) => {
       key: 'no',
       render: (text) => (
         <span>
-          {1}
+          {Number(productsList[0].product_quantity_price.findIndex((FindPos) => FindPos.id === text.id)) +
+            1}
         </span>
       )
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      key: 'quantity',
       render: (text) => <span>{text.toString().toUpperCase()}</span>
     },
     {
-      title: 'Category / Type',
-      dataIndex: 'category_type',
-      key: 'name',
-      render: (text) => <span>{text.category.name + ' / ' + text.name}</span>
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+      render: (text) => <span>{text}</span>
     },
     {
       title: 'Action',
@@ -316,7 +317,7 @@ const CreateProducts = (props) => {
         bordered
         loading={isLoading}
         columns={columns}
-        dataSource={productsList}
+        dataSource={productsList[0].product_quantity_price}
         rowKey={(record) => record.id}
       />
           </Form.Item>
