@@ -31,12 +31,11 @@ const CreateProducts = (props) => {
   const [loading, setLoading] = useState(false)
   const [StatusOnSelect,SetStatusOnSelect] = useState(0);
 
-  const { categoryList, typeList, productsList, AllCate } = useSelector(
+  const { categoryList, typeList, productsList } = useSelector(
     (state) => ({
       productsList: state.products.productsList,
       categoryList: state.category.categoryList,
-      typeList: state.categoryType.categoryTypeList,
-      AllCate: state.category
+      typeList: state.categoryType.categoryTypeList
     }),
     []
   )
