@@ -29,22 +29,32 @@ const CreateProducts = (props) => {
   const { Step } = Steps
   const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
-  const [CountDFResult,SetCountDFResult] = useState("Next");
+  const [StatusOnSelect,SetStatusOnSelect] = useState(0);
+
+  const { categoryList, typeList, productsList, AllCate } = useSelector(
+    (state) => ({
+      productsList: state.products.productsList,
+      categoryList: state.category.categoryList,
+      typeList: state.categoryType.categoryTypeList,
+      AllCate: state.category
+    }),
+    []
+  )
 
   const next = () => {
-    let CheckDFValue = document.querySelectorAll(".ant-select-selection-item");
-      SetCountDFResult("เลือกให้ครบ")
-    if (Array.from(CheckDFValue).filter((InsideValue)=>String(InsideValue.title)!=="").length>1) {
-      SetCountDFResult("Next")
       setCurrent(current + 1)
-    } 
-    
   }
-
+  
   const prev = () => {
     setCurrent(current - 1)
   }
 
+  const onSelectCategory = async (value) => {
+    await SetStatusOnSelect(1);
+    await settype(typeList.filter((key) => key.category.id == value))
+  }
+
+  // console.log(typeList)
   useDeepEffect(() => {
     async function fetchData() {
       await dispatch(getCategoryList())
@@ -54,32 +64,32 @@ const CreateProducts = (props) => {
   }, [])
 
   useDeepEffect(() => {
+    if (StatusOnSelect && type.length>0) {
+      form.setFieldsValue({
+        type: type[0].id
+      })
+    }
+  }, [type])
+
+  useDeepEffect(() => {
     if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
-      // console.log(typeSelected)
+      if (typeList.length>0) {
+         settype(typeList.filter((key) => key.category.id == typeSelected.category_type.category.id))
+      }
       form.setFieldsValue({
         code: typeSelected.code,
         name: typeSelected.name,
         detail: typeSelected.detail,
         price: typeSelected.price,
         weight: typeSelected.weight,
-        size: typeSelected.size
+        size: typeSelected.size,
+        category:typeSelected.category_type.category.id, 
+        type: typeSelected.category_type.id
       })
     }
-  }, [typeSelected])
-
-  const { categoryList, typeList, productsList } = useSelector(
-    (state) => ({
-      productsList: state.products.productsList,
-      categoryList: state.category.categoryList,
-      typeList: state.categoryType.categoryTypeList
-    }),
-    []
-  )
-
-  const onSelectCategory = async (value) => {
-    await settype(typeList.filter((key) => key.category.id == value))
-  }
-
+    
+  }, [typeList,typeSelected])
+ 
   const onFinish = (values) => {
     const dataList = {
       data: {
@@ -102,7 +112,11 @@ const CreateProducts = (props) => {
     if (action === ACTION.EDIT) {
       dataList.id = typeSelected.id
     }
-    onOk(dataList)
+    if (current === steps.length - 1) {
+      onOk(dataList)
+    } else {
+      next()
+    }
   }
 
   const steps = [
@@ -159,10 +173,11 @@ const CreateProducts = (props) => {
                 message: 'Please input your Type!'
               }
             ]}>
-            <Select>
+            <Select >
               {type.map((val2) => (
                 <Select.Option key={val2.id} value={val2.id}>
                   {val2.name}
+
                 </Select.Option>
               ))}
             </Select>
@@ -305,10 +320,8 @@ const CreateProducts = (props) => {
         ,
         <span key="span02" >
           {current < steps.length - 1 &&(
-            <Button key="next" type="primary" onClick={() => next()}>
-             {CountDFResult
-
-      }
+            <Button form="manageType" key="next" type="primary"  htmlType="submit">
+             Next
             </Button>
           )}
           {current === steps.length - 1 && (
