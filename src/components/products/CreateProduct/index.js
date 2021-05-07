@@ -40,10 +40,7 @@ useDeepEffect(() => {
 
   const OnOK = async (SendQP) => {
     console.log(SendQP)
-    const formData = new FormData()
-    formData.set('quantity', JSON.stringify(SendQP.quantity))
-    formData.set('price', JSON.stringify(SendQP.price))
-    await dispatch(updateQuantityPrice(QPRecord.id, formData))
+    await dispatch(updateQuantityPrice(QPRecord.id, SendQP))
     await dispatch(getProductsList())
   }
 
