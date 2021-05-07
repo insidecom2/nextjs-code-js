@@ -284,29 +284,31 @@ const CreateProducts = (props) => {
       visible={visible}
       destroyOnClose={true}
       footer={[
-        <>
+        <span key="span01">
           <Button key="cancel" onClick={onCancel}>
             Cancel
           </Button>
           {current > 0 && (
-            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+            <Button key="previous" style={{ margin: '0 8px' }} onClick={() => prev()}>
               Previous
             </Button>
           )}
-        </>,
-        <>
+        </span>
+        ,
+        <span key="span02">
           {current < steps.length - 1 && (
-            <Button type="primary" onClick={() => next()}>
+            <Button key="next" type="primary" onClick={() => next()}>
               Next
             </Button>
           )}
           {current === steps.length - 1 && (
-            <Button form="manageType" key="ok" type="primary" htmlType="submit">
+            <Button  form="manageType" key="ok" type="primary" htmlType="submit">
               Submit
             </Button>
           )}
-        </>
-      ]}>
+        </span>
+      ]}
+      >
       <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
         <Steps current={current}>
           {steps.map((item) => (
