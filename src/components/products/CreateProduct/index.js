@@ -80,6 +80,8 @@ const CreateProducts = (props) => {
         code: typeSelected.code,
         name: typeSelected.name,
         detail: typeSelected.detail,
+        category: typeSelected.category_type.category.id,
+        type: typeSelected.category_type.id,
         price: typeSelected.price,
         weight: typeSelected.weight,
         size: typeSelected.size,
@@ -101,7 +103,10 @@ const CreateProducts = (props) => {
         weight: values.weight,
         size: values.size
       },
-      images: values.image === undefined ? [] : values.image.fileList.map((key) => key.originFileObj),
+      images:
+        values.image === undefined
+          ? []
+          : values.image.fileList.map((key) => key.originFileObj),
       quantity: [
         {
           quantity: 0,
@@ -300,7 +305,6 @@ const CreateProducts = (props) => {
     }
   }
 
-
   return (
     <Modal
       closable={false}
@@ -313,7 +317,10 @@ const CreateProducts = (props) => {
             Cancel
           </Button>
           {current > 0 && (
-            <Button key="previous" style={{ margin: '0 8px' }} onClick={() => prev()}>
+            <Button
+              key="previous"
+              style={{ margin: '0 8px' }}
+              onClick={() => prev()}>
               Previous
             </Button>
           )}
@@ -326,13 +333,12 @@ const CreateProducts = (props) => {
             </Button>
           )}
           {current === steps.length - 1 && (
-            <Button  form="manageType" key="ok" type="primary" htmlType="submit">
+            <Button form="manageType" key="ok" type="primary" htmlType="submit">
               Submit
             </Button>
           )}
         </span>
-      ]}
-      >
+      ]}>
       <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
         <Steps current={current}>
           {steps.map((item) => (
