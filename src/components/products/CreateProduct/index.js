@@ -5,6 +5,9 @@ import { ACTION } from 'utils/constants.js'
 import _ from 'lodash'
 import PropTypes, { arrayOf } from 'prop-types'
 import {
+  Popconfirm,
+  Space,
+  Table,
   Steps,
   Button,
   Form,
@@ -31,11 +34,12 @@ const CreateProducts = (props) => {
   const [loading, setLoading] = useState(false)
   const [StatusOnSelect,SetStatusOnSelect] = useState(0);
 
-  const { categoryList, typeList, productsList } = useSelector(
+  const { categoryList, typeList, productsList, isLoading } = useSelector(
     (state) => ({
       productsList: state.products.productsList,
       categoryList: state.category.categoryList,
-      typeList: state.categoryType.categoryTypeList
+      typeList: state.categoryType.categoryTypeList,
+      isLoading: state.products.isLoading
     }),
     []
   )
@@ -123,6 +127,44 @@ const CreateProducts = (props) => {
       next()
     }
   }
+
+  const columns = [
+    {
+      title: 'No.',
+      key: 'no',
+      render: (text) => (
+        <span>
+          {1}
+        </span>
+      )
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text) => <span>{text.toString().toUpperCase()}</span>
+    },
+    {
+      title: 'Category / Type',
+      dataIndex: 'category_type',
+      key: 'name',
+      render: (text) => <span>{text.category.name + ' / ' + text.name}</span>
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record, index) => (
+        <Space>
+          <a >edit</a>
+          <Popconfirm
+            title="Are you sure to delete?"
+            onConfirm={(e) => confirm(e, record)}>
+            <a>delete</a>
+          </Popconfirm>
+        </Space>
+      )
+    }
+  ]
 
   const steps = [
     {
@@ -268,9 +310,17 @@ const CreateProducts = (props) => {
       title: 'Last',
       content: (
         <>
-          <Form.Item valuePropName="checked" label="Active" name="is_active">
-            <Switch />
+          <Form.Item valuePropName="Last" label="Last" name="is_Last">
+            
+            <Table
+        bordered
+        loading={isLoading}
+        columns={columns}
+        dataSource={productsList}
+        rowKey={(record) => record.id}
+      />
           </Form.Item>
+      
         </>
       )
     }
