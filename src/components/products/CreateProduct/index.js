@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
 import _ from 'lodash'
-import PropTypes from 'prop-types'
+import PropTypes, { arrayOf } from 'prop-types'
 import {
   Steps,
   Button,
@@ -29,9 +29,16 @@ const CreateProducts = (props) => {
   const { Step } = Steps
   const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
+  const [CountDFResult,SetCountDFResult] = useState("Next");
 
   const next = () => {
-    setCurrent(current + 1)
+    let CheckDFValue = document.querySelectorAll(".ant-select-selection-item");
+      SetCountDFResult("เลือกให้ครบ")
+    if (Array.from(CheckDFValue).filter((InsideValue)=>String(InsideValue.title)!=="").length>1) {
+      SetCountDFResult("Next")
+      setCurrent(current + 1)
+    } 
+    
   }
 
   const prev = () => {
@@ -277,6 +284,7 @@ const CreateProducts = (props) => {
     }
   }
 
+
   return (
     <Modal
       closable={false}
@@ -284,7 +292,7 @@ const CreateProducts = (props) => {
       visible={visible}
       destroyOnClose={true}
       footer={[
-        <span key="span01">
+        <span key="span01" style={{ margin: '0 8px' }}>
           <Button key="cancel" onClick={onCancel}>
             Cancel
           </Button>
@@ -295,10 +303,12 @@ const CreateProducts = (props) => {
           )}
         </span>
         ,
-        <span key="span02">
-          {current < steps.length - 1 && (
+        <span key="span02" >
+          {current < steps.length - 1 &&(
             <Button key="next" type="primary" onClick={() => next()}>
-              Next
+             {CountDFResult
+
+      }
             </Button>
           )}
           {current === steps.length - 1 && (
