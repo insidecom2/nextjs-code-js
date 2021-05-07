@@ -23,6 +23,7 @@ import TextArea from 'antd/lib/input/TextArea'
 import { getCategoryList } from 'store/reducers/category'
 import { getCategoryTypeList } from 'store/reducers/categoryType'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
+import { deleteQuantityPrice, getProductsList } from 'store/reducers/products'
 const CreateProducts = (props) => {
   const { visible, onOk, onCancel, action, TrNo, typeSelected } = props
   const [form] = Form.useForm()
@@ -43,7 +44,13 @@ const CreateProducts = (props) => {
     }),
     []
   )
-console.log(productsList[0].product_quantity_price)
+
+  const confirm = async (e, record) => {
+    e.preventDefault()
+    await dispatch(deleteQuantityPrice(record.id))
+    await dispatch(getProductsList())
+  }
+
   const next = () => {
       setCurrent(current + 1)
   }

@@ -234,3 +234,27 @@ export const updateProducts = (id, data) => {
   }
 }
 
+export const deleteQuantityPrice = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: DELETE_PRODUCTS_REQUEST
+      })
+
+      const response = await API.delete(EndPoints.PRODUCTS + '/quantity/'+ `${id}`)
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: DELETE_PRODUCTS_SUCCESS
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      message.error(RESPONSE_MESSAGE.FAILURE)
+      dispatch({
+        type: DELETE_PRODUCTS_FAILURE
+      })
+    }
+  }
+}
+
