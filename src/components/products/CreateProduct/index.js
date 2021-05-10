@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
 import _ from 'lodash'
 import PropTypes, { arrayOf } from 'prop-types'
@@ -9,7 +9,9 @@ import {
   Space,
   Table,
   Steps,
+  Row,
   Button,
+  Col,
   Form,
   Input,
   Modal,
@@ -23,40 +25,53 @@ import TextArea from 'antd/lib/input/TextArea'
 import { getCategoryList } from 'store/reducers/category'
 import { getCategoryTypeList } from 'store/reducers/categoryType'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { deleteQuantityPrice, getProductsList, updateQuantityPrice } from 'store/reducers/products'
+import { deleteQuantityPrice, getProductsList, updateQuantityPrice, createQuantityPrice } from 'store/reducers/products'
 
 const ModalQP = (props) => {
-const { QPRecord, QPNo, qpCB } = props;
+const { QPRecord, QPNo, qpCB, ForAction } = props;
 const [form] = Form.useForm()
 const dispatch = useDispatch()
 
-
 useDeepEffect(() => {
-      form.setFieldsValue({
-        quantity: QPRecord.quantity,
-        price: QPRecord.price
-      })
+  if (String(ForAction)==="Edit") {
+     form.setFieldsValue({
+      quantity: QPRecord.quantity,
+      price: QPRecord.price
+    })
+  }
   }, [])
 
-  const OnOK = async (SendQP) => {
-    console.log(SendQP)
-    await dispatch(updateQuantityPrice(QPRecord.id, SendQP))
+  const OnOK = async (GetQPAction, SendQP) => {
+    // console.log(SendQP)
+    if (String(GetQPAction)==="Edit") {
+        await dispatch(updateQuantityPrice(QPRecord.id, SendQP))
+    } else {
+      await dispatch(createQuantityPrice(SendQP))
+        // console.log(GetQPAction)
+    }
     await dispatch(getProductsList())
   }
 
 // console.log(QPRecord)
 const onFinish = (values) => {
- const data = {
+let data = {
   quantity: values.quantity,
   price: values.price
 }
-OnOK(data)
+if (values.adds!==undefined) {
+  data = values.adds;
+}
+console.log(data)
+qpCB(false)
+OnOK(ForAction, Data)
 }
 
 return<>
-<label>No:{QPNo}
+<label>No:{QPNo} mode:{ForAction}
 </label>
 <Form form={form} name="manageQP"  layout="vertical" onFinish={onFinish} >
+  
+  {String(ForAction)==="Edit"?<>
 <Form.Item
             label="Quantity"
             name="quantity"
@@ -80,6 +95,40 @@ return<>
             ]}>
             <Input />
           </Form.Item>
+</>:<Form.List name="adds">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map(({ key, name, fieldKey, ...restField }) => (
+              <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                <Form.Item
+                  {...restField}
+                  name={[name, 'quantity']}
+                  fieldKey={[fieldKey, 'quantity']}
+                  rules={[{ required: true, message: 'Missing Quantity' }]}
+                >
+                  <Input placeholder="Quantity" />
+                </Form.Item>
+                <Form.Item
+                  {...restField}
+                  name={[name, 'price']}
+                  fieldKey={[fieldKey, 'price']}
+                  rules={[{ required: true, message: 'Missing Price' }]}
+                >
+                  <Input placeholder="Price" />
+                </Form.Item>
+                <MinusCircleOutlined onClick={() => remove(name)} />
+              </Space>
+            ))}
+            <Form.Item>
+              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                Add Quantity
+              </Button>
+            </Form.Item>
+          </>
+        )}
+      </Form.List>
+}
+
 
  </Form> 
 <span>
@@ -105,6 +154,7 @@ const CreateProducts = (props) => {
   const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const [StatusOnSelect,SetStatusOnSelect] = useState(0);
+  const [QPAction,setQPAction] = useState("")
 
   const { categoryList, typeList, productsList, isLoading } = useSelector(
     (state) => ({
@@ -182,9 +232,17 @@ const CreateProducts = (props) => {
     e.preventDefault()
     await SetPositionOfQP(GetPosition)  
     await SetGetRecordQP(record)
+    await setQPAction("Edit")
     await SetEditQP(true)
   }
- 
+
+  const onClick = (e) => {
+    SetPositionOfQP(productsList[0].product_quantity_price.length + 1)
+    e.preventDefault()
+    setQPAction("Add")
+    SetEditQP(true)
+  }
+
   const QPCallBack = (GetStatus) =>SetEditQP(GetStatus)
   const onFinish = (values) => {
     const dataList = {
@@ -404,13 +462,26 @@ const CreateProducts = (props) => {
         <>
           <Form.Item valuePropName="Last" label="Last" name="is_Last">
             {!EditQP &&
-            (<Table
+            (
+            
+            <>
+         
+          <Row justify="end">
+            <Button onClick={onClick}>
+              Add Quantity
+            </Button>
+          </Row>
+       
+            <Table
         bordered
         loading={isLoading}
         columns={columns}
         dataSource={productsList[0].product_quantity_price}
         rowKey={(record) => record.id}
-      />)
+      />
+      
+      </>
+      )
             }
           </Form.Item>
       
@@ -501,7 +572,7 @@ const CreateProducts = (props) => {
       </Form>
 
       {EditQP &&
-      (<ModalQP QPRecord={GetRecordQP} QPNo={PositionOfQP} qpCB={QPCallBack}  />)
+      (<ModalQP QPRecord={GetRecordQP} QPNo={PositionOfQP} qpCB={QPCallBack} ForAction={QPAction}  />)
       }
     </Modal>
   )

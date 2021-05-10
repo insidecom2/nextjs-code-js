@@ -287,3 +287,27 @@ export const updateQuantityPrice = (id, data) => {
   }
 }
 
+export const createQuantityPrice = (data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: CREATE_PRODUCTS_REQUEST
+      })
+
+      const response = await API.post(EndPoints.PRODUCTS + '/quantity', data)
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: CREATE_PRODUCTS_SUCCESS
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      message.error(RESPONSE_MESSAGE.FAILURE)
+      dispatch({
+        type: CREATE_PRODUCTS_FAILURE
+      })
+    }
+  }
+}
+
