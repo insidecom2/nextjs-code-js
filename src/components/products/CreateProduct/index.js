@@ -61,9 +61,9 @@ let data = {
 if (values.adds!==undefined) {
   data = values.adds;
 }
-console.log(data)
+// console.log(data)
 qpCB(false)
-OnOK(ForAction, Data)
+OnOK(ForAction, data)
 }
 
 return<>
