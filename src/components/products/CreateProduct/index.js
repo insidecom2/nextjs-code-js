@@ -25,10 +25,10 @@ import TextArea from 'antd/lib/input/TextArea'
 import { getCategoryList } from 'store/reducers/category'
 import { getCategoryTypeList } from 'store/reducers/categoryType'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { deleteQuantityPrice, getProductsList, updateQuantityPrice, createQuantityPrice } from 'store/reducers/products'
+import { deleteQuantityPrice, getProductsList, updateQuantityPrice } from 'store/reducers/products'
 
 const ModalQP = (props) => {
-const { QPRecord, QPNo, qpCB, ForAction } = props;
+const { QPRecord, QPNo, qpCB, ForAction, ForQPValue } = props;
 const [form] = Form.useForm()
 const dispatch = useDispatch()
 
@@ -41,15 +41,9 @@ useDeepEffect(() => {
   }
   }, [])
 
-  const OnOK = async (GetQPAction, SendQP) => {
-    // console.log(SendQP)
-    if (String(GetQPAction)==="Edit") {
-        await dispatch(updateQuantityPrice(QPRecord.id, SendQP))
-    } else {
-      await dispatch(createQuantityPrice(SendQP))
-        // console.log(GetQPAction)
-    }
-    await dispatch(getProductsList())
+  const OnOK = async (SendQP) => {
+       await dispatch(updateQuantityPrice(QPRecord.id, SendQP))
+       await dispatch(getProductsList())
   }
 
 // console.log(QPRecord)
@@ -58,12 +52,13 @@ let data = {
   quantity: values.quantity,
   price: values.price
 }
-if (values.adds!==undefined) {
-  data = values.adds;
+if (String(ForAction)==="Edit") {
+  OnOK(data)
+} else
+{
+  ForQPValue(values.adds)
 }
-// console.log(data)
 qpCB(false)
-OnOK(ForAction, data)
 }
 
 return<>
@@ -155,6 +150,7 @@ const CreateProducts = (props) => {
   const [loading, setLoading] = useState(false)
   const [StatusOnSelect,SetStatusOnSelect] = useState(0);
   const [QPAction,setQPAction] = useState("")
+  const [GetQPValue, setGetQPValue] = useState([]);
 
   const { categoryList, typeList, productsList, isLoading } = useSelector(
     (state) => ({
@@ -184,6 +180,8 @@ const CreateProducts = (props) => {
     await SetStatusOnSelect(1);
     await settype(typeList.filter((key) => key.category.id == value))
   }
+
+  const CallBackQPValue=(CallQP)=>setGetQPValue(CallQP);
 
   // console.log(typeList)
   useDeepEffect(() => {
@@ -259,14 +257,11 @@ const CreateProducts = (props) => {
         values.image === undefined
           ? []
           : values.image.fileList.map((key) => key.originFileObj),
-      quantity: [
-        {
-          quantity: 0,
-          price: 0
-        }
-      ]
+      quantity: GetQPValue===undefined?[]:GetQPValue
     }
     
+    console.log(dataList)
+
     if (action === ACTION.EDIT) {
       dataList.id = typeSelected.id
     }
@@ -572,7 +567,7 @@ const CreateProducts = (props) => {
       </Form>
 
       {EditQP &&
-      (<ModalQP QPRecord={GetRecordQP} QPNo={PositionOfQP} qpCB={QPCallBack} ForAction={QPAction}  />)
+      (<ModalQP QPRecord={GetRecordQP} QPNo={PositionOfQP} qpCB={QPCallBack} ForAction={QPAction} ForQPValue={CallBackQPValue} />)
       }
     </Modal>
   )
