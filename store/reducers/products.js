@@ -13,7 +13,7 @@ const CREATE_PRODUCTS_FAILURE = 'Products/CREATE_PRODUCTS_FAILURE'
 
 const DELETE_PRODUCTS_REQUEST = 'Products/DELETE_PRODUCTS_REQUEST'
 const DELETE_PRODUCTS_SUCCESS = 'Products/DELETE_PRODUCTS_SUCCESS'
-const DELETE_PRODUCTS_FAILURE = 'v/DELETE_PRODUCTS_FAILURE'
+const DELETE_PRODUCTS_FAILURE = 'Products/DELETE_PRODUCTS_FAILURE'
 
 const UPDATE_PRODUCTS_REQUEST = 'Products/UPDATE_PRODUCTS_REQUEST'
 const UPDATE_PRODUCTS_SUCCESS = 'Products/UPDATE_PRODUCTS_SUCCESS'
@@ -283,30 +283,6 @@ export const updateQuantityPrice = (id, data) => {
         type: UPDATE_PRODUCTS_FAILURE
       })
       message.success(RESPONSE_MESSAGE.FAILURE)
-    }
-  }
-}
-
-export const createQuantityPrice = (data) => {
-  return async (dispatch) => {
-    try {
-      dispatch({
-        type: CREATE_PRODUCTS_REQUEST
-      })
-
-      const response = await API.post(EndPoints.PRODUCTS + '/quantity', data)
-
-      if (response.status === HTTP_STATUS_CODE.OK) {
-        dispatch({
-          type: CREATE_PRODUCTS_SUCCESS
-        })
-        message.success(RESPONSE_MESSAGE.SUCCESS)
-      }
-    } catch (err) {
-      message.error(RESPONSE_MESSAGE.FAILURE)
-      dispatch({
-        type: CREATE_PRODUCTS_FAILURE
-      })
     }
   }
 }

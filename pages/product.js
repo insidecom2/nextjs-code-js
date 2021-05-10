@@ -122,7 +122,6 @@ const Products = (props) => {
     } else if (action === ACTION.EDIT) {
       await dispatch(updateProducts(data.id, formData))
     }
-
     await dispatch(getProductsList())
   }
 

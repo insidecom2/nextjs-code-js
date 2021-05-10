@@ -241,7 +241,7 @@ const CreateProducts = (props) => {
     SetEditQP(true)
   }
 
-  const QPCallBack = (GetStatus) =>SetEditQP(GetStatus)
+  const QPCallBack=(GetStatus)=>SetEditQP(GetStatus)
   const onFinish = (values) => {
     const dataList = {
       data: {
@@ -258,10 +258,8 @@ const CreateProducts = (props) => {
           ? []
           : values.image.fileList.map((key) => key.originFileObj),
       quantity: GetQPValue===undefined?[]:GetQPValue
-    }
-    
+     }
     console.log(dataList)
-
     if (action === ACTION.EDIT) {
       dataList.id = typeSelected.id
     }
