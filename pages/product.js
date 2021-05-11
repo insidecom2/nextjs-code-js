@@ -109,19 +109,13 @@ const Products = (props) => {
   }
 
   const onOk = async (data) => {
-    await setVisible(false)
-    const formData = new FormData()
-    formData.set('data', JSON.stringify(data.data))
-    for (let Count = 0; Count < data.images.length; Count++) {
-      formData.append('images[]', data.images[Count])
-    }
-    formData.set('quantity', JSON.stringify(data.quantity))
     if (action === ACTION.CREATE) {
-      await dispatch(createProducts(formData))
+      await dispatch(createProducts(data))
     } else if (action === ACTION.EDIT) {
-      await dispatch(updateProducts(data.id, formData))
+      await dispatch(updateProducts(data))
     }
     await dispatch(getProductsList())
+    // await setVisible(false)
   }
 
   const onCancel = () => {

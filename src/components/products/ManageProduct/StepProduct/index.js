@@ -1,17 +1,28 @@
 import React, { useState } from 'react'
-import { Col, Form, Input, InputNumber, Row, Select, Steps } from 'antd'
+import { Col, Form, Input, InputNumber, Row, Select } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import PropTypes from 'prop-types'
+import useDeepEffect from 'utils/hooks/useDeepEffect'
+import { ACTION } from 'utils/constants'
+import _ from 'lodash'
 
 const StepProduct = (props) => {
-  const { categoryList, typeList } = props
-  const [statusOnSelect, setStatusOnSelect] = useState(0)
-  const [type, setType] = useState([])
+  const { action, categoryList, typeList, productSelected, form } = props
 
-  const onSelectCategory = async (value) => {
-    await setStatusOnSelect(1)
-    await setType(typeList.filter((key) => key.category.id === value))
-  }
+  useDeepEffect(() => {
+    if (action === ACTION.EDIT && !_.isEmpty(productSelected)) {
+      form.setFieldsValue({
+        code: productSelected.code,
+        name: productSelected.name,
+        detail: productSelected.detail,
+        category: productSelected.category_type.category.id,
+        type: productSelected.category_type.id,
+        price: productSelected.price,
+        weight: productSelected.weight,
+        size: productSelected.size
+      })
+    }
+  }, [productSelected])
 
   return (
     <div>
@@ -54,7 +65,7 @@ const StepProduct = (props) => {
                 message: 'Please input your Category!'
               }
             ]}>
-            <Select onChange={onSelectCategory}>
+            <Select>
               {categoryList.map((val) => (
                 <Select.Option key={val.id} value={val.id}>
                   {val.name}
@@ -74,7 +85,7 @@ const StepProduct = (props) => {
               }
             ]}>
             <Select>
-              {type.map((item) => (
+              {typeList.map((item) => (
                 <Select.Option key={item.id} value={item.id}>
                   {item.name}
                 </Select.Option>
@@ -133,7 +144,10 @@ const StepProduct = (props) => {
 
 StepProduct.propTypes = {
   typeList: PropTypes.array,
-  categoryList: PropTypes.array
+  categoryList: PropTypes.array,
+  productSelected: PropTypes.object,
+  action: PropTypes.string,
+  form: PropTypes.any
 }
 
 export default StepProduct

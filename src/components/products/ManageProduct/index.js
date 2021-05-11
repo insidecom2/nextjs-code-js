@@ -12,19 +12,18 @@ import StepImage from 'components/products/ManageProduct/StepImage'
 import StepQuantity from 'components/products/ManageProduct/StepQuantity'
 
 const ManageProducts = (props) => {
-  const { visible, onOk, onCancel, action, TrNo, productSelected } = props
+  const { visible, onOk, onCancel, action, productSelected } = props
   const [form] = Form.useForm()
   const dispatch = useDispatch()
+  const [quantityList, setQuantityList] = useState([])
   const [current, setCurrent] = React.useState(0)
-  const { Step } = Steps
-  const [GetQPValue, setGetQPValue] = useState([])
 
-  const { categoryList, typeList, productsList, isLoading } = useSelector(
+  const { Step } = Steps
+
+  const { categoryList, typeList } = useSelector(
     (state) => ({
-      productsList: state.products.productsList,
       categoryList: state.category.categoryList,
-      typeList: state.categoryType.categoryTypeList,
-      isLoading: state.products.isLoading
+      typeList: state.categoryType.categoryTypeList
     }),
     []
   )
@@ -46,37 +45,6 @@ const ManageProducts = (props) => {
     fetchData()
   }, [])
 
-  // useDeepEffect(() => {
-  //   if (StatusOnSelect && type.length > 0) {
-  //     form.setFieldsValue({
-  //       type: type[0].id
-  //     })
-  //   }
-  // }, [type])
-
-  useDeepEffect(() => {
-    if (action === ACTION.EDIT && !_.isNull(productSelected)) {
-      if (typeList.length > 0) {
-        // setType(
-        //   typeList.filter(
-        //     (key) => key.category.id === typeSelected.category_type.category.id
-        //   )
-        // )
-      }
-
-      form.setFieldsValue({
-        code: productSelected.code,
-        name: productSelected.name,
-        detail: productSelected.detail,
-        category: productSelected.category_type.category.id,
-        type: productSelected.category_type.id,
-        price: productSelected.price,
-        weight: productSelected.weight,
-        size: productSelected.size
-      })
-    }
-  }, [typeList, productSelected])
-
   // const onEdit = async (e, record) => {
   //   const GetPosition =
   //     Number(
@@ -92,8 +60,17 @@ const ManageProducts = (props) => {
   // }
 
   const onFinish = (values) => {
-    const dataList = {
-      data: {
+    const quantityDataList = []
+    quantityList.forEach((item) => {
+      quantityDataList.push({
+        id: item.id,
+        quantity: values[`quantity_${item.id}`],
+        price: values[`price_${item.id}`]
+      })
+    })
+
+    const data = {
+      productData: {
         code: values.code,
         name: values.name,
         category_type: values.type,
@@ -102,18 +79,15 @@ const ManageProducts = (props) => {
         weight: values.weight,
         size: values.size
       },
-      images:
-        values.image === undefined
-          ? []
-          : values.image.fileList.map((key) => key.originFileObj)
-      // quantity: GetQPValue === undefined ? [] : GetQPValue
+      quantityList: quantityDataList
     }
     // console.log(dataList)
     if (action === ACTION.EDIT) {
-      dataList.id = productSelected.id
+      data.id = productSelected.id
     }
+
     if (current === steps.length - 1) {
-      onOk(dataList)
+      onOk(data)
     } else {
       next()
     }
@@ -121,17 +95,30 @@ const ManageProducts = (props) => {
 
   const steps = [
     {
-      title: 'First',
-      content: <StepProduct categoryList={categoryList} typeList={typeList} />
-    },
-    {
-      title: 'Second',
-      content: <StepImage />
-    },
-    {
-      title: 'Last',
+      title: 'Product',
       content: (
-        <StepQuantity isLoading={isLoading} productsList={productsList} />
+        <StepProduct
+          productSelected={productSelected}
+          action={action}
+          form={form}
+          categoryList={categoryList}
+          typeList={typeList}
+        />
+      )
+    },
+    {
+      title: 'Image',
+      content: <StepImage product={productSelected} />
+    },
+    {
+      title: 'Quantity',
+      content: (
+        <StepQuantity
+          form={form}
+          product={productSelected}
+          quantityList={quantityList}
+          setQuantityList={setQuantityList}
+        />
       )
     }
   ]
@@ -161,7 +148,7 @@ const ManageProducts = (props) => {
             <div key="2">
               {current < steps.length - 1 && (
                 <Button
-                  form="manageType"
+                  form="manageProduct"
                   key="next"
                   type="primary"
                   htmlType="submit">
@@ -170,7 +157,7 @@ const ManageProducts = (props) => {
               )}
               {current === steps.length - 1 && (
                 <Button
-                  form="manageType"
+                  form="manageProduct"
                   key="ok"
                   type="primary"
                   htmlType="submit">
@@ -181,7 +168,11 @@ const ManageProducts = (props) => {
           </Col>
         </Row>
       ]}>
-      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
+      <Form
+        form={form}
+        name="manageProduct"
+        onFinish={onFinish}
+        layout="vertical">
         <Steps current={current} style={{ marginBottom: 15 }}>
           {steps.map((item) => (
             <Step key={item.title} title={item.title} />
@@ -194,9 +185,11 @@ const ManageProducts = (props) => {
           <div style={{ display: current === 1 ? 'block' : 'none' }}>
             {steps[1].content}
           </div>
-          <div style={{ display: current === 2 ? 'block' : 'none' }}>
-            {steps[2].content}
-          </div>
+          {current === 2 && (
+            <div style={{ display: current === 2 ? 'block' : 'none' }}>
+              {steps[2].content}
+            </div>
+          )}
         </div>
       </Form>
     </Modal>
