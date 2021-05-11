@@ -1,5 +1,6 @@
+import moment from 'moment'
 import React from 'react'
-import { Button, Form, InputNumber, Row, Space, Table } from 'antd'
+import { Button, Form, Input, InputNumber, Row, Space, Table } from 'antd'
 import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
@@ -21,6 +22,26 @@ const StepQuantity = (props) => {
     }
   }, [])
 
+  const validateQuantity = (rule, value, callback, id) => {
+    if (!_.isNull(value)) {
+      if (value !== 0) {
+        quantityList.forEach((item) => {
+          if (item.id !== 0) {
+            const targetValue = form.getFieldValue(`quantity_${item.id}`)
+            console.log('targetValue', targetValue)
+            if (value === Number(targetValue)) {
+              callback(`ไม่สามารถใส่ Quantity ซ้ำได้`)
+            }
+          }
+        })
+      } else {
+        callback('ไม่สามารถกรอกค่า 0 ')
+      }
+    } else {
+      callback()
+    }
+  }
+
   const columns = [
     {
       title: 'No.',
@@ -31,7 +52,18 @@ const StepQuantity = (props) => {
       title: 'Quantity',
       key: 'quantity',
       render: (text, record, index) => (
-        <Form.Item name={`quantity_${record.id}`} {...inputRule}>
+        <Form.Item
+          name={`quantity_${record.id}`}
+          rules={[
+            {
+              required: true,
+              message: 'Please input!'
+            },
+            {
+              validator: (rule, value, callback) =>
+                validateQuantity(rule, value, callback, record.id)
+            }
+          ]}>
           <InputNumber style={{ width: '100%' }} size="small" />
         </Form.Item>
       )
@@ -59,8 +91,10 @@ const StepQuantity = (props) => {
   const onClick = (e) => {
     e.preventDefault()
     setQuantityList((prevState) => {
-      const idArr = prevState.map((item) => item.id)
-
+      prevState.push({
+        id: 0,
+        createdAt: moment(new Date()).toISOString()
+      })
       return [...prevState]
     })
   }
@@ -84,7 +118,7 @@ const StepQuantity = (props) => {
         bordered
         columns={columns}
         dataSource={quantityList}
-        rowKey={(record) => record.id}
+        rowKey={(record) => moment(record.createdAt).unix()}
         pagination={false}
       />
     </div>
