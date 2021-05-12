@@ -286,4 +286,3 @@ export const updateQuantityPrice = (id, data) => {
     }
   }
 }
-

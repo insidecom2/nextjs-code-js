@@ -151,6 +151,9 @@ const CreateProducts = (props) => {
   const [StatusOnSelect,SetStatusOnSelect] = useState(0);
   const [QPAction,setQPAction] = useState("")
   const [GetQPValue, setGetQPValue] = useState([]);
+  const [EditQP,SetEditQP] = useState(false);
+  const [GetRecordQP, SetGetRecordQP] = useState();
+  const [PositionOfQP, SetPositionOfQP] = useState();
 
   const { categoryList, typeList, productsList, isLoading } = useSelector(
     (state) => ({
@@ -182,14 +185,21 @@ const CreateProducts = (props) => {
   }
 
   const CallBackQPValue=(CallQP)=>setGetQPValue(CallQP);
+  const [fileList, setFileList] = useState([]);
 
-  // console.log(typeList)
+  const setDefaultImg =()=>{
+    const defaultImg = []
+    const ImageList = productsList[0].product_image.map((ListImg)=>defaultImg.push({url:ListImg.image}))
+    setFileList(defaultImg)
+  };
+
   useDeepEffect(() => {
     async function fetchData() {
       await dispatch(getCategoryList())
       await dispatch(getCategoryTypeList())
     }
     fetchData()
+    setDefaultImg()
   }, [])
 
   useDeepEffect(() => {
@@ -217,13 +227,9 @@ const CreateProducts = (props) => {
         category:typeSelected.category_type.category.id, 
         type: typeSelected.category_type.id
       })
-    }
-    
+    }  
   }, [typeList,typeSelected])
- 
-  const [EditQP,SetEditQP] = useState(false);
-  const [GetRecordQP, SetGetRecordQP] = useState();
-  const [PositionOfQP, SetPositionOfQP] = useState();
+
   const onEdit = async (e, record) => {
     const GetPosition =
       Number(productsList[0].product_quantity_price.findIndex((FindPos) => FindPos.id === record.id)) + 1
@@ -259,7 +265,7 @@ const CreateProducts = (props) => {
           : values.image.fileList.map((key) => key.originFileObj),
       quantity: GetQPValue===undefined?[]:GetQPValue
      }
-    console.log(dataList)
+    // console.log(dataList)
     if (action === ACTION.EDIT) {
       dataList.id = typeSelected.id
     }
@@ -268,6 +274,33 @@ const CreateProducts = (props) => {
     } else {
       next()
     }
+  }
+  
+  const onPreview = async file => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
+  };
+
+  const onRemove = file => {
+    let PositionOfImg = fileList.indexOf(file);
+    let PositionOfId = productsList[0].product_image[PositionOfImg].id;
+    let CopyFile = [...fileList]
+    if (PositionOfImg > -1) {
+      CopyFile.splice(PositionOfImg, 1);
+    }
+    setFileList(CopyFile)
+
+    console.log(PositionOfId)
   }
 
   const columns = [
@@ -416,13 +449,20 @@ const CreateProducts = (props) => {
       content: (
         <>
           <Form.Item label="Image" name="image" valuePropName="upload">
+       
             <Upload
               name="avatar"
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={true}
               beforeUpload={beforeUpload}
-              onChange={handleChange}>
+              onChange={handleChange}
+              onPreview={onPreview}
+              fileList={fileList}
+              onRemove={onRemove}
+              >
+              
+              
               <div>
                 {imageUrl ? (
                   <img
@@ -445,6 +485,7 @@ const CreateProducts = (props) => {
                 )}
               </div>
             </Upload>
+      
           </Form.Item>
         </>
       )

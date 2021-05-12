@@ -10,3 +10,4 @@ export const SIZE = `/size`
 export const MATERIAL = `/material`
 export const PRINT_FINISH = `/print-finish`
 export const PRINT_SIDE = `/print-side`
+export const MEDIA = `/media`

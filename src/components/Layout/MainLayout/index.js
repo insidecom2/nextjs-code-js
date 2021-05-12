@@ -70,6 +70,12 @@ const MainLayout = (props) => {
             onClick={(e) => onClick(e,'product')}>
             Products
           </Menu.Item>
+          <Menu.Item
+            key="10"
+            icon={<ShoppingOutlined />}
+            onClick={(e) => onClick(e,'media')}>
+            Media
+          </Menu.Item>
           <SubMenu key="sub1" icon={<SettingOutlined />} title="Setting" >
             <Menu.Item key="2" onClick={(e) => onClick(e,'category')}>
               Category
