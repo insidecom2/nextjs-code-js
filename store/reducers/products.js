@@ -27,10 +27,17 @@ const DELETE_PRODUCTS_REQUEST = 'Products/DELETE_PRODUCTS_REQUEST'
 const DELETE_PRODUCTS_SUCCESS = 'Products/DELETE_PRODUCTS_SUCCESS'
 const DELETE_PRODUCTS_FAILURE = 'Products/DELETE_PRODUCTS_FAILURE'
 
+const DELETE_PRODUCTS_QUANTITY_REQUEST =
+  'Products/DELETE_PRODUCT_QUANTITY_REQUEST'
+const DELETE_PRODUCTS_QUANTITY_SUCCESS =
+  'Products/DELETE_PRODUCT_QUANTITY_SUCCESS'
+const DELETE_PRODUCTS_QUANTITY_FAILURE =
+  'Products/DELETE_PRODUCTS_QUANTITY_FAILURE'
 // Initialize State
 const initialState = {
   isLoading: false,
   productsList: [],
+  productImageUpdate: {},
   error: {}
 }
 
@@ -46,7 +53,8 @@ const products = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        productsList: action.payload
+        productsList: action.payload,
+        productImageUpdate: {}
       }
     case FETCH_PRODUCTS_LIST_FAILURE:
       return {
@@ -94,7 +102,8 @@ const products = (state = initialState, action) => {
     case UPDATE_PRODUCT_IMAGE_SUCCESS:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        productImageUpdate: action.payload
       }
     case UPDATE_PRODUCT_IMAGE_FAILURE:
       return {
@@ -129,6 +138,22 @@ const products = (state = initialState, action) => {
         isLoading: false
       }
     case DELETE_PRODUCT_IMAGE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
+    case DELETE_PRODUCTS_QUANTITY_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case DELETE_PRODUCTS_QUANTITY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case DELETE_PRODUCTS_QUANTITY_FAILURE:
       return {
         ...state,
         error: action.error,
@@ -201,7 +226,7 @@ export const deleteProducts = (id) => {
         dispatch({
           type: DELETE_PRODUCTS_SUCCESS
         })
-        message.success(RESPONSE_MESSAGE.SUCCESS)
+        message.success(RESPONSE_MESSAGE.DELETED)
       }
     } catch (err) {
       message.error(RESPONSE_MESSAGE.FAILURE)
@@ -249,7 +274,7 @@ export const updateProducts = (data) => {
       })
 
       const config = {
-        headers: { 'content-type': 'multipart/form-data' }
+        headers: { 'content-type': 'application/json' }
       }
 
       const response = await API.put(
@@ -290,7 +315,7 @@ export const updateProductImage = (data) => {
         data,
         config
       )
-      if (response.status === HTTP_STATUS_CODE.OK) {
+      if (response.status === HTTP_STATUS_CODE.CREATED) {
         dispatch({
           type: UPDATE_PRODUCT_IMAGE_SUCCESS,
           payload: response.data.data
@@ -337,7 +362,7 @@ export const deleteQuantityPrice = (id) => {
   return async (dispatch) => {
     try {
       dispatch({
-        type: DELETE_PRODUCTS_REQUEST
+        type: DELETE_PRODUCTS_QUANTITY_REQUEST
       })
 
       const response = await API.delete(
@@ -346,14 +371,14 @@ export const deleteQuantityPrice = (id) => {
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
-          type: DELETE_PRODUCTS_SUCCESS
+          type: DELETE_PRODUCTS_QUANTITY_SUCCESS
         })
-        message.success(RESPONSE_MESSAGE.SUCCESS)
+        message.success(RESPONSE_MESSAGE.DELETED)
       }
     } catch (err) {
       message.error(RESPONSE_MESSAGE.FAILURE)
       dispatch({
-        type: DELETE_PRODUCTS_FAILURE
+        type: DELETE_PRODUCTS_QUANTITY_FAILURE
       })
     }
   }
@@ -370,7 +395,7 @@ export const deleteProductImage = (id) => {
       dispatch({
         type: DELETE_PRODUCTS_SUCCESS
       })
-      message.success(RESPONSE_MESSAGE.SUCCESS)
+      message.success(RESPONSE_MESSAGE.DELETED)
     } catch (err) {
       message.error(RESPONSE_MESSAGE.FAILURE)
       dispatch({
