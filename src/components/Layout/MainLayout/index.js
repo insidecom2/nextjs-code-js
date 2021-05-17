@@ -54,7 +54,7 @@ const MainLayout = (props) => {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div style={{ textAlign: 'center', marginTop: 15 }}>
-          <TitleDashboard>Digibox Dashboard</TitleDashboard>
+          <TitleDashboard>Digiboxs</TitleDashboard>
         </div>
         <Divider />
         <Menu theme="dark" selectedKeys={[selectedMenu]} mode="inline" defaultOpenKeys={['sub1']}>

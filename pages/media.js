@@ -27,8 +27,6 @@ import { MinusCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getMedia, deleteMedia, createMedia } from 'store/reducers/media'
 import moment from 'moment';
-import 'moment/locale/zh-cn';
-import locale from 'antd/lib/locale/zh_CN';
 import { HTTP_STATUS_CODE, RESPONSE_MESSAGE } from 'utils/constants'
 const media =()=> {
     const [form] = Form.useForm()
@@ -36,9 +34,10 @@ const media =()=> {
     const [loading, setLoading] = useState(false)
     const [fileList, setFileList] = useState([]);
     const StartDate = new Date();
-    const [mediaDate,setMediaDate] = useState([StartDate.getFullYear(),("0" + (StartDate.getMonth() + 1)).slice(-2)]);
     const dispatch = useDispatch()
+    const [statusPreview,setStatusPreview] = useState(true)
     const { MonthPicker } = DatePicker;
+    const [defaultDate,setDefaultDate] = useState([StartDate.getFullYear(),("0" + (StartDate.getMonth() + 1)).slice(-2)])
 
     const { mediaList } = useSelector(
         (state) => ({
@@ -47,15 +46,12 @@ const media =()=> {
         []
       )
       
-
-      const fetchData = () => {
-        let dateUrl = "?year="+String(mediaDate[0])+"&month="+String(mediaDate[1])
-        dispatch(getMedia(dateUrl))
+      const fetchData = async (Year,Month) => {
+        dispatch(getMedia(Year,Month))
   }
   
-  const setDefaultImg =async()=>{
-    const defaultImg = []
-       await fetchData();
+  const setDefaultImg =async()=> {
+       const defaultImg = []
        await mediaList.map((ListImg)=>defaultImg.push({url:ListImg.name})) 
        await setFileList(defaultImg)
   };
@@ -64,11 +60,12 @@ const media =()=> {
         const formData = new FormData()
         formData.append('image', data.image)
         await dispatch(createMedia(formData));
+        await fetchData(defaultDate[0],defaultDate[1])
         await setDefaultImg();
     };
 
     const onFinish = (values) => {
-      const data ={
+      const data = {
         image: values.file.originFileObj,
       }
       onOkUpload(data)
@@ -78,19 +75,26 @@ const media =()=> {
       const [urlImageName,setUrlImageName] = useState()
 
       useDeepEffect(() => {
-        console.log(mediaList)
+        fetchData(defaultDate[0],defaultDate[1]);
+      }, [])
+
+      useDeepEffect(() => {
         setDefaultImg()
-      }, [mediaList,mediaDate])
+      }, [mediaList])
 
       const confirm = async () => {
-        await dispatch(deleteMedia(urlImageName))
-        await setDefaultImg()
+        if (!statusPreview) {
+          await dispatch(deleteMedia(urlImageName))
+          await fetchData(defaultDate[0],defaultDate[1])
+          await setDefaultImg();
+        }
         await setModalRemoveMedia(false)
       }
       
-      const onPreview = async file => {
+      const onPreview = async (file,actionThis) => {
         let PositionOfImg = fileList.indexOf(file);
         let PositionOfName = mediaList[PositionOfImg].name;
+        await setStatusPreview(actionThis)
         await setUrlImageName(PositionOfName)
         await setModalRemoveMedia(true)
       }
@@ -124,13 +128,12 @@ const media =()=> {
         onFinish(info)
       }
 
-      const handleDatePickerChange = (date, dateString)=> {
+      const handleDatePickerChange = async (date, dateString)=> {
         let Res = dateString.split("-");
-        setMediaDate(Res)
+        await fetchData(Res[0],Res[1])
       };
 
-
-    return( <MainLayout>
+    return( <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
      
 <Row>
         <Col span={12}>
@@ -188,29 +191,31 @@ const media =()=> {
         </Col>
         <Row>
       <Col span={24}>
-      <ConfigProvider locale={locale} >
-      <MonthPicker defaultValue={moment(mediaDate[0]+'-'+mediaDate[1], 'YYYY-MM')} size='default' placeholder="Select Month" style={{margin:"10px"}} onChange={(date, dateString) =>handleDatePickerChange(date, dateString)} />
-      </ConfigProvider>
+      <MonthPicker defaultValue={moment(defaultDate[0]+'-'+defaultDate[1])} size='default' placeholder="Select Month" style={{margin:"10px"}} onChange={(date, dateString) =>handleDatePickerChange(date, dateString)} />
+   
         </Col>
      
       </Row>
       <Row>
       
         </Row>
+       
       
-      <Modal
-           visible={modalRemoveMedia}
+     <Modal
+          title={statusPreview?'':'Are you sure to remove this image?'}
+          visible={modalRemoveMedia}
           onOk={confirm}
           onCancel={()=>setModalRemoveMedia(false)}
-          okText="Remove"
+          okText="Ok"
           cancelText="Cancel"
+
         >
-          <Image
-      width={200}
-      src={urlImageName}
-    />
-          
-        </Modal>
+           <img
+        style={{ width: '100%' }}
+         src={urlImageName}
+       />
+
+          </Modal>
 
           <Upload
               name="avatar"
@@ -218,9 +223,10 @@ const media =()=> {
               className="avatar-uploader"
               showUploadList={true}
               fileList={fileList}
-              onRemove={onPreview}
-              onPreview={onPreview}
+              onRemove={(file,actionThis)=>onPreview(file,false)}
+              onPreview={(file,actionThis)=>onPreview(file,true)}
               >
+
                 
               
             </Upload>
@@ -228,7 +234,7 @@ const media =()=> {
               </Row>
         <Row>
     
-          </Row>
+          </Row></div>
     </MainLayout>
     )
 };

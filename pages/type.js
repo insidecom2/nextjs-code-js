@@ -139,7 +139,7 @@ const Type = (props) => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
           <Typography.Title level={3}>Type List</Typography.Title>
@@ -166,7 +166,7 @@ const Type = (props) => {
           typeSelected={typeSelected}
           TrNo={AntSelectNo}
         />
-      )}
+      )}</div>
     </MainLayout>
   )
 }

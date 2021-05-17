@@ -105,24 +105,33 @@ const media = (state = initialState, action) => {
 export default media
 
 // Action Creators
-export const getMedia = (date) => {
-
+export const getMedia = (year,month) => {
+  
   return async (dispatch) => {
     try {
       dispatch({
         type: FETCH_MEDIA_REQUEST
       })
 
-      const response = await API.get(EndPoints.MEDIA + date
+      const response = await API.get(EndPoints.MEDIA 
+      ,
+      {
+        params:{
+          year:year,
+          month:month
+        }
+      }
       )
-   
+  
       if (response.status === HTTP_STATUS_CODE.OK) {
+        // console.log("ok"+response.data)
         dispatch({
           type: FETCH_MEDIA_SUCCESS,
           payload: response.data
         })
       }
     } catch (err) {
+     
       message.error(RESPONSE_MESSAGE.DATANOTFOUND)
       dispatch({
         type: FETCH_MEDIA_FAILURE
@@ -142,11 +151,11 @@ export const deleteMedia = (name) => {
   
         const response = await API.post(EndPoints.MEDIA + `/upload-delete`,{ path: name})
    
-        if (response.status === HTTP_STATUS_CODE.OK) {
+        if (response.status === HTTP_STATUS_CODE.CREATED) {
           dispatch({
             type: DELETE_MEDIA_SUCCESS
           })
-          message.success(RESPONSE_MESSAGE.SUCCESS)
+          message.success(RESPONSE_MESSAGE.DELETED)
         }
       } catch (err) {
         message.error(RESPONSE_MESSAGE.FAILURE)
