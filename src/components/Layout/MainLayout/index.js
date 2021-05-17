@@ -54,7 +54,7 @@ const MainLayout = (props) => {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div style={{ textAlign: 'center', marginTop: 15 }}>
-          <TitleDashboard>Digibox Dashboard</TitleDashboard>
+          <TitleDashboard>Digiboxs</TitleDashboard>
         </div>
         <Divider />
         <Menu theme="dark" selectedKeys={[selectedMenu]} mode="inline" defaultOpenKeys={['sub1']}>
@@ -69,6 +69,12 @@ const MainLayout = (props) => {
             icon={<ShoppingOutlined />}
             onClick={(e) => onClick(e,'product')}>
             Products
+          </Menu.Item>
+          <Menu.Item
+            key="10"
+            icon={<ShoppingOutlined />}
+            onClick={(e) => onClick(e,'media')}>
+            Media
           </Menu.Item>
           <SubMenu key="sub1" icon={<SettingOutlined />} title="Setting" >
             <Menu.Item key="2" onClick={(e) => onClick(e,'category')}>

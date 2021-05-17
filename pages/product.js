@@ -139,7 +139,7 @@ const Products = (props) => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
           <Typography.Title level={3}>Products List</Typography.Title>
@@ -168,7 +168,7 @@ const Products = (props) => {
           TrNo={AntSelectNo}
           productSelected={productSelected}
         />
-      )}
+      )}</div>
     </MainLayout>
   )
 }
