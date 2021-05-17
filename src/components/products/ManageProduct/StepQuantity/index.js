@@ -5,9 +5,13 @@ import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
 import { inputRule } from 'utils/forms'
+import { useDispatch } from 'react-redux'
+import { deleteQuantityPrice } from 'store/reducers/products'
 
 const StepQuantity = (props) => {
   const { product, form, quantityList, setQuantityList } = props
+
+  const dispatch = useDispatch()
 
   useDeepEffect(() => {
     if (!_.isEmpty(product)) {
@@ -28,12 +32,12 @@ const StepQuantity = (props) => {
         quantityList.forEach((item) => {
           if (item.id !== 0) {
             const targetValue = form.getFieldValue(`quantity_${item.id}`)
-            console.log('targetValue', targetValue)
-            if (value === Number(targetValue)) {
+            if (value === Number(targetValue) && item.id !== id) {
               callback(`ไม่สามารถใส่ Quantity ซ้ำได้`)
             }
           }
         })
+        callback()
       } else {
         callback('ไม่สามารถกรอกค่า 0 ')
       }
@@ -99,9 +103,9 @@ const StepQuantity = (props) => {
     })
   }
 
-  const onDelete = (e, id) => {
+  const onDelete = async (e, id) => {
     e.preventDefault()
-
+    if (id !== 0) await dispatch(deleteQuantityPrice(id))
     setQuantityList((prevState) => {
       const arr = prevState.filter((item) => item.id !== id)
       return [...arr]

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Upload } from 'antd'
 import { beforeUpload, getPreviewBase64 } from 'utils/images'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
@@ -10,7 +10,7 @@ import {
   getProductsList,
   updateProductImage
 } from 'store/reducers/products'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const StepImage = (props) => {
   const { product } = props
@@ -19,7 +19,15 @@ const StepImage = (props) => {
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState([])
+
   const dispatch = useDispatch()
+
+  const { productImageUpdate } = useSelector(
+    (state) => ({
+      productImageUpdate: state.products.productImageUpdate
+    }),
+    []
+  )
 
   useDeepEffect(() => {
     if (!_.isEmpty(product)) {
@@ -34,6 +42,18 @@ const StepImage = (props) => {
       })
     }
   }, [])
+
+  useDeepEffect(() => {
+    if (!_.isEmpty(productImageUpdate)) {
+      setFileList((prevState) => {
+        prevState.push({
+          uid: productImageUpdate.id,
+          url: productImageUpdate.image
+        })
+        return [...prevState]
+      })
+    }
+  }, [productImageUpdate])
 
   const handleChange = async (info) => {
     console.log('info', info.file)
@@ -50,9 +70,10 @@ const StepImage = (props) => {
       setLoading(true)
       const formData = new FormData()
       formData.set('product', product.id)
-      formData.append('image', info.file)
+      formData.append('image', info.file.originFileObj)
       await dispatch(updateProductImage(formData))
-      return
+      await dispatch(getProductsList())
+      setLoading(false)
     }
 
     if (info.file.status === 'done') {
