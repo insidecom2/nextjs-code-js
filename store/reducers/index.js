@@ -9,6 +9,7 @@ import printFinish from 'store/reducers/printFinish'
 import printSide from 'store/reducers/printSide'
 import products from 'store/reducers/products'
 import menu from 'store/reducers/menu'
+import media from 'store/reducers/media'
 
 export default combineReducers({
   auth,
@@ -20,5 +21,6 @@ export default combineReducers({
   printFinish,
   printSide,
   products,
-  menu
+  menu,
+  media
 })

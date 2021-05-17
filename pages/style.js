@@ -111,7 +111,7 @@ const Style = (props) => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
           <Typography.Title level={3}>Style List</Typography.Title>
@@ -139,7 +139,7 @@ const Style = (props) => {
           action={action}
           TrNo={AntSelectNo}
         />
-      )}
+      )}</div>
     </MainLayout>
   )
 }
