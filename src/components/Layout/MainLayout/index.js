@@ -8,9 +8,10 @@ import {
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
-import { useDispatch , useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logout } from 'store/reducers/auth'
-import { setMenu } from 'store/reducers/menu';
+import { setMenu } from 'store/reducers/menu'
+import { HeaderEx, MenuEx, SiderEx } from 'styles/layout/index.style'
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
 
@@ -19,10 +20,9 @@ const MainLayout = (props) => {
   const [collapsed, setCollapsed] = useState(false)
   const dispatch = useDispatch()
 
-
   const { selectedMenu } = useSelector(
     (state) => ({
-      selectedMenu:state.menu.selectedMenu
+      selectedMenu: state.menu.selectedMenu
     }),
     []
   )
@@ -52,63 +52,66 @@ const MainLayout = (props) => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <SiderEx collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div style={{ textAlign: 'center', marginTop: 15 }}>
           <TitleDashboard>Digiboxs</TitleDashboard>
         </div>
         <Divider />
-        <Menu theme="dark" selectedKeys={[selectedMenu]} mode="inline" defaultOpenKeys={['sub1']}>
+        <MenuEx
+          selectedKeys={[selectedMenu]}
+          mode="inline"
+          defaultOpenKeys={['sub1']}>
           <Menu.Item
             key="1"
             icon={<PieChartOutlined />}
-            onClick={(e) => onClick(e,'dashboard')}>
+            onClick={(e) => onClick(e, 'dashboard')}>
             Dashboard
           </Menu.Item>
           <Menu.Item
             key="9"
             icon={<ShoppingOutlined />}
-            onClick={(e) => onClick(e,'product')}>
+            onClick={(e) => onClick(e, 'product')}>
             Products
           </Menu.Item>
           <Menu.Item
             key="10"
             icon={<ShoppingOutlined />}
-            onClick={(e) => onClick(e,'media')}>
+            onClick={(e) => onClick(e, 'media')}>
             Media
           </Menu.Item>
-          <SubMenu key="sub1" icon={<SettingOutlined />} title="Setting" >
-            <Menu.Item key="2" onClick={(e) => onClick(e,'category')}>
+          <SubMenu key="sub1" icon={<SettingOutlined />} title="Setting">
+            <Menu.Item key="2" onClick={(e) => onClick(e, 'category')}>
               Category
             </Menu.Item>
-            <Menu.Item key="3" onClick={(e) => onClick(e,'type')}>
+            <Menu.Item key="3" onClick={(e) => onClick(e, 'type')}>
               Type
             </Menu.Item>
-            <Menu.Item key="4" onClick={(e) => onClick(e,'style')}>
+            <Menu.Item key="4" onClick={(e) => onClick(e, 'style')}>
               Style
             </Menu.Item>
-            <Menu.Item key="5" onClick={(e) => onClick(e,'size')}>
+            <Menu.Item key="5" onClick={(e) => onClick(e, 'size')}>
               Size
             </Menu.Item>
-            <Menu.Item key="6" onClick={(e) => onClick(e,'material')}>
+            <Menu.Item key="6" onClick={(e) => onClick(e, 'material')}>
               Material
             </Menu.Item>
-            <Menu.Item key="7" onClick={(e) => onClick(e,'printFinish')}>
+            <Menu.Item key="7" onClick={(e) => onClick(e, 'printFinish')}>
               Print Finish
             </Menu.Item>
-            <Menu.Item key="8" onClick={(e) => onClick(e,'printSides')}>
+            <Menu.Item key="8" onClick={(e) => onClick(e, 'printSides')}>
               Print Sides
             </Menu.Item>
           </SubMenu>
-        </Menu>
-      </Sider>
+        </MenuEx>
+      </SiderEx>
       <Layout>
-        <Header style={{ padding: 0 }}>
+        <HeaderEx style={{ padding: 0 }}>
           <div style={{ float: 'right', margin: '0 10px', cursor: 'pointer' }}>
             <Dropdown overlay={menu} trigger={['click']}>
               <Avatar size="large" icon={<UserOutlined />} />
             </Dropdown>
           </div>
-        </Header>
+        </HeaderEx>
         <Content style={{ margin: '0 16px', padding: 10 }}>
           {props.children}
         </Content>
