@@ -115,7 +115,7 @@ const Products = (props) => {
       await dispatch(updateProducts(data))
     }
     await dispatch(getProductsList())
-    // await setVisible(false)
+    await setVisible(false)
   }
 
   const onCancel = () => {

@@ -5,9 +5,13 @@ import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
 import { inputRule } from 'utils/forms'
+import { useDispatch } from 'react-redux'
+import { deleteQuantityPrice } from 'store/reducers/products'
 
 const StepQuantity = (props) => {
   const { product, form, quantityList, setQuantityList } = props
+
+  const dispatch = useDispatch()
 
   useDeepEffect(() => {
     if (!_.isEmpty(product)) {

@@ -81,7 +81,7 @@ const ManageProducts = (props) => {
       },
       quantityList: quantityDataList
     }
-    // console.log(dataList)
+
     if (action === ACTION.EDIT) {
       data.id = productSelected.id
     }
