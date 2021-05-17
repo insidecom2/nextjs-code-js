@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
 import {
-  Switch,
   Button,
   Col,
   Popconfirm,
   Row,
   Space,
+  Switch,
   Table,
   Typography
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
-import CreateProducts from 'components/products/CreateProduct'
+import ManageProducts from 'components/products/ManageProduct'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 
@@ -28,7 +28,7 @@ const Products = (props) => {
   const [visible, setVisible] = useState(false)
   const [AntSelectNo, SetAntSelectNo] = useState(1)
   const dispatch = useDispatch()
-  const [typeSelected, setTypeSelected] = useState(null)
+  const [productSelected, setProductSelected] = useState(null)
 
   const { productsList, isLoading } = useSelector(
     (state) => ({
@@ -109,25 +109,18 @@ const Products = (props) => {
   }
 
   const onOk = async (data) => {
-    await setVisible(false)
-    console.log(data.images)
-    const formData = new FormData()
-    formData.set('data', JSON.stringify(data.data))
-    for (let Count=0;Count<data.images.length;Count++) {
-         formData.append('images[]', data.images[Count])
-    }
-    formData.set('quantity', JSON.stringify(data.quantity))
     if (action === ACTION.CREATE) {
-      await dispatch(createProducts(formData))
+      await dispatch(createProducts(data))
     } else if (action === ACTION.EDIT) {
-      await dispatch(updateProducts(data.id, formData))
+      await dispatch(updateProducts(data))
     }
     await dispatch(getProductsList())
+    // await setVisible(false)
   }
 
   const onCancel = () => {
     setVisible(false)
-    setTypeSelected(null)
+    setProductSelected(null)
   }
 
   const setActive = async (e, record) => {
@@ -140,7 +133,7 @@ const Products = (props) => {
       Number(productsList.findIndex((FindPos) => FindPos.id === record.id)) + 1
     SetAntSelectNo(GetPosition)
     e.preventDefault()
-    await setTypeSelected(record)
+    await setProductSelected(record)
     await setAction(action)
     await setVisible(true)
   }
@@ -167,13 +160,13 @@ const Products = (props) => {
         rowKey={(record) => record.id}
       />
       {visible && (
-        <CreateProducts
+        <ManageProducts
           visible={visible}
           onOk={onOk}
           onCancel={onCancel}
           action={action}
           TrNo={AntSelectNo}
-          typeSelected={typeSelected}
+          productSelected={productSelected}
         />
       )}</div>
     </MainLayout>

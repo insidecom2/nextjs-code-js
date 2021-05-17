@@ -24,6 +24,10 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
     background-color: #FFFFFF;
   }
+    
+  .ant-form-item {
+    margin-bottom: 5px !important;
+  }
   
   .ant-table-tbody > tr {
     cursor: pointer;
