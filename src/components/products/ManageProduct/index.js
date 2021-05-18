@@ -64,8 +64,8 @@ const ManageProducts = (props) => {
     quantityList.forEach((item, index) => {
       quantityDataList.push({
         id: item.id || 0,
-        quantity: values[`quantity_${item.form}_${index}`],
-        price: values[`price_${item.form}_${index}`]
+        quantity: values[`quantity_${item.id}_${index}`],
+        price: values[`price_${item.id}_${index}`]
       })
     })
 
