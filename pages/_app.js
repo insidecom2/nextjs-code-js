@@ -10,6 +10,7 @@ import { ConfigProvider } from 'antd'
 import { AuthProvider } from 'components/AuthProvider'
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;500&family=Open+Sans:wght@400;700&display=swap');
   * {
   box-sizing: border-box;
   word-wrap: break-word;

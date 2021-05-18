@@ -46,6 +46,7 @@ export const SiderEx = styled(Sider)`
 `
 
 export const MenuEx = styled(Menu)`
+
   .ant-menu-item {
     height: 56px !important;
     max-height: 100% !important;
@@ -53,10 +54,18 @@ export const MenuEx = styled(Menu)`
     margin: 0 !important;
   }
 
-  .ant-menu-item::after {
-    border-right: 3px solid #7f63f4 !important;
+  .ant-menu-item span{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 51px;
+    color: #6A707E; 
   }
 
+  .ant-menu-item::after,.ant-menu-submenu-open .ant-menu-submenu-title {
+    border-right: 3px solid #7f63f4 !important;
+  }
+ 
   .ant-menu-item.ant-menu-item-selected span,
   .ant-menu-submenu-open .ant-menu-submenu-title span {
     color: #7f63f4 !important;

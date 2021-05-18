@@ -65,41 +65,41 @@ const MainLayout = (props) => {
             key="1"
             icon={<PieChartOutlined />}
             onClick={(e) => onClick(e, 'dashboard')}>
-            Dashboard
+            แดชบอร์ด
           </Menu.Item>
           <Menu.Item
             key="9"
             icon={<ShoppingOutlined />}
             onClick={(e) => onClick(e, 'product')}>
-            Products
+            สินค้า
           </Menu.Item>
           <Menu.Item
             key="10"
             icon={<ShoppingOutlined />}
             onClick={(e) => onClick(e, 'media')}>
-            Media
+            คลังภาพ
           </Menu.Item>
-          <SubMenu key="sub1" icon={<SettingOutlined />} title="Setting">
+          <SubMenu key="sub1" icon={<SettingOutlined />} title="ตั้งค่า">
             <Menu.Item key="2" onClick={(e) => onClick(e, 'category')}>
-              Category
+             หมวดหมู่
             </Menu.Item>
             <Menu.Item key="3" onClick={(e) => onClick(e, 'type')}>
-              Type
+             ประเภท
             </Menu.Item>
             <Menu.Item key="4" onClick={(e) => onClick(e, 'style')}>
-              Style
+              คุณลักษณะ
             </Menu.Item>
             <Menu.Item key="5" onClick={(e) => onClick(e, 'size')}>
-              Size
+             ขนาด
             </Menu.Item>
             <Menu.Item key="6" onClick={(e) => onClick(e, 'material')}>
-              Material
+               วัสดุ
             </Menu.Item>
             <Menu.Item key="7" onClick={(e) => onClick(e, 'printFinish')}>
-              Print Finish
+            พิมพ์เสร็จสิ้น
             </Menu.Item>
             <Menu.Item key="8" onClick={(e) => onClick(e, 'printSides')}>
-              Print Sides
+            พิมพ์ด้าน
             </Menu.Item>
           </SubMenu>
         </MenuEx>

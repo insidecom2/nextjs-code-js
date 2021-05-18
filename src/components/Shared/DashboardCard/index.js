@@ -11,11 +11,11 @@ const DashboardCard = (props) => {
   const { name, value, percent, text, status } = props
 
   return (
-    <DashboardCardDiv>
-      <Row>
-        <Col span={16}>
-          <Row>{name}</Row>
-          <Row>
+    <DashboardCardDiv style={{ height: 175}}>
+      <Row >
+        <Col span={14}>
+          <Row className='span01'>{name}</Row>
+          <Row className='span02'>
             <Typography.Title level={4}>
               {numberWithCommas(value)}
             </Typography.Title>
@@ -29,7 +29,7 @@ const DashboardCard = (props) => {
             <span>{text}</span>
           </Row>
         </Col>
-        <Col span={8}>
+        <Col span={10}>
           <ArrowItem status={status} />
         </Col>
       </Row>
