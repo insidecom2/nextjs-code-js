@@ -44,14 +44,14 @@ const StepQuantity = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
+      render: (text, record, index) => <span>{quantityList.findIndex((FindPos) => FindPos.id === text.id) + 1}</span>
     },
     {
       title: 'Quantity',
       key: 'quantity',
       render: (text, record, index) => (
         <Form.Item
-          name={`quantity_${record.id}_${index}`}
+          name={`quantity_${record.id}_${quantityList.findIndex((FindPos) => FindPos.id === text.id)}`}
           rules={[
             {
               required: true,
@@ -59,7 +59,7 @@ const StepQuantity = (props) => {
             },
             {
               validator: (rule, value, callback) =>
-                validateQuantity(rule, value, callback, record.id, index)
+                validateQuantity(rule, value, callback, record.id, quantityList.findIndex((FindPos) => FindPos.id === text.id))
             }
           ]}>
           <InputNumber style={{ width: '100%' }} size="small" />
@@ -70,7 +70,7 @@ const StepQuantity = (props) => {
       title: 'Price',
       key: 'price',
       render: (text, record, index) => (
-        <Form.Item name={`price_${record.id}_${index}`} {...inputRule}>
+        <Form.Item name={`price_${record.id}_${quantityList.findIndex((FindPos) => FindPos.id === text.id)}`} {...inputRule}>
           <InputNumber style={{ width: '100%' }} size="small" />
         </Form.Item>
       )
@@ -87,10 +87,10 @@ const StepQuantity = (props) => {
   ]
 
 
-
+  let VisualId = 0;
   const onClick = (e) => {
     e.preventDefault()
-    let VisualId = 0;
+    VisualId++;
     for (let Count=0; Count<quantityList.length; Count++) {
       if (quantityList[Count].id !== undefined) {
         VisualId = VisualId + quantityList[Count].id;
@@ -106,10 +106,14 @@ const StepQuantity = (props) => {
     })
   }
 
+  
+
 
   
   const onDelete = async (e, id) => {
     e.preventDefault()
+     
+     
     // console.log(id)
     // console.log(quantityList)
     setQuantityList((prevState) => {
@@ -117,6 +121,8 @@ const StepQuantity = (props) => {
       return [...arr]
     })
   }
+
+  console.log(quantityList)
 
   return (
     <div>
@@ -128,7 +134,7 @@ const StepQuantity = (props) => {
         bordered
         columns={columns}
         dataSource={quantityList}
-        rowKey={(record) => moment(record.createdAt).unix()}
+        // rowKey={(record) => moment(record.createdAt).unix()}
         pagination={false}
       />
     </div>
