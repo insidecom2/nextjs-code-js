@@ -86,20 +86,32 @@ const StepQuantity = (props) => {
     }
   ]
 
+
+
   const onClick = (e) => {
     e.preventDefault()
+    let VisualId = 0;
+    for (let Count=0; Count<quantityList.length; Count++) {
+      if (quantityList[Count].id !== undefined) {
+        VisualId = VisualId + quantityList[Count].id;
+      }
+    }
+ 
     setQuantityList((prevState) => {
       prevState.push({
-        id: 0,
+        id: VisualId,
         createdAt: moment(new Date()).toISOString()
       })
       return [...prevState]
     })
   }
 
+
+  
   const onDelete = async (e, id) => {
     e.preventDefault()
-    console.log(quantityList)
+    // console.log(id)
+    // console.log(quantityList)
     setQuantityList((prevState) => {
       const arr = prevState.filter((item) => item.id !== id)
       return [...arr]
