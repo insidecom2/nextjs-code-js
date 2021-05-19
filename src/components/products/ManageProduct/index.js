@@ -60,6 +60,7 @@ const ManageProducts = (props) => {
   // }
 
   const onFinish = (values) => {
+    // console.log(values)
     const quantityDataList = []
     quantityList.forEach((item, index) => {
       quantityDataList.push({
@@ -79,7 +80,11 @@ const ManageProducts = (props) => {
         weight: values.weight,
         size: values.size
       },
-      quantityList: quantityDataList
+      quantityList: quantityDataList,
+      images:
+        values.image === undefined
+          ? []
+          : values.image.fileList.map((key) => key.originFileObj)
     }
 
     if (action === ACTION.EDIT) {
@@ -108,7 +113,7 @@ const ManageProducts = (props) => {
     },
     {
       title: 'Image',
-      content: <StepImage product={productSelected} />
+      content: <StepImage product={productSelected} action={action} />
     },
     {
       title: 'Quantity',

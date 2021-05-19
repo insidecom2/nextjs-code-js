@@ -190,13 +190,22 @@ export const getProductsList = () => {
 }
 
 export const createProducts = (data) => {
+
+  // console.log(data)
   return async (dispatch) => {
     try {
       dispatch({
         type: CREATE_PRODUCTS_REQUEST
       })
 
-      const response = await API.post(EndPoints.PRODUCTS, data)
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+
+      const response = await API.post(EndPoints.PRODUCTS, 
+        data,
+        config
+      )
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({

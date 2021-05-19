@@ -5,6 +5,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
+import { ACTION } from 'utils/constants.js'
 import {
   deleteProductImage,
   getProductsList,
@@ -21,6 +22,7 @@ const StepImage = (props) => {
   const [fileList, setFileList] = useState([])
 
   const dispatch = useDispatch()
+  const { action } = props
 
   const { productImageUpdate } = useSelector(
     (state) => ({
@@ -67,12 +69,16 @@ const StepImage = (props) => {
     }
 
     if (info.file.status === 'uploading') {
-      setLoading(true)
-      const formData = new FormData()
-      formData.set('product', product.id)
-      formData.append('image', info.file.originFileObj)
-      await dispatch(updateProductImage(formData))
-      await dispatch(getProductsList())
+      if (action === ACTION.EDIT) {
+        setLoading(true)
+        const formData = new FormData()
+        formData.set('product', product.id)
+        formData.append('image', info.file.originFileObj)
+        await dispatch(updateProductImage(formData))
+        await dispatch(getProductsList())
+      } else {
+        setFileList(info.fileList)
+      }
       setLoading(false)
     }
 

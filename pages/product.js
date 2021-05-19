@@ -109,8 +109,16 @@ const Products = (props) => {
   }
 
   const onOk = async (data) => {
+    console.log(data)
+    const formData = new FormData()
+    formData.set('productData', JSON.stringify(data.productData))
+    for (let Count=0;Count<data.images.length;Count++) {
+         formData.append('images[]', data.images[Count])
+    }
+    formData.set('quantityList', JSON.stringify(data.quantityList))
+
     if (action === ACTION.CREATE) {
-      await dispatch(createProducts(data))
+      await dispatch(createProducts(formData))
     } else if (action === ACTION.EDIT) {
       await dispatch(updateProducts(data))
     }
