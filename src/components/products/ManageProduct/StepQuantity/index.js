@@ -1,44 +1,37 @@
 import moment from 'moment'
 import React from 'react'
-import { Button, Form, InputNumber, Row, Space, Table } from 'antd'
+import { Button, Form, Input, InputNumber, Row, Space, Table } from 'antd'
 import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
 import { inputRule } from 'utils/forms'
-import { useDispatch } from 'react-redux'
-import { deleteQuantityPrice } from 'store/reducers/products'
 
 const StepQuantity = (props) => {
   const { product, form, quantityList, setQuantityList } = props
-
-  const dispatch = useDispatch()
 
   useDeepEffect(() => {
     if (!_.isEmpty(product)) {
       product.product_quantity_price.forEach((item, index) => {
         form.setFieldsValue({
-          [`quantity_old_${index}`]: item.quantity,
-          [`price_old_${index}`]: item.price
-        })
-
-        setQuantityList((prevState) => {
-          prevState.push({
-            ...item,
-            form: 'old'
-          })
-
-          return [...prevState]
+          [`quantity_${item.id}_${index}`]: item.quantity,
+          [`price_${item.id}_${index}`]: item.price
         })
       })
+
+      setQuantityList(product.product_quantity_price)
     }
   }, [])
 
-  const validateQuantity = (rule, value, callback, id) => {
+  const validateQuantity = (rule, value, callback, id, indexInput) => {
     if (!_.isNull(value)) {
       if (value !== 0) {
-        const lastValue = form.getFieldValue(`quantity_${item.id}`)
-
-        callback(`ไม่สามารถใส่ Quantity ซ้ำได้`)
+        quantityList.forEach((item, index) => {
+          const targetValue = form.getFieldValue(`quantity_${item.id}_${index}`)
+          if (value === Number(targetValue) && indexInput !== index) {
+            callback(`ไม่สามารถใส่ Quantity ซ้ำได้`)
+          }
+        })
+        callback()
       } else {
         callback('ไม่สามารถกรอกค่า 0 ')
       }
@@ -58,16 +51,16 @@ const StepQuantity = (props) => {
       key: 'quantity',
       render: (text, record, index) => (
         <Form.Item
-          name={`quantity_${record.form}_${index}`}
+          name={`quantity_${record.id}_${index}`}
           rules={[
             {
               required: true,
               message: 'Please input!'
+            },
+            {
+              validator: (rule, value, callback) =>
+                validateQuantity(rule, value, callback, record.id, index)
             }
-            // {
-            //   validator: (rule, value, callback) =>
-            //     validateQuantity(rule, value, callback, record.id)
-            // }
           ]}>
           <InputNumber style={{ width: '100%' }} size="small" />
         </Form.Item>
@@ -77,7 +70,7 @@ const StepQuantity = (props) => {
       title: 'Price',
       key: 'price',
       render: (text, record, index) => (
-        <Form.Item name={`price_${record.form}_${index}`} {...inputRule}>
+        <Form.Item name={`price_${record.id}_${index}`} {...inputRule}>
           <InputNumber style={{ width: '100%' }} size="small" />
         </Form.Item>
       )
@@ -97,23 +90,19 @@ const StepQuantity = (props) => {
     e.preventDefault()
     setQuantityList((prevState) => {
       prevState.push({
-        form: 'new',
+        id: 0,
         createdAt: moment(new Date()).toISOString()
       })
       return [...prevState]
     })
   }
 
-  const onDelete = (e, id) => {
-    console.log('id', id)
+  const onDelete = async (e, id) => {
     e.preventDefault()
-
+    console.log(quantityList)
     setQuantityList((prevState) => {
-      _.remove(prevState, (item) => {
-        console.log('item', item.id)
-        return item.id === id
-      })
-      return [...prevState]
+      const arr = prevState.filter((item) => item.id !== id)
+      return [...arr]
     })
   }
 
