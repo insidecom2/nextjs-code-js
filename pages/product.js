@@ -112,8 +112,8 @@ const Products = (props) => {
     console.log(data)
     const formData = new FormData()
     formData.set('productData', JSON.stringify(data.productData))
-    for (let Count=0;Count<data.images.length;Count++) {
-         formData.append('images[]', data.images[Count])
+    for (let Count = 0; Count < data.images.length; Count++) {
+      formData.append('imagesList[]', data.images[Count])
     }
     formData.set('quantityList', JSON.stringify(data.quantityList))
 
@@ -147,36 +147,38 @@ const Products = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>Products List</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-              Add Products
-            </Button>
-          </Row>
-        </Col>
-      </Row>
-      <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={productsList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageProducts
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
-          productSelected={productSelected}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>Products List</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add Products
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={productsList}
+          rowKey={(record) => record.id}
         />
-      )}</div>
+        {visible && (
+          <ManageProducts
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+            productSelected={productSelected}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }
