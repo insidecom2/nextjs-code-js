@@ -249,6 +249,7 @@ const CreateProducts = (props) => {
 
   const QPCallBack=(GetStatus)=>SetEditQP(GetStatus)
   const onFinish = (values) => {
+
     const dataList = {
       data: {
         code: values.code,

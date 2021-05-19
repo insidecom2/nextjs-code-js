@@ -104,23 +104,15 @@ const StepQuantity = (props) => {
     })
   }
 
-  
-
-
-  
   const onDelete = async (e, id) => {
     e.preventDefault()
-     
-     
-    // console.log(id)
-    // console.log(quantityList)
     setQuantityList((prevState) => {
       const arr = prevState.filter((item) => item.id !== id)
       return [...arr]
     })
   }
 
-  console.log(quantityList)
+  //console.log(quantityList)
 
   return (
     <div>
