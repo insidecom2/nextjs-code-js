@@ -12,6 +12,7 @@ import {
   updateProductImage
 } from 'store/reducers/products'
 import { useDispatch, useSelector } from 'react-redux'
+import { Form } from 'antd'
 
 const StepImage = (props) => {
   const { product } = props
@@ -57,11 +58,12 @@ const StepImage = (props) => {
     }
   }, [productImageUpdate])
 
-  const handleChange = async (info) => {
-    console.log('info', info.file)
-    console.log('status', info.file.status)
 
-    if (info.file.status === 'removed') {
+  const handleChange = async (info) => {
+    // console.log('info', info.file)
+    // console.log('status', info.file.status)
+
+    if (info.file.status === 'removed' && action === ACTION.EDIT) {
       setFileList(info.fileList)
 
       await dispatch(deleteProductImage(info.file.uid))
@@ -79,14 +81,18 @@ const StepImage = (props) => {
       } else {
         setFileList(info.fileList)
       }
-      setLoading(false)
+        setLoading(false)
     }
 
     if (info.file.status === 'done') {
-      await dispatch(getProductsList())
+      if (action === ACTION.EDIT) {
+        await dispatch(getProductsList())
+      } 
       setLoading(false)
     }
   }
+
+  console.log(fileList)
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -105,8 +111,8 @@ const StepImage = (props) => {
     setPreviewImage('')
   }
 
-  return (
-    <div>
+  return<div>
+      <Form.Item label="Image" name="image" valuePropName="upload">
       <Upload
         name="avatar"
         listType="picture-card"
@@ -127,7 +133,8 @@ const StepImage = (props) => {
             </div>
           )}
         </div>
-      </Upload>
+        </Upload>
+      </Form.Item >
       <Modal
         visible={previewVisible}
         title={previewTitle}
@@ -136,7 +143,7 @@ const StepImage = (props) => {
         <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>
     </div>
-  )
+  
 }
 
 StepImage.propTypes = {

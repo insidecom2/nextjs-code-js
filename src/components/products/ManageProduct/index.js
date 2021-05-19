@@ -60,7 +60,7 @@ const ManageProducts = (props) => {
   // }
 
   const onFinish = (values) => {
-    // console.log(values)
+    console.log(values)
     const quantityDataList = []
     quantityList.forEach((item, index) => {
       quantityDataList.push({
