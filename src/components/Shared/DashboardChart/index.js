@@ -24,7 +24,7 @@ const DashboardChart = (props) => {
             <Shocked>
              {value}
             </Shocked>
-            <span style={{float:'right', display: 'contents'}}>
+            <span style={{position:'absolute', right: 0,top:7}}>
              <BtnLeft onClick={(key)=>ClickDate(0)}   status={clickDateStatus[0]}>ปี</BtnLeft>
              <BtnCenter onClick={(key)=>ClickDate(1)} status={clickDateStatus[1]}>เดือน</BtnCenter>
              <BtnRight onClick={(key)=>ClickDate(2)}  status={clickDateStatus[2]}>วัน</BtnRight>
