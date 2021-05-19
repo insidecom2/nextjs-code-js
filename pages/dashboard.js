@@ -6,6 +6,7 @@ import DashboardCardItem from 'components/Shared/DashboardCardItem'
 import DashboardCard from 'components/Shared/DashboardCard'
 import DashboardMSCard from 'components/Shared/DashboardMSCard'
 import DashboardBestSell from 'components/Shared/DashboardBestSell'
+import DashboardChart from 'components/Shared/DashboardChart'
 import { HeaderTitle } from 'styles/shared.style'
 
 const Dashboard = (props) => {
@@ -62,7 +63,7 @@ const Dashboard = (props) => {
         </Row>
         <Row gutter={16} style={{ paddingTop: '30px' }}>
           <Col span={12}>
-            {/* <DashboardCardItem value="Test" /> */}
+            <DashboardChart value='ยอดขาย' /> 
           </Col>
           <Col span={6}>
             <DashboardCardItem 

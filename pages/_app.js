@@ -61,7 +61,7 @@ const WrappedApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Digibox</title>
+        <title>Digiboxs</title>
       </Head>
       <GlobalStyle />
       <PersistGate persistor={store.__persistor} loading={null}>

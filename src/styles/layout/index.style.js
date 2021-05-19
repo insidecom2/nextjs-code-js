@@ -3,6 +3,19 @@ import { Layout, Menu } from 'antd'
 
 const { Header, Sider } = Layout
 
+export const AvatarTextStatus = styled.label`
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 20px;
+color: #FFFFFF;
+padding-right:10px;
+span:after {
+  content:url('https://media.discordapp.net/attachments/775978814693441568/844422554948337684/Group_18.png');
+  padding-left:10px;
+}
+`
+
 export const Logo = styled.div`
   height: 32px;
   margin: 16px;
@@ -42,6 +55,9 @@ export const SiderEx = styled(Sider)`
     font-weight: normal !important;
     font-size: 16px !important;
     color: #7f63f4 !important;
+  }
+  .ant-layout-sider-trigger {
+    background-color: #F0EEFF !important;
   }
 `
 
@@ -103,4 +119,5 @@ export const MenuEx = styled(Menu)`
   .ant-menu-item:hover {
     background: #f0eeff !important;
   }
+
 `

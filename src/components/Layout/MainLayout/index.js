@@ -14,6 +14,7 @@ import { setMenu } from 'store/reducers/menu'
 import { HeaderEx, MenuEx, SiderEx } from 'styles/layout/index.style'
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
+import AvatarStatus from 'components/Shared/AvatarStatus'
 
 const MainLayout = (props) => {
   const router = useRouter()
@@ -107,8 +108,11 @@ const MainLayout = (props) => {
       <Layout>
         <HeaderEx style={{ padding: 0 }}>
           <div style={{ float: 'right', margin: '0 10px', cursor: 'pointer' }}>
+            <AvatarStatus name={'George Martin'} status={'Admin'}/>
             <Dropdown overlay={menu} trigger={['click']}>
+             
               <Avatar size="large" icon={<UserOutlined />} />
+             
             </Dropdown>
           </div>
         </HeaderEx>

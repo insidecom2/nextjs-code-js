@@ -42,7 +42,7 @@ DashboardCard.propTypes = {
   text: PropTypes.string,
   percent: PropTypes.number,
   value: PropTypes.number,
-  status: PropTypes.string
+  status: PropTypes.bool
 }
 
 export default DashboardCard

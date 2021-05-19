@@ -14,7 +14,7 @@ const DashboardCardItem = (props) => {
           <Row className='post' style={{ marginBottom: 10 }}>{post}</Row>
           <HrBar style={{ marginBottom: 20 }}/>
           <Row style={{ marginBottom: 20 }}>
-            <img src={image}  />
+            <img style={{margin:'unset'}} src={image}  />
           </Row>
           <Row className='sell-promotion' style={{ marginBottom: 10 }}>{detail[0]}</Row>  
           <Row className='date-promotion' style={{ marginBottom: 10 }}>{date[0]}</Row>

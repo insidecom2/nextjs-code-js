@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import { Col, Row, Typography } from 'antd'
 import { DashboardCardDiv } from 'styles/dashboard/index.style'
 import { numberWithCommas } from 'utils/number'
+import { DonutChart } from 'styles/DonutChart'
 
 const DashboardMSCard = (props) => {
     const { name, value, percent, text } = props
 
   return (
-    <DashboardCardDiv style={{ height: 175}}>
+    <DashboardCardDiv >
     <Row >
-      <Col span={14}>
-        <Row className='span01'>{name}</Row>
+      <Col span={13}>
+        <Row style={{paddingTop:20}} className='span01'>{name}</Row>
         <Row className='span02'>
           <Typography.Title level={4}>
             {numberWithCommas(value)}
@@ -26,11 +27,8 @@ const DashboardMSCard = (props) => {
           <span>{text}</span>
         </Row>
       </Col>
-      <Col span={10}>
-        <div>
-            aefafewfewa
-
-            </div>
+      <Col className="lay" span={11}>
+        <DonutChart/>
       </Col>
     </Row>
   </DashboardCardDiv>
@@ -38,7 +36,10 @@ const DashboardMSCard = (props) => {
 }
 
 DashboardMSCard.propTypes = {
-  value: PropTypes.string
+  name: PropTypes.string,
+  value: PropTypes.number,
+  percent: PropTypes.number,
+  text: PropTypes.string
 }
 
 export default DashboardMSCard

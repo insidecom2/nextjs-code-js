@@ -2,16 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row } from 'antd'
 import { DashboardCardDiv, Shocked } from 'styles/dashboard/index.style'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
-
-const Rating =(props)=>{
-    const { ratingValue } = props
-    let CheckRating = [], negativeRating = 5-ratingValue;
-    for(let Count=0;Count<ratingValue;Count++) {CheckRating.push("orange")}
-    for(let Count=0;Count<negativeRating;Count++) {CheckRating.push("gray")}
-    return<div>{CheckRating.map((SetColor)=><FontAwesomeIcon icon={faStar} color={SetColor} />)}</div>
-  };
+import Rating from 'components/Shared/Rating'
 const DashboardBestSell = (props) => {
     const { name, text, image, headText, ratingProduct } = props
   return (
@@ -25,13 +16,13 @@ const DashboardBestSell = (props) => {
       </Col>
     </Row>
     <Row>
-       <Col span={12}>
-           <Row >
+       <Col style={{display:'flex'}} span={10}>
+           <Row  >
               <img src={image} />
            </Row>
        </Col>
-       <Col span={12}>
-          <Row >
+       <Col span={14}>
+          <Row style={{paddingTop: '60px' }}>
               <Shocked>
               {headText}
               </Shocked>    

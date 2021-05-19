@@ -1,5 +1,72 @@
 import styled from 'styled-components'
 
+export const BtnLeft = styled.button`
+height: 24px;
+max-height:100%;
+${(props)=>
+  props.status? `background:#2E27D9;`:`background:#FFFFFF;`
+}
+border: 1px solid #F3F4F6;
+box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.05);
+border-top-left-radius: 7px;
+border-bottom-left-radius: 7px;
+cursor:pointer;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 16px;
+${(props)=>
+  props.status? `color:#FFFFFF;`:`color:#6A707E;`
+}
+text-align: center;
+width:50px;
+max-width:100%;
+`
+
+export const BtnRight = styled.button`
+height: 24px;
+max-height:100%;
+${(props)=>
+  props.status? `background:#2E27D9;`:`background:#FFFFFF;`
+}
+border: 1px solid #F3F4F6;
+box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.05);
+border-top-right-radius: 7px;
+border-bottom-right-radius: 7px;
+cursor:pointer;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 16px;
+${(props)=>
+  props.status? `color:#FFFFFF;`:`color:#6A707E;`
+}
+text-align: center;
+width:50px;
+max-width:100%;
+`
+
+export const BtnCenter = styled.button`
+height: 24px;
+max-height:100%;
+${(props)=>
+  props.status? `background:#2E27D9;`:`background:#FFFFFF;`
+}
+border: 1px solid #F3F4F6;
+box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.05);
+cursor:pointer;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 16px;
+${(props)=>
+  props.status? `color:#FFFFFF;`:`color:#6A707E;`
+}
+text-align: center;
+width:60px;
+max-width:100%;
+`
+
 export const HrBar = styled.div`
    border: solid 0.1px #D2CCFF;   
 `
@@ -79,6 +146,19 @@ color: #222B45;
   h4.ant-typography {
     font-size: 30px;
   }
+  .lay .recharts-wrapper, .lay svg {
+    display:block;
+    margin:auto;
+    max-height:100%;
+    max-width:100%;
+  }
+  img {
+    display:block;
+    margin:auto;
+    max-height:100%;
+    max-width:100%;
+  }
+
 `
 
 export const ArrowItem = styled.div`
