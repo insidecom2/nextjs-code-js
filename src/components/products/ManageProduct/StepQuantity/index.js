@@ -89,13 +89,12 @@ const StepQuantity = (props) => {
   const onClick = (e) => {
     e.preventDefault()
     let VisualId = 0;
-    VisualId++;
     for (let Count=0; Count<quantityList.length; Count++) {
       if (quantityList[Count].id !== undefined) {
         VisualId = VisualId + quantityList[Count].id;
       }
     }
- 
+    VisualId++;
     setQuantityList((prevState) => {
       prevState.push({
         id: VisualId,
