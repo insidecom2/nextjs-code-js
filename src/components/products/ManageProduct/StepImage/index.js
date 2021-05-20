@@ -22,8 +22,6 @@ const StepImage = (props) => {
   const [previewTitle, setPreviewTitle] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [fileImageList, setFileImageList] = useState([])
-  const [FileAttribute, setFileAttribute] = useState({})
-
   const dispatch = useDispatch()
   const { action } = props
 
@@ -84,7 +82,6 @@ const StepImage = (props) => {
         await dispatch(updateProductImage(formData))
         await dispatch(getProductsList())
       } else {
-        console.log('else', info)
         setFileImageList(info.fileList)
       }
       setLoading(false)
@@ -142,7 +139,13 @@ const StepImage = (props) => {
             )}
           </div>
         </Upload>
+<<<<<<< HEAD
       </Form.Item>
+=======
+        }
+      
+      </Form.Item >
+>>>>>>> b8399e62eb8f50c3d357aa0a22b2d48c4954e991
       <Modal
         visible={previewVisible}
         title={previewTitle}
