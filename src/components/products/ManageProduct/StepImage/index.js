@@ -20,7 +20,9 @@ const StepImage = (props) => {
   const [previewVisible, setPreviewVisible] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
-  const [fileList, setFileList] = useState([])
+  const [imageUrl, setImageUrl] = useState('')
+  const [fileImageList, setFileImageList] = useState([])
+  const [FileAttribute,setFileAttribute] = useState({})
 
   const dispatch = useDispatch()
   const { action } = props
@@ -35,7 +37,7 @@ const StepImage = (props) => {
   useDeepEffect(() => {
     if (!_.isEmpty(product)) {
       product.product_image.forEach((item) => {
-        setFileList((prevState) => {
+        setFileImageList((prevState) => {
           prevState.push({
             uid: item.id,
             url: item.image
@@ -48,7 +50,7 @@ const StepImage = (props) => {
 
   useDeepEffect(() => {
     if (!_.isEmpty(productImageUpdate)) {
-      setFileList((prevState) => {
+      setFileImageList((prevState) => {
         prevState.push({
           uid: productImageUpdate.id,
           url: productImageUpdate.image
@@ -56,15 +58,15 @@ const StepImage = (props) => {
         return [...prevState]
       })
     }
+    const fileListProps = {fileList: fileImageList}, fileNullProps = {};
+    action === ACTION.CREATE?setFileAttribute(fileNullProps):setFileAttribute(fileListProps)
   }, [productImageUpdate])
-
 
   const handleChange = async (info) => {
     // console.log('info', info.file)
     // console.log('status', info.file.status)
-
     if (info.file.status === 'removed' && action === ACTION.EDIT) {
-      setFileList(info.fileList)
+      setFileImageList(info.fileImageList)
 
       await dispatch(deleteProductImage(info.file.uid))
       await dispatch(getProductsList())
@@ -79,7 +81,7 @@ const StepImage = (props) => {
         await dispatch(updateProductImage(formData))
         await dispatch(getProductsList())
       } else {
-        setFileList(info.fileList)
+        setFileImageList(info.fileImageList)
       }
         setLoading(false)
     }
@@ -92,7 +94,7 @@ const StepImage = (props) => {
     }
   }
 
-  console.log(fileList)
+  // console.log(fileImageList)
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -118,12 +120,13 @@ const StepImage = (props) => {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={true}
-        fileList={fileList}
+        {...FileAttribute}
         beforeUpload={beforeUpload}
         onPreview={handlePreview}
         onChange={handleChange}>
         <div style={{ marginTop: 8 }}>
-          {loading ? (
+      
+            {loading ? (
             <LoadingOutlined />
           ) : (
             <div>
