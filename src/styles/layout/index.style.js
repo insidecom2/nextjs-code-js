@@ -85,6 +85,10 @@ export const MenuEx = styled(Menu)`
   .ant-menu-item::after,.ant-menu-submenu-open .ant-menu-submenu-title,.ant-menu-item:hover {
     border-right: 3px solid #7f63f4 !important;
   }
+
+  .ant-menu-item.ant-menu-item-selected:hover {
+    border-right: unset !important;
+  }
  
   .ant-menu-item.ant-menu-item-selected span,
   .ant-menu-submenu-open .ant-menu-submenu-title span {
