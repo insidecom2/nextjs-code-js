@@ -14,6 +14,7 @@ import { ACTION } from 'utils/constants.js'
 import ManageProducts from 'components/products/ManageProduct'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
+import _ from 'lodash'
 
 import {
   createProducts,
@@ -39,6 +40,16 @@ const Products = (props) => {
   )
 
   // console.log(productsList)
+
+  // useDeepEffect(() => {
+  //   if (!_.isNull(productSelected)) {
+  //     const data = _.find(productsList, (item) => {
+  //       return item.id === productSelected.id
+  //     })
+
+  //     setProductSelected(data)
+  //   }
+  // }, [productsList])
 
   const fetchData = async () => {
     await dispatch(getProductsList())

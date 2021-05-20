@@ -22,7 +22,7 @@ const StepImage = (props) => {
   const [previewTitle, setPreviewTitle] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [fileImageList, setFileImageList] = useState([])
-  const [FileAttribute,setFileAttribute] = useState({})
+  const [FileAttribute, setFileAttribute] = useState({})
 
   const dispatch = useDispatch()
   const { action } = props
@@ -46,7 +46,7 @@ const StepImage = (props) => {
         })
       })
     }
-  }, [])
+  }, [product])
 
   useDeepEffect(() => {
     if (!_.isEmpty(productImageUpdate)) {
@@ -58,21 +58,24 @@ const StepImage = (props) => {
         return [...prevState]
       })
     }
-    const fileListProps = {fileList: fileImageList}, fileNullProps = {};
-    action === ACTION.CREATE?setFileAttribute(fileNullProps):setFileAttribute(fileListProps)
+    // const fileListProps = { fileList: fileImageList },
+    //   fileNullProps = {}
+    // action === ACTION.CREATE
+    //   ? setFileAttribute(fileNullProps)
+    //   : setFileAttribute(fileListProps)
   }, [productImageUpdate])
 
   const handleChange = async (info) => {
-    // console.log('info', info.file)
-    // console.log('status', info.file.status)
+    console.log(info.file)
     if (info.file.status === 'removed' && action === ACTION.EDIT) {
-      setFileImageList(info.fileImageList)
+      setFileImageList(info.fileList)
 
       await dispatch(deleteProductImage(info.file.uid))
       await dispatch(getProductsList())
     }
 
     if (info.file.status === 'uploading') {
+      setLoading(true)
       if (action === ACTION.EDIT) {
         setLoading(true)
         const formData = new FormData()
@@ -81,20 +84,22 @@ const StepImage = (props) => {
         await dispatch(updateProductImage(formData))
         await dispatch(getProductsList())
       } else {
-        setFileImageList(info.fileImageList)
+        console.log('else', info)
+        setFileImageList(info.fileList)
       }
-        setLoading(false)
+      setLoading(false)
     }
 
     if (info.file.status === 'done') {
       if (action === ACTION.EDIT) {
         await dispatch(getProductsList())
-      } 
+      } else {
+        console.log('else 2', info)
+        // setFileImageList(info.fileList)
+      }
       setLoading(false)
     }
   }
-
-  // console.log(fileImageList)
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -113,31 +118,31 @@ const StepImage = (props) => {
     setPreviewImage('')
   }
 
-  return<div>
+  return (
+    <div>
       <Form.Item label="Image" name="image" valuePropName="upload">
-      <Upload
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={true}
-        {...FileAttribute}
-        beforeUpload={beforeUpload}
-        onPreview={handlePreview}
-        onChange={handleChange}>
-        <div style={{ marginTop: 8 }}>
-      
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={true}
+          fileList={fileImageList}
+          beforeUpload={beforeUpload}
+          onPreview={handlePreview}
+          onChange={handleChange}>
+          <div style={{ marginTop: 8 }}>
             {loading ? (
-            <LoadingOutlined />
-          ) : (
-            <div>
-              <PlusOutlined />
-              <br />
-              <label>Upload</label>
-            </div>
-          )}
-        </div>
+              <LoadingOutlined />
+            ) : (
+              <div>
+                <PlusOutlined />
+                <br />
+                <label>Upload</label>
+              </div>
+            )}
+          </div>
         </Upload>
-      </Form.Item >
+      </Form.Item>
       <Modal
         visible={previewVisible}
         title={previewTitle}
@@ -146,7 +151,7 @@ const StepImage = (props) => {
         <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>
     </div>
-  
+  )
 }
 
 StepImage.propTypes = {
