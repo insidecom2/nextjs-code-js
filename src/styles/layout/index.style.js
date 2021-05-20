@@ -78,7 +78,11 @@ export const MenuEx = styled(Menu)`
     color: #6A707E; 
   }
 
-  .ant-menu-item::after,.ant-menu-submenu-open .ant-menu-submenu-title {
+  .ant-menu-item:hover span{
+   color:#7f63f4;
+  } 
+
+  .ant-menu-item::after,.ant-menu-submenu-open .ant-menu-submenu-title,.ant-menu-item:hover {
     border-right: 3px solid #7f63f4 !important;
   }
  
