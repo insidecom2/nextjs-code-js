@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
 import { Layout, Menu, Divider, Avatar, Dropdown } from 'antd'
 import {
-  SettingOutlined,
-  PieChartOutlined,
+  AntDesignOutlined,
+  AppstoreOutlined,
+  BgColorsOutlined,
+  HddFilled,
+  ControlFilled,
   UserOutlined,
-  ShoppingOutlined
+  ShoppingOutlined,
+  TrophyOutlined,
+  SendOutlined
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
@@ -64,42 +69,66 @@ const MainLayout = (props) => {
           defaultOpenKeys={['sub1']}>
           <Menu.Item
             key="1"
-            icon={<PieChartOutlined />}
+            icon={<AppstoreOutlined />}
             onClick={(e) => onClick(e, 'dashboard')}>
             แดชบอร์ด
           </Menu.Item>
           <Menu.Item
-            key="9"
+            key="2"
             icon={<ShoppingOutlined />}
             onClick={(e) => onClick(e, 'product')}>
             สินค้า
           </Menu.Item>
           <Menu.Item
-            key="10"
-            icon={<ShoppingOutlined />}
-            onClick={(e) => onClick(e, 'media')}>
-            คลังภาพ
+            key="3"
+            icon={<AntDesignOutlined />} onClick={(e) => onClick(e, 'broadcast')}
+            >
+            บรอดแคสต์
           </Menu.Item>
-          <SubMenu key="sub1" icon={<SettingOutlined />} title="ตั้งค่า">
-            <Menu.Item key="2" onClick={(e) => onClick(e, 'category')}>
+          <Menu.Item
+            key="4"
+            icon={<TrophyOutlined />} onClick={(e) => onClick(e, 'broadcast')}
+            >
+            จัดการแคมเปญ
+          </Menu.Item>
+          <Menu.Item
+            key="5"
+            icon={<BgColorsOutlined />} onClick={(e) => onClick(e, 'broadcast')}
+            >
+            จัดการธีม
+          </Menu.Item>
+          <Menu.Item
+            key="6"
+            icon={<HddFilled />}
+            onClick={(e) => onClick(e, 'media')}>
+            คลังจัดเก็บ
+          </Menu.Item>
+          <Menu.Item
+            key="7"
+            icon={<SendOutlined />} onClick={(e) => onClick(e, 'broadcast')}
+            >
+           การจัดส่ง
+          </Menu.Item>
+          <SubMenu key="sub1" icon={<ControlFilled />} title="ตั้งค่า">
+            <Menu.Item key="8" onClick={(e) => onClick(e, 'category')}>
              หมวดหมู่
             </Menu.Item>
-            <Menu.Item key="3" onClick={(e) => onClick(e, 'type')}>
+            <Menu.Item key="9" onClick={(e) => onClick(e, 'type')}>
              ประเภท
             </Menu.Item>
-            <Menu.Item key="4" onClick={(e) => onClick(e, 'style')}>
+            <Menu.Item key="10" onClick={(e) => onClick(e, 'style')}>
               คุณลักษณะ
             </Menu.Item>
-            <Menu.Item key="5" onClick={(e) => onClick(e, 'size')}>
+            <Menu.Item key="11" onClick={(e) => onClick(e, 'size')}>
              ขนาด
             </Menu.Item>
-            <Menu.Item key="6" onClick={(e) => onClick(e, 'material')}>
+            <Menu.Item key="12" onClick={(e) => onClick(e, 'material')}>
                วัสดุ
             </Menu.Item>
-            <Menu.Item key="7" onClick={(e) => onClick(e, 'printFinish')}>
+            <Menu.Item key="13" onClick={(e) => onClick(e, 'printFinish')}>
             พิมพ์เสร็จสิ้น
             </Menu.Item>
-            <Menu.Item key="8" onClick={(e) => onClick(e, 'printSides')}>
+            <Menu.Item key="14" onClick={(e) => onClick(e, 'printSides')}>
             พิมพ์ด้าน
             </Menu.Item>
           </SubMenu>
