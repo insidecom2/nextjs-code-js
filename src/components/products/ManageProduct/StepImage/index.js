@@ -22,8 +22,6 @@ const StepImage = (props) => {
   const [previewTitle, setPreviewTitle] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [fileImageList, setFileImageList] = useState([])
-  const [FileAttribute,setFileAttribute] = useState({})
-
   const dispatch = useDispatch()
   const { action } = props
 
@@ -58,15 +56,14 @@ const StepImage = (props) => {
         return [...prevState]
       })
     }
-    const fileListProps = {fileList: fileImageList}, fileNullProps = {};
-    action === ACTION.CREATE?setFileAttribute(fileNullProps):setFileAttribute(fileListProps)
+    
   }, [productImageUpdate])
 
   const handleChange = async (info) => {
     // console.log('info', info.file)
     // console.log('status', info.file.status)
     if (info.file.status === 'removed' && action === ACTION.EDIT) {
-      setFileImageList(info.fileImageList)
+      setFileImageList(info.fileList)
 
       await dispatch(deleteProductImage(info.file.uid))
       await dispatch(getProductsList())
@@ -81,7 +78,7 @@ const StepImage = (props) => {
         await dispatch(updateProductImage(formData))
         await dispatch(getProductsList())
       } else {
-        setFileImageList(info.fileImageList)
+        setFileImageList(info.fileList)
       }
         setLoading(false)
     }
@@ -115,12 +112,13 @@ const StepImage = (props) => {
 
   return<div>
       <Form.Item label="Image" name="image" valuePropName="upload">
-      <Upload
+        {action === ACTION.EDIT?
+        <Upload
         name="avatar"
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={true}
-        {...FileAttribute}
+        fileList={fileImageList}
         beforeUpload={beforeUpload}
         onPreview={handlePreview}
         onChange={handleChange}>
@@ -137,6 +135,30 @@ const StepImage = (props) => {
           )}
         </div>
         </Upload>
+        :
+        <Upload
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={true}
+        beforeUpload={beforeUpload}
+        onPreview={handlePreview}
+        onChange={handleChange}>
+        <div style={{ marginTop: 8 }}>
+      
+            {loading ? (
+            <LoadingOutlined />
+          ) : (
+            <div>
+              <PlusOutlined />
+              <br />
+              <label>Upload</label>
+            </div>
+          )}
+        </div>
+        </Upload>
+        }
+      
       </Form.Item >
       <Modal
         visible={previewVisible}
