@@ -30,9 +30,9 @@ const StepImage = (props) => {
     }),
     []
   )
-
+  
   useDeepEffect(() => {
-    if (!_.isEmpty(product)) {
+    if (!_.isEmpty(product) && action === ACTION.EDIT) {
       product.product_image.forEach((item) => {
         setFileImageList((prevState) => {
           prevState.push({

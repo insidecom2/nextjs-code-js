@@ -119,6 +119,7 @@ const ManageProducts = (props) => {
       title: 'Quantity',
       content: (
         <StepQuantity
+          action={action}
           form={form}
           product={productSelected}
           quantityList={quantityList}

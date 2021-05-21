@@ -58,7 +58,7 @@ const MainLayout = (props) => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <SiderEx collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <SiderEx collapsible collapsed={collapsed} onCollapse={onCollapse} >
         <div style={{ textAlign: 'center', marginTop: 15 }}>
           <TitleDashboard>Digiboxs</TitleDashboard>
         </div>

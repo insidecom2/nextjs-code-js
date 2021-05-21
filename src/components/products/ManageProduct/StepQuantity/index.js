@@ -5,12 +5,13 @@ import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
 import { inputRule } from 'utils/forms'
+import { ACTION } from 'utils/constants.js'
 
 const StepQuantity = (props) => {
-  const { product, form, quantityList, setQuantityList } = props
+  const { product, form, quantityList, setQuantityList, action } = props
 
   useDeepEffect(() => {
-    if (!_.isEmpty(product)) {
+    if (!_.isEmpty(product) && action === ACTION.EDIT) {
       product.product_quantity_price.forEach((item, index) => {
         form.setFieldsValue({
           [`quantity_${item.id}_${index}`]: item.quantity,
