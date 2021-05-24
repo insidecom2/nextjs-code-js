@@ -3,17 +3,22 @@ import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { ACTION } from 'utils/constants.js'
+import { beforeUpload, getBase64 } from 'utils/images'
 
 const ManagePrintFinish = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
-  const { typeName, typeCode, typeId } = useSelector(
+  const { typeId, defaultImage, PrintFinishValue } = useSelector(
     (state) => ({
-      typeName: action==='Edit'?state.printFinish.categoryType.name:"",
-      typeCode: action==='Edit'?state.printFinish.categoryType.code:"",
       typeId: action==='Edit'?state.printFinish.categoryType.id:"",
+      defaultImage:
+        action === 'Edit'
+          ? state.printFinish.categoryType.image
+          : '',
+      PrintFinishValue: state.printFinish.categoryType     
     }),
     []
   )
@@ -22,42 +27,32 @@ const ManagePrintFinish = (props) => {
     const data = {
       name: values.name,
       code: values.code,
-      image: values.image.file.originFileObj
+      image: values.image||values.image.file.originFileObj
     }
     onOk(typeId, data)
   }
 
-  useEffect(() => {
-    setimageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgolBdeaXdt7hZ4G28YiA8shOCg4jkBg08uA&usqp=CAU");
-},[]);
+useEffect(() => {
+  if (action === ACTION.EDIT) {
+    form.setFieldsValue({
+      name:PrintFinishValue.name,
+      code:PrintFinishValue.code
+    })    
+} 
+setimageUrl(defaultImage);
+},[PrintFinishValue]);
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
- }
-   function beforeUpload(file) {
-     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-     if (!isJpgOrPng) {
-       message.error('You can only upload JPG/PNG file!');
-     }
-     const isLt2M = file.size / 1024 / 1024 < 2;
-     if (!isLt2M) {
-       message.error('Image must smaller than 2MB!');
-     }
-     return isJpgOrPng && isLt2M;
-   }
    const handleChange = info => {
      if (info.file.status === 'uploading') {
        setloading(true)
+       getBase64(info.file.originFileObj, imageUrl =>
+        setimageUrl(imageUrl)
+      );
        return;
      }
      if (info.file.status === 'done') {
        // Get this url from response in real world.
        setloading(false)
-       getBase64(info.file.originFileObj, imageUrl =>
-         setimageUrl(imageUrl)
-       );
      }
    };
 
@@ -86,7 +81,7 @@ function getBase64(img, callback) {
               message: 'Please input your name!'
             }
           ]}
-          initialValue={typeName}>
+          >
           <Input />
         </Form.Item>
         <Form.Item
@@ -98,13 +93,14 @@ function getBase64(img, callback) {
               message: 'Please input your code!'
             }
           ]}
-          initialValue={typeCode}>
+       >
           <Input />
         </Form.Item>
      
         <Form.Item label="Image" name="image" >
          
           <Upload 
+            fileList={null}
             name="avatar"
             listType="picture-card"
             className="avatar-uploader"

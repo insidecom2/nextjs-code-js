@@ -19,7 +19,7 @@ import {
   createMaterial,
   deleteMaterial,
   getMaterialList,
-  isActiveMaterial,
+  updateActiveMaterial,
   getMaterialById,
   updateMaterial
 } from 'store/reducers/material'
@@ -53,7 +53,7 @@ const Material = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
+      render: (text, record, index) => <span>{materialList.findIndex((FindPos) => FindPos.id === text.id) + 1}</span>
     },
     {
       title: 'Name',
@@ -83,7 +83,7 @@ const Material = (props) => {
           <Form.Item
             valuePropName="checked"
             name={'active_' + record.id}
-            initialValue={!!text}>
+            initialValue={!text}>
             <Switch onChange={(e) => setActive(e, record)} />
           </Form.Item>
         </Form>
@@ -98,6 +98,7 @@ const Material = (props) => {
   }
 
   const onClick = (e, action) => {
+    SetAntSelectNo(materialList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
@@ -112,7 +113,7 @@ const Material = (props) => {
   }
 
   const setActive = async (e, record) => {
-    await dispatch(isActiveMaterial(record.id, e))
+    await dispatch(updateActiveMaterial(record.id, e))
   }
 
   const onCancel = () => {
@@ -131,7 +132,7 @@ const Material = (props) => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
           <Typography.Title level={3}>Material List</Typography.Title>
@@ -159,7 +160,7 @@ const Material = (props) => {
           action={action}
           TrNo={AntSelectNo}
         />
-      )}
+      )}</div>
     </MainLayout>
   )
 }

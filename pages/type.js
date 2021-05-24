@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
 import {
   Button,
-  Form,
   Col,
   Popconfirm,
   Row,
@@ -13,7 +12,6 @@ import {
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageType from 'components/Settings/Type/ManageType'
-import UpdateType from 'components/Settings/Type/UpdateType'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import {
@@ -22,16 +20,16 @@ import {
   getCategoryTypeList,
   getCategoryTypeListById,
   updateCategoryType,
-  isActiveCategoryType
+  updateActiveCategoryType
 } from 'store/reducers/categoryType'
 import { getCategoryList } from 'store/reducers/category'
 
 const Type = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const [visibleEdit, setVisibleEdit] = useState(false)
   const dispatch = useDispatch()
-  const [form] = Form.useForm()
+  const [AntSelectNo, SetAntSelectNo] = useState(1)
+  const [typeSelected, setTypeSelected] = useState(null)
 
   const { categoryTypeList, isLoading } = useSelector(
     (state) => ({
@@ -41,10 +39,6 @@ const Type = (props) => {
     []
   )
 
-  const setActive = async (e, record) => {
-    await dispatch(isActiveCategoryType(record.id, e))
-  }
-
   const fetchData = async () => {
     await dispatch(getCategoryTypeList())
   }
@@ -53,26 +47,22 @@ const Type = (props) => {
     fetchData()
   }, [])
 
-  const getValue = async (e) => {
-    console.log(e)
-  }
-  const confirm = async (e, record) => {
-    e.preventDefault()
-    await dispatch(deleteCategoryType(record.id))
-    await fetchData()
+  const setActive = async (e, record) => {
+    await dispatch(updateActiveCategoryType(record.id, e))
+    await dispatch(getCategoryTypeList())
   }
 
-  const [OldNo, SetOldNo] = useState(0); 
-  
   const columns = [
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index, e) => 
-      <span>{Number(categoryTypeList.findIndex(FindPos=>FindPos.id===text.id)) + 1}
-    
-      </span>
-
+      render: (text, record, index, e) => (
+        <span>
+          {Number(
+            categoryTypeList.findIndex((FindPos) => FindPos.id === text.id)
+          ) + 1}
+        </span>
+      )
     },
     {
       title: 'Name',
@@ -81,11 +71,19 @@ const Type = (props) => {
       render: (text) => <span>{text.toString().toUpperCase()}</span>
     },
     {
+      title: 'Active',
+      key: 'is_active',
+      dataIndex: 'is_active',
+      render: (text, record, index) => (
+        <Switch onChange={(e) => setActive(e, record)} checked={text} />
+      )
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
@@ -93,62 +91,55 @@ const Type = (props) => {
           </Popconfirm>
         </Space>
       )
-    },
-    {
-      title: 'Active',
-      key: 'is_active',
-      dataIndex: 'is_active',
-      render: (text, record, index) => (
-        <Form form={form} name="typeActive" layout="vertical">
-          <Form.Item
-            valuePropName="checked"
-            name={'active_' + record.id}
-            initialValue={text ? true : false}>
-            <Switch onChange={(e) => setActive(e, record)} />
-          </Form.Item>
-        </Form>
-      )
     }
   ]
 
+  const confirm = async (e, record) => {
+    e.preventDefault()
+    await dispatch(deleteCategoryType(record.id))
+    await fetchData()
+  }
+
   const onClick = async (e, action) => {
     e.preventDefault()
+    SetAntSelectNo(categoryTypeList.length + 1)
     await dispatch(getCategoryList())
     setAction(action)
     setVisible(true)
   }
 
-  const onEdit = async (e, action, id) => {
+  const onEdit = async (e, action, record) => {
     e.preventDefault()
-    setAction(action)
-    await dispatch(getCategoryTypeListById(id))
-    await dispatch(getCategoryList())
-    setVisibleEdit(true)
-  }
-
-  const onOk = async (data) => {
-    await setVisible(false)
-    console.log(data)
-    await dispatch(createCategoryType(data))
-    await dispatch(getCategoryTypeList())
+    await setTypeSelected(record)
+    await setAction(action)
+    await setVisible(true)
   }
 
   const onCancel = () => {
     setVisible(false)
+    setTypeSelected(null)
   }
 
-  const onUpdateOk = async (id, data) => {
-    await setVisibleEdit(false)
-    await dispatch(updateCategoryType(id, data))
+  const onOk = async (data) => {
+    await setVisible(false)
+
+    const formData = new FormData()
+    formData.set('code', data.code)
+    formData.set('name', data.name)
+    formData.set('category', data.category)
+    formData.append('image', data.image)
+
+    if (action === ACTION.CREATE) {
+      await dispatch(createCategoryType(formData))
+    } else if (action === ACTION.EDIT) {
+      await dispatch(updateCategoryType(data.id, formData))
+    }
+
     await dispatch(getCategoryTypeList())
   }
 
-  const onUpdateCancel = () => {
-    setVisibleEdit(false)
-  }
-
   return (
-    <MainLayout>
+    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
           <Typography.Title level={3}>Type List</Typography.Title>
@@ -172,16 +163,10 @@ const Type = (props) => {
           onOk={onOk}
           onCancel={onCancel}
           action={action}
+          typeSelected={typeSelected}
+          TrNo={AntSelectNo}
         />
-      )}
-      {visibleEdit && (
-        <UpdateType
-          visible={visibleEdit}
-          onOk={onUpdateOk}
-          onCancel={onUpdateCancel}
-          action={action}
-        />
-      )}
+      )}</div>
     </MainLayout>
   )
 }

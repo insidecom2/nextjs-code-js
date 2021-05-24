@@ -8,7 +8,7 @@ import {
   createPrintFinish,
   deletePrintFinish,
   getPrintFinishList,
-  isActivePrintFinish,
+  updateActivePrintFinish,
   getPrintFinishById,
   updatePrintFinish
 } from 'store/reducers/printFinish'
@@ -86,6 +86,7 @@ const PrintFinish = (props) => {
   }
 
   const onClick = (e, action) => {
+    SetAntSelectNo(printFinishList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
@@ -103,7 +104,7 @@ const PrintFinish = (props) => {
     setVisible(false)
   }
   const setActive = async (e, record) => {
-    await dispatch(isActivePrintFinish(record.id, e))
+    await dispatch(updateActivePrintFinish(record.id, e))
   }
 
   const onEdit = async (e, action, id) => {
@@ -118,7 +119,7 @@ const PrintFinish = (props) => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
           <Typography.Title level={3}>PrintFinish List</Typography.Title>
@@ -146,7 +147,7 @@ const PrintFinish = (props) => {
           action={action}
           TrNo={AntSelectNo}
         />
-      )}
+      )}</div>
     </MainLayout>
   )
 }

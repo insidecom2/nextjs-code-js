@@ -9,7 +9,7 @@ import {
   createPrintSide,
   deletePrintSide,
   getPrintSideList,
-  isActivePrintSide,
+  updateActivePrintSide,
   getPrintSideById,
   updatePrintSide
 } from 'store/reducers/printSide'
@@ -86,6 +86,7 @@ const PrintSides = (props) => {
   }
 
   const onClick = (e, action) => {
+    SetAntSelectNo(printSideList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
@@ -104,7 +105,7 @@ const PrintSides = (props) => {
   }
 
   const setActive = async (e, record) => {
-    await dispatch(isActivePrintSide(record.id, e))
+    await dispatch(updateActivePrintSide(record.id, e))
   }
 
   const onEdit = async (e, action, id) => {
@@ -119,7 +120,7 @@ const PrintSides = (props) => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
           <Typography.Title level={3}>Print Sides List</Typography.Title>
@@ -147,7 +148,7 @@ const PrintSides = (props) => {
           action={action}
           TrNo={AntSelectNo}
         />
-      )}
+      )}</div>
     </MainLayout>
   )
 }

@@ -167,7 +167,6 @@ export const getMaterialList = () => {
 }
 
 export const createMaterial = (data) => {
-  // console.log(data)
   return async (dispatch) => {
     try {
       dispatch({
@@ -223,14 +222,14 @@ export const deleteMaterial = (id) => {
   }
 }
 
-export const isActiveMaterial = (id, data) => {
+export const updateActiveMaterial = (id, data) => {
   return async (dispatch) => {
     try {
       dispatch({
         type: ACTIVE_MATERIAL_REQUEST
       })
       const formData = { is_active: data }
-      console.log(formData)
+
       const response = await API.put(
         EndPoints.MATERIAL + '/active/' + id,
         formData
@@ -260,7 +259,7 @@ export const getMaterialById = (id) => {
       })
 
       const response = await API.get(EndPoints.MATERIAL + '/' + id)
-      // console.log(EndPoints.SIZE + '/' + id)
+
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: FETCH_MATERIAL_ID_SUCCESS,
@@ -276,9 +275,7 @@ export const getMaterialById = (id) => {
 }
 
 export const updateMaterial = (id, data) => {
-  // console.log(data.image)
   return async (dispatch) => {
-    // console.log('img', data.image.file)
     try {
       dispatch({
         type: UPDATE_MATERIAL_REQUEST
@@ -296,7 +293,6 @@ export const updateMaterial = (id, data) => {
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {
-        console.log(response.data.data)
         dispatch({
           type: UPDATE_MATERIAL_SUCCESS,
           payload: response.data.data

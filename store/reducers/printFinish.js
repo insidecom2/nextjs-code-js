@@ -178,8 +178,15 @@ export const createPrintFinish = (data) => {
       dispatch({
         type: CREATE_PRINT_FINISH_REQUEST
       })
+      const formData = new FormData()
+      formData.set('name', data.name)
+      formData.set('code', data.code)
+      formData.append('image', data.image)
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
 
-      const response = await API.post(EndPoints.PRINT_FINISH, data)
+      const response = await API.post(EndPoints.PRINT_FINISH, formData, config)
 
       if (
         response.status === HTTP_STATUS_CODE.OK ||
@@ -231,7 +238,7 @@ export const getPrintFinishById = (id) => {
       })
 
       const response = await API.get(EndPoints.PRINT_FINISH + '/' + id)
-      // console.log(EndPoints.SIZE + '/' + id)
+     
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: FETCH_PRINT_FINISH_ID_SUCCESS,
@@ -247,7 +254,7 @@ export const getPrintFinishById = (id) => {
 }
 
 
-export const isActivePrintFinish = (id, data) => {
+export const updateActivePrintFinish = (id, data) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -276,16 +283,16 @@ export const isActivePrintFinish = (id, data) => {
 }
 
 export const updatePrintFinish = (id, data) => {
-  // console.log(data.image)
+
   return async (dispatch) => {
-    // console.log('img', data.image.file)
+
     try {
       dispatch({
         type: UPDATE_PRINT_FINISH_REQUEST
       })
       const formData = new FormData()
       formData.set('name', data.name)
-      formData.set('code', data.name)
+      formData.set('code', data.code)
       formData.append('image', data.image)
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
@@ -296,7 +303,7 @@ export const updatePrintFinish = (id, data) => {
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {
-        console.log(response.data.data)
+     
         dispatch({
           type: UPDATE_PRINT_FINISH_SUCCESS,
           payload: response.data.data

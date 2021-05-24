@@ -10,6 +10,7 @@ import { ConfigProvider } from 'antd'
 import { AuthProvider } from 'components/AuthProvider'
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;500&family=Open+Sans:wght@400;700&display=swap');
   * {
   box-sizing: border-box;
   word-wrap: break-word;
@@ -23,13 +24,32 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
     background-color: #FFFFFF;
   }
+    
+  .ant-form-item {
+    margin-bottom: 5px !important;
+  }
   
   .ant-table-tbody > tr {
     cursor: pointer;
   }
-
+  
   .ant-divider-horizontal {
-    margin: 12px 0 !important;
+    margin: 0 0 !important;
+  }
+
+  .ant-layout-content {
+    background:#F0EEFF !important;
+  }
+
+  .ant-layout-content .ant-col.ant-col-6 .jamDOl,.ant-layout-content .ant-col.jamDOl {
+    background: #FFFFFF !important;
+    mix-blend-mode: normal !important;
+    border-radius: 30px !important;
+  }
+  
+  .ant-layout-content {
+    padding:0 !important;
+    margin:0 !important;
   }
 `
 
@@ -41,7 +61,7 @@ const WrappedApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Digibox Dashboard</title>
+        <title>Digiboxs</title>
       </Head>
       <GlobalStyle />
       <PersistGate persistor={store.__persistor} loading={null}>

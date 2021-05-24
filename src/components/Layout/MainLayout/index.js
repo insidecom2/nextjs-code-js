@@ -1,30 +1,46 @@
 import React, { useState } from 'react'
 import { Layout, Menu, Divider, Avatar, Dropdown } from 'antd'
 import {
-  SettingOutlined,
-  PieChartOutlined,
+  AntDesignOutlined,
+  AppstoreOutlined,
+  BgColorsOutlined,
+  HddFilled,
+  ControlFilled,
   UserOutlined,
-  ShoppingOutlined
+  ShoppingOutlined,
+  TrophyOutlined,
+  SendOutlined,
+  HomeOutlined
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logout } from 'store/reducers/auth'
-
+import { setMenu } from 'store/reducers/menu'
+import { HeaderEx, MenuEx, SiderEx } from 'styles/layout/index.style'
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
+import AvatarStatus from 'components/Shared/AvatarStatus'
 
 const MainLayout = (props) => {
   const router = useRouter()
   const [collapsed, setCollapsed] = useState(false)
   const dispatch = useDispatch()
 
+  const { selectedMenu } = useSelector(
+    (state) => ({
+      selectedMenu: state.menu.selectedMenu
+    }),
+    []
+  )
+
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
 
-  const onClick = async (url) => {
+  const onClick = async (e, url) => {
     await router.push(`/${url}`)
+    await dispatch(setMenu(e.key))
   }
 
   const menu = (
@@ -43,57 +59,99 @@ const MainLayout = (props) => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <SiderEx collapsible collapsed={collapsed} onCollapse={onCollapse} >
         <div style={{ textAlign: 'center', marginTop: 15 }}>
-          <TitleDashboard>Digibox Dashboard</TitleDashboard>
+          <TitleDashboard>Digiboxs</TitleDashboard>
         </div>
         <Divider />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+        <MenuEx
+          selectedKeys={[selectedMenu]}
+          mode="inline"
+          defaultOpenKeys={['sub1']}>
           <Menu.Item
             key="1"
-            icon={<PieChartOutlined />}
-            onClick={() => onClick('dashboard')}>
-            Dashboard
+            icon={<AppstoreOutlined />}
+            onClick={(e) => onClick(e, 'dashboard')}>
+            แดชบอร์ด
           </Menu.Item>
           <Menu.Item
-            key="9"
-            icon={<ShoppingOutlined />}
-            onClick={() => onClick('product')}>
-            Products
+            key="15"
+            icon={<HomeOutlined />}
+            onClick={(e) => onClick(e, 'home')}>
+            หน้าแรก
           </Menu.Item>
-          <SubMenu key="sub1" icon={<SettingOutlined />} title="Setting">
-            <Menu.Item key="2" onClick={() => onClick('category')}>
-              Category
+          <Menu.Item
+            key="2"
+            icon={<ShoppingOutlined />}
+            onClick={(e) => onClick(e, 'product')}>
+            สินค้า
+          </Menu.Item>
+          <Menu.Item
+            key="3"
+            icon={<AntDesignOutlined />} onClick={(e) => onClick(e, 'broadcast')}
+            >
+            บรอดแคสต์
+          </Menu.Item>
+          <Menu.Item
+            key="4"
+            icon={<TrophyOutlined />} onClick={(e) => onClick(e, 'broadcast')}
+            >
+            จัดการแคมเปญ
+          </Menu.Item>
+          <Menu.Item
+            key="5"
+            icon={<BgColorsOutlined />} onClick={(e) => onClick(e, 'broadcast')}
+            >
+            จัดการธีม
+          </Menu.Item>
+          <Menu.Item
+            key="6"
+            icon={<HddFilled />}
+            onClick={(e) => onClick(e, 'media')}>
+            คลังจัดเก็บ
+          </Menu.Item>
+          <Menu.Item
+            key="7"
+            icon={<SendOutlined />} onClick={(e) => onClick(e, 'broadcast')}
+            >
+           การจัดส่ง
+          </Menu.Item>
+          <SubMenu key="sub1" icon={<ControlFilled />} title="ตั้งค่า">
+            <Menu.Item key="8" onClick={(e) => onClick(e, 'category')}>
+             หมวดหมู่
             </Menu.Item>
-            <Menu.Item key="3" onClick={() => onClick('type')}>
-              Type
+            <Menu.Item key="9" onClick={(e) => onClick(e, 'type')}>
+             ประเภท
             </Menu.Item>
-            <Menu.Item key="4" onClick={() => onClick('style')}>
-              Style
+            <Menu.Item key="10" onClick={(e) => onClick(e, 'style')}>
+              คุณลักษณะ
             </Menu.Item>
-            <Menu.Item key="5" onClick={() => onClick('size')}>
-              Size
+            <Menu.Item key="11" onClick={(e) => onClick(e, 'size')}>
+             ขนาด
             </Menu.Item>
-            <Menu.Item key="6" onClick={() => onClick('material')}>
-              Material
+            <Menu.Item key="12" onClick={(e) => onClick(e, 'material')}>
+               วัสดุ
             </Menu.Item>
-            <Menu.Item key="7" onClick={() => onClick('printFinish')}>
-              Print Finish
+            <Menu.Item key="13" onClick={(e) => onClick(e, 'printFinish')}>
+            พิมพ์เสร็จสิ้น
             </Menu.Item>
-            <Menu.Item key="8" onClick={() => onClick('printSides')}>
-              Print Sides
+            <Menu.Item key="14" onClick={(e) => onClick(e, 'printSides')}>
+            พิมพ์ด้าน
             </Menu.Item>
           </SubMenu>
-        </Menu>
-      </Sider>
+        </MenuEx>
+      </SiderEx>
       <Layout>
-        <Header style={{ padding: 0 }}>
+        <HeaderEx style={{ padding: 0 }}>
           <div style={{ float: 'right', margin: '0 10px', cursor: 'pointer' }}>
+            <AvatarStatus name={'George Martin'} status={'Admin'}/>
             <Dropdown overlay={menu} trigger={['click']}>
+             
               <Avatar size="large" icon={<UserOutlined />} />
+             
             </Dropdown>
           </div>
-        </Header>
+        </HeaderEx>
         <Content style={{ margin: '0 16px', padding: 10 }}>
           {props.children}
         </Content>

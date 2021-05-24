@@ -36,7 +36,7 @@ const initialState = {
 
 // Default Reducer
 const style = (state = initialState, action) => {
-  // console.log(action)
+
   switch (action.type) {
     case UPDATE_STYLE_REQUEST:
       return {
@@ -174,7 +174,18 @@ export const createStyle = (data) => {
         type: CREATE_STYLE_REQUEST
       })
 
-      const response = await API.post(EndPoints.STYLE, data)
+      const formData = new FormData();
+      formData.set('name', data.name)
+      formData.set('render_2d', data.render_2d)
+      formData.set('render_3d', data.render_3d)
+      formData.set('video_link', data.video_link)
+      formData.append('image', data.image)
+
+      const config = {
+        headers: {'content-type': 'multipart/form-data'}
+      }
+
+      const response = await API.post(EndPoints.STYLE, formData, config)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
@@ -215,7 +226,7 @@ export const deleteStyle = (id) => {
   }
 }
 
-export const isActiveStyle = (id, data) => {
+export const updateActiveStyle = (id, data) => {
   
   return async (dispatch) => {
     try {
@@ -223,7 +234,7 @@ export const isActiveStyle = (id, data) => {
         type: UPDATE_STYLE_ACTIVE_REQUEST
       })
       let formData = { is_active: data }
-      console.log(formData)
+
       const response = await API.put(
         EndPoints.STYLE + '/active/' + id,
         formData
@@ -254,7 +265,7 @@ export const getStyleById = (id) => {
       })
 
       const response = await API.get(EndPoints.STYLE + '/' + id)
-      // console.log(EndPoints.SIZE + '/' + id)
+     
       if (response.status === HTTP_STATUS_CODE.OK) {
 
         dispatch({
@@ -272,9 +283,9 @@ export const getStyleById = (id) => {
 
 export const updateStyle = (id, data) => {
 
-  // console.log(data.image)
+
   return async (dispatch) => {
-    // console.log('img', data.image.file)
+  
     try {
       dispatch({
         type: UPDATE_STYLE_REQUEST
@@ -290,7 +301,7 @@ export const updateStyle = (id, data) => {
       const config = {
         headers: {'content-type': 'multipart/form-data'}
       }
-    //  console.log(config)
+  
       const response = await API.put(
         EndPoints.STYLE + '/' + id,
         formData
@@ -298,7 +309,7 @@ export const updateStyle = (id, data) => {
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {
-        console.log(response.data.data)
+     
         dispatch({
           type: UPDATE_STYLE_SUCCESS,
           payload: response.data.data
