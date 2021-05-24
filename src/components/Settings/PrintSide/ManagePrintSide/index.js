@@ -4,6 +4,7 @@ import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
 import { useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { ACTION } from 'utils/constants.js'
+import { beforeUpload, getBase64 } from 'utils/images'
 const ManagePrintSide = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
@@ -25,7 +26,7 @@ const ManagePrintSide = (props) => {
     const data = {
       name: values.name,
       code: values.code,
-      image: values.image===undefined?"":values.image.file.originFileObj
+      image: values.image||values.image.file.originFileObj
     }
     onOk(typeId, data)
   }
@@ -40,22 +41,6 @@ useEffect(() => {
 setimageUrl(defaultImage);
 },[PrintSideValue]);
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
- }
-   function beforeUpload(file) {
-     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-     if (!isJpgOrPng) {
-       message.error('You can only upload JPG/PNG file!');
-     }
-     const isLt2M = file.size / 1024 / 1024 < 2;
-     if (!isLt2M) {
-       message.error('Image must smaller than 2MB!');
-     }
-     return isJpgOrPng && isLt2M;
-   }
    const handleChange = info => {
      if (info.file.status === 'uploading') {
        setloading(true)

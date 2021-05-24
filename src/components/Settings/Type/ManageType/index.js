@@ -7,6 +7,7 @@ import { ACTION } from 'utils/constants.js'
 import _ from 'lodash'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getCategoryList } from 'store/reducers/category'
+import { beforeUpload, getBase64 } from 'utils/images'
 
 const ManageType = (props) => {
   const { visible, onOk, onCancel, action, typeSelected } = props
@@ -25,7 +26,7 @@ const ManageType = (props) => {
     const data = {
       code: values.code,
       name: values.name,
-      image: values.image === undefined ? '' : values.image.file.originFileObj,
+      image: values.image || values.image.file.originFileObj,
       category: values.category
     }
 
@@ -54,24 +55,7 @@ const ManageType = (props) => {
       setImageUrl(typeSelected.image)
     }
   }, [typeSelected])
-
-
-  function getBase64(img, callback) {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => callback(reader.result))
-    reader.readAsDataURL(img)
-  }
-  function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!')
-    }
-    return isJpgOrPng && isLt2M
-  }
+  
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
       setLoading(true)

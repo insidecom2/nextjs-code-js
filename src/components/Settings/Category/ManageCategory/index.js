@@ -11,7 +11,7 @@ const ManageCategory = (props) => {
   const { typeId, CategoryValue } = useSelector(
     (state) => ({
       CategoryValue: state.category.category,
-      typeId: action === 'Edit' ? state.category.category.id : ''
+      typeId: action === ACTION.EDIT ? state.category.category.id : ''
     }),
     []
   )

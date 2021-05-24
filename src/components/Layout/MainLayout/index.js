@@ -9,7 +9,8 @@ import {
   UserOutlined,
   ShoppingOutlined,
   TrophyOutlined,
-  SendOutlined
+  SendOutlined,
+  HomeOutlined
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
@@ -72,6 +73,12 @@ const MainLayout = (props) => {
             icon={<AppstoreOutlined />}
             onClick={(e) => onClick(e, 'dashboard')}>
             แดชบอร์ด
+          </Menu.Item>
+          <Menu.Item
+            key="15"
+            icon={<HomeOutlined />}
+            onClick={(e) => onClick(e, 'home')}>
+            หน้าแรก
           </Menu.Item>
           <Menu.Item
             key="2"
