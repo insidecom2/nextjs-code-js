@@ -11,3 +11,5 @@ export const MATERIAL = `/material`
 export const PRINT_FINISH = `/print-finish`
 export const PRINT_SIDE = `/print-side`
 export const MEDIA = `/media`
+export const CONTENT_TYPE = `/content-type`
+export const CONTENT = `/content`

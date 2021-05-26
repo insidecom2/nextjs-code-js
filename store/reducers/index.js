@@ -10,6 +10,8 @@ import printSide from 'store/reducers/printSide'
 import products from 'store/reducers/products'
 import menu from 'store/reducers/menu'
 import media from 'store/reducers/media'
+import contentType from 'store/reducers/contentType'
+import content from 'store/reducers/content'
 
 export default combineReducers({
   auth,
@@ -22,5 +24,7 @@ export default combineReducers({
   printSide,
   products,
   menu,
-  media
+  media,
+  contentType,
+  content
 })
