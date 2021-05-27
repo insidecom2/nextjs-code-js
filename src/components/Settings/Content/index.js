@@ -8,8 +8,6 @@ import _ from 'lodash'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getContentTypeList } from 'store/reducers/contentType'
 import { beforeUpload, getBase64 } from 'utils/images'
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const ManageContent = (props) => {
   const { visible, onOk, onCancel, action, typeSelected } = props
@@ -28,7 +26,6 @@ const ManageContent = (props) => {
   )
 
   //   console.log(typeSelected)
-
   useDeepEffect(() => {
     editorRef.current = {
       CKEditor: require('@ckeditor/ckeditor5-react').CKEditor,
@@ -39,8 +36,7 @@ const ManageContent = (props) => {
 
   useDeepEffect(() => {
     async function fetchData() {
-      await dis
-      patch(getContentTypeList())
+      await dispatch(getContentTypeList())
     }
     fetchData()
   }, [])
@@ -228,30 +224,6 @@ const ManageContent = (props) => {
               <div>loading...</div>
             )}
           </div>
-        </Row>
-        <Row justify="center">
-       
-        <CKEditor
-                    editor={ ClassicEditor }
-                    data="<p>Hello from CKEditor 5!</p>"
-                    onReady={ editor => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log( 'Editor is ready to use!', editor );
-                    } }
-                    onChange={ ( event, editor ) => {
-                        const data = editor.getData();
-                        console.log( { event, editor, data } );
-                    } }
-                    onBlur={ ( event, editor ) => {
-                        console.log( 'Blur.', editor );
-                    } }
-                    onFocus={ ( event, editor ) => {
-                        console.log( 'Focus.', editor );
-                    } }
-                />
-
-
-
         </Row>
       </Form>
     </Modal>
