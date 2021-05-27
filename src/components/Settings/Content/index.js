@@ -1,38 +1,29 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, message, Modal, Row, Select, Upload } from 'antd'
+import { Button, Form, Input, Modal, Row, Select, Upload } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
-import _ from 'lodash'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getContentTypeList } from 'store/reducers/contentType'
 import { beforeUpload, getBase64 } from 'utils/images'
+import EditerCk  from 'utils/EditerCk'
+import Media from 'pages/media'
 
 const ManageContent = (props) => {
-  const { visible, onOk, onCancel, action, typeSelected } = props
+  const { visible, onOk, onCancel, action, typeSelected} = props
   const [form] = Form.useForm()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
-  const editorRef = useRef()
-  const [editorLoaded, setEditorLoaded] = useState(false)
-  const { CKEditor, ClassicEditor } = editorRef.current || {}
+  const [contentEditor,setContentEditor] = useState('')
+  const [mediaModal,setMediaModal] = useState(false)
   const { contentTypeList } = useSelector(
     (state) => ({
       contentTypeList: state.contentType.ContentTypeList
     }),
     []
   )
-
-  //   console.log(typeSelected)
-  useDeepEffect(() => {
-    editorRef.current = {
-      CKEditor: require('@ckeditor/ckeditor5-react').CKEditor,
-      ClassicEditor: require('@ckeditor/ckeditor5-build-classic')
-    }
-    setEditorLoaded(true)
-  }, [])
 
   useDeepEffect(() => {
     async function fetchData() {
@@ -46,11 +37,11 @@ const ManageContent = (props) => {
       form.setFieldsValue({
         content_type: typeSelected.content_type.id,
         title: typeSelected.title,
-        detail: typeSelected.detail,
         seo_title: typeSelected.seo_title,
         seo_meta_description: typeSelected.seo_meta_description
       })
       setImageUrl(typeSelected.image)
+      setContentEditor(typeSelected.detail)
     }
   }, [typeSelected])
 
@@ -58,7 +49,7 @@ const ManageContent = (props) => {
     const data = {
       title: values.title,
       content_type: values.content_type,
-      detail: values.detail,
+      detail: contentEditor,
       seo_title: values.seo_title,
       seo_meta_description: values.seo_meta_description,
       image: values.image === undefined ? [] : values.image.file.originFileObj
@@ -70,6 +61,8 @@ const ManageContent = (props) => {
 
     onOk(data)
   }
+
+  const changeEditor=html=>setContentEditor(html)
 
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
@@ -83,25 +76,47 @@ const ManageContent = (props) => {
     }
   }
 
+  const [addImage,setAddImage]=useState()
+
+  const insideMedia = (e) =>{
+     let GetClassName =  e.target.className || e.srcElement;
+     let GetSrcImage = e.target || e.srcElement;
+     if (String(GetClassName) === 'ant-upload-list-item-info') {
+      console.log(GetSrcImage.querySelector('.ant-upload-span a img').src)
+      setAddImage("<img src="+GetSrcImage.querySelector('.ant-upload-span a img').src+" />")
+     }
+  };
+
+  console.log(String(addImage))
+
+  const OkImg=async()=>{
+    await setContentEditor(String(addImage))
+    await setMediaModal(false)
+  }
+
   return (
     <Modal
-      width={1000}
+      width={!mediaModal?1000:1500}
       closable={false}
       title={`${action} Content`}
       visible={visible}
       destroyOnClose={true}
       footer={[
-        <Button key="cancel" onClick={onCancel}>
+        <Button key="cancel" onClick={!mediaModal?onCancel:()=>setMediaModal(false)}>
           Cancel
         </Button>,
         <Button
-          form="ManageContentType"
-          key="ok"
+          onClick={mediaModal&&(OkImg)}
+          form={!mediaModal?"ManageContentType":{}}
+          key={!mediaModal?"ok":{}}
           type="primary"
-          htmlType="submit">
-          Submit
+          htmlType={!mediaModal?"submit":{}}
+          >
+          {!mediaModal?"Submit":"Ok"}
         </Button>
       ]}>
+        {
+        !mediaModal?
       <Form
         form={form}
         name="ManageContentType"
@@ -135,16 +150,15 @@ const ManageContent = (props) => {
           ]}>
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Detail"
-          name="detail"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Detail!'
-            }
-          ]}>
-          <Input />
+        <Form.Item>
+<div className="mt-4">
+            <Button onClick={()=>setMediaModal(true)} style={{marginBottom:10}}>เพิ่มสื่อ</Button>
+              <EditerCk
+               textData={contentEditor}
+               changeEditor={changeEditor}
+              />
+
+          </div>
         </Form.Item>
         <Form.Item
           label="Seo title"
@@ -200,32 +214,9 @@ const ManageContent = (props) => {
               </div>
             </Upload>
           </Form.Item>
-          <div className="mt-4">
-            <h2>Using CKEditor 5 build in React</h2>
-            {editorLoaded ? (
-              <CKEditor
-                editor={ClassicEditor}
-                data="<p>Hello from CKEditor 5!</p>"
-                onReady={(editor) => {
-                  console.log('Editor is ready to use!', editor)
-                }}
-                onChange={(event, editor) => {
-                  const data = editor.getData()
-                  console.log({ event, editor, data })
-                }}
-                onBlur={(event, editor) => {
-                  console.log('Blur.', editor)
-                }}
-                onFocus={(event, editor) => {
-                  console.log('Focus.', editor)
-                }}
-              />
-            ) : (
-              <div>loading...</div>
-            )}
-          </div>
         </Row>
       </Form>
+    :<div onClick={insideMedia}><Media  /> </div>}
     </Modal>
   )
 }
