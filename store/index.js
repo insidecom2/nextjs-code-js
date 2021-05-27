@@ -17,13 +17,11 @@ const makeStore = ({ isServer }) => {
   } else {
     const { persistStore, persistReducer } = require('redux-persist')
     const storage = require('redux-persist/lib/storage').default
-
     const persistConfig = {
       key: 'app',
       whitelist: ['auth', 'menu'],
       storage
     }
-
     const persistedReducer = persistReducer(persistConfig, rootReducer)
 
     const store = createStore(
