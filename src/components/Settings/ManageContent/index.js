@@ -7,17 +7,20 @@ import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getContentTypeList } from 'store/reducers/contentType'
 import { beforeUpload, getBase64 } from 'utils/images'
-import EditerCk  from 'utils/EditerCk'
-import Media from 'pages/media'
+import _ from 'lodash'
+import Editor from 'components/Shared/TextEditor'
+import SelectMedia from 'components/Settings/ManageContent/SelectMedia'
 
 const ManageContent = (props) => {
-  const { visible, onOk, onCancel, action, typeSelected} = props
+  const { visible, onOk, onCancel, action, typeSelected } = props
   const [form] = Form.useForm()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
-  const [contentEditor,setContentEditor] = useState('')
-  const [mediaModal,setMediaModal] = useState(false)
+  const [contentEditor, setContentEditor] = useState('')
+  const [mediaModal, setMediaModal] = useState(false)
+  const [imageList, setImageList] = useState([])
+
   const { contentTypeList } = useSelector(
     (state) => ({
       contentTypeList: state.contentType.ContentTypeList
@@ -62,7 +65,7 @@ const ManageContent = (props) => {
     onOk(data)
   }
 
-  const changeEditor=html=>setContentEditor(html)
+  const changeEditor = (html) => setContentEditor(html)
 
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
@@ -76,52 +79,14 @@ const ManageContent = (props) => {
     }
   }
 
-  const [addImage,setAddImage]=useState()
-
-  const insideMedia = (e) =>{
-     let GetClassName =  e.target.className || e.srcElement;
-     let GetSrcImage = e.target || e.srcElement;
-     if (String(GetClassName) === 'ant-upload-list-item-info') {
-      // console.log(GetSrcImage.querySelector('.ant-upload-span a img').src)
-      setAddImage("<img src="+GetSrcImage.querySelector('.ant-upload-span a img').src+" />")
-     }
-  };
-
-  const [textCursor,setTextCursor] = useState(null);
-
-  const OkImg=async()=>{
-     console.log('Cursor',textCursor)
-    if (textCursor !== null) {
-      let arr = textCursor.text;
-      arr.splice(textCursor.start,textCursor.end,String(addImage))
-      let result = arr.join('');
-      // console.log('result',result)
-      await setContentEditor(String(result))
-    }
-    await setMediaModal(false)
-    await setTextCursor(null)
+  const okSelect = () => {
+    setMediaModal(false)
   }
 
-  const insideCK =()=>{
-    let el = document.getSelection();
-    let start = el.anchorOffset;
-    let end = el.focusOffset;
-    let text = String(contentEditor);
-    // let diff = Math.abs(start - end);
-    let arr = text.split('');
-    // arr.splice(start,end,'ok')
-    // console.log(arr)
-    setTextCursor(
-        {
-         start:start,
-         end:end,
-         text:arr 
-        }
-    )
-  
-  };
+  const cancelSelect = () => {
+    setMediaModal(false)
+  }
 
-  console.log('state',contentEditor)
   return (
     <Modal
       width={1500}
@@ -130,21 +95,17 @@ const ManageContent = (props) => {
       visible={visible}
       destroyOnClose={true}
       footer={[
-        <Button key="cancel" onClick={!mediaModal?onCancel:()=>setMediaModal(false)}>
+        <Button key="cancel" onClick={onCancel}>
           Cancel
         </Button>,
         <Button
-          onClick={mediaModal&&(OkImg)}
-          form={!mediaModal?"ManageContentType":{}}
-          key={!mediaModal?"ok":{}}
+          form="ManageContentType"
+          key="ok"
           type="primary"
-          htmlType={!mediaModal?"submit":{}}
-          >
-          {!mediaModal?"Submit":"Ok"}
+          htmlType="submit">
+          Submit
         </Button>
       ]}>
-        {
-        !mediaModal?
       <Form
         form={form}
         name="ManageContentType"
@@ -179,13 +140,13 @@ const ManageContent = (props) => {
           <Input />
         </Form.Item>
         <Form.Item>
-<div className="mt-4">
-            <Button onClick={()=>setMediaModal(true)} style={{marginBottom:10}}>เพิ่มสื่อ</Button>
-            <div onClick={insideCK}><EditerCk
-               textData={contentEditor}
-               changeEditor={changeEditor}
-              />
-            </div>
+          <div className="mt-4">
+            <Button
+              onClick={() => setMediaModal(true)}
+              style={{ marginBottom: 10 }}>
+              เพิ่มสื่อ
+            </Button>
+            <Editor textData={contentEditor} changeEditor={changeEditor} />
           </div>
         </Form.Item>
         <Form.Item
@@ -243,8 +204,15 @@ const ManageContent = (props) => {
             </Upload>
           </Form.Item>
         </Row>
+        {mediaModal && (
+          <SelectMedia
+            visible={mediaModal}
+            onCancel={cancelSelect}
+            onOk={okSelect}
+            setImageList={setImageList}
+          />
+        )}
       </Form>
-    :<div onClick={insideMedia}><Media  /> </div>}
     </Modal>
   )
 }

@@ -21,6 +21,16 @@ const media = () => {
     StartDate.getFullYear(),
     ('0' + (StartDate.getMonth() + 1)).slice(-2)
   ])
+  const [modalRemoveMedia, setModalRemoveMedia] = useState(false)
+  const [urlImageName, setUrlImageName] = useState()
+
+  useDeepEffect(() => {
+    fetchData(defaultDate[0], defaultDate[1])
+  }, [])
+
+  useDeepEffect(() => {
+    setDefaultImg()
+  }, [mediaList])
 
   const { mediaList } = useSelector(
     (state) => ({
@@ -53,17 +63,6 @@ const media = () => {
     }
     onOkUpload(data)
   }
-
-  const [modalRemoveMedia, setModalRemoveMedia] = useState(false)
-  const [urlImageName, setUrlImageName] = useState()
-
-  useDeepEffect(() => {
-    fetchData(defaultDate[0], defaultDate[1])
-  }, [])
-
-  useDeepEffect(() => {
-    setDefaultImg()
-  }, [mediaList])
 
   const confirm = async () => {
     if (!statusPreview) {
@@ -108,7 +107,6 @@ const media = () => {
             <Typography.Title level={3}>Media</Typography.Title>
           </Col>
         </Row>
-
         <Row>
           <Form
             form={form}

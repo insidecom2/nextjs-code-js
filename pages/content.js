@@ -13,7 +13,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import ManageContent from 'components/Settings/Content'
+import ManageContent from 'components/Settings/ManageContent'
 import {
   createContent,
   deleteContent,

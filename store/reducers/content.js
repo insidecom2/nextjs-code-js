@@ -3,24 +3,21 @@ import * as EndPoints from 'api/EndPoints'
 import { HTTP_STATUS_CODE, RESPONSE_MESSAGE } from 'utils/constants'
 import { message } from 'antd'
 
-const FETCH_CONTENT_LIST_REQUEST =
-  'Content/FETCH_CONTENT_LIST_REQUEST'
-const FETCH_CONTENT_LIST_SUCCESS =
-  'Content/FETCH_CONTENT_LIST_SUCCESS'
-const FETCH_CONTENT_LIST_FAILURE =
-  'Content/FETCH_CONTENT_LIST_FAILURE' 
+const FETCH_CONTENT_LIST_REQUEST = 'ManageContent/FETCH_CONTENT_LIST_REQUEST'
+const FETCH_CONTENT_LIST_SUCCESS = 'ManageContent/FETCH_CONTENT_LIST_SUCCESS'
+const FETCH_CONTENT_LIST_FAILURE = 'ManageContent/FETCH_CONTENT_LIST_FAILURE'
 
-const DELETE_CONTENT_REQUEST = 'Content/DELETE_CONTENT_REQUEST'
-const DELETE_CONTENT_SUCCESS = 'Content/DELETE_CONTENT_SUCCESS'
-const DELETE_CONTENT_FAILURE = 'Content/DELETE_CONTENT_FAILURE'
+const DELETE_CONTENT_REQUEST = 'ManageContent/DELETE_CONTENT_REQUEST'
+const DELETE_CONTENT_SUCCESS = 'ManageContent/DELETE_CONTENT_SUCCESS'
+const DELETE_CONTENT_FAILURE = 'ManageContent/DELETE_CONTENT_FAILURE'
 
-const UPDATE_CONTENT_REQUEST = 'Content/UPDATE_CONTENT_REQUEST'
-const UPDATE_CONTENT_SUCCESS = 'Content/UPDATE_CONTENT_SUCCESS'
-const UPDATE_CONTENT_FAILURE = 'Content/UPDATE_CONTENT_FAILURE'
+const UPDATE_CONTENT_REQUEST = 'ManageContent/UPDATE_CONTENT_REQUEST'
+const UPDATE_CONTENT_SUCCESS = 'ManageContent/UPDATE_CONTENT_SUCCESS'
+const UPDATE_CONTENT_FAILURE = 'ManageContent/UPDATE_CONTENT_FAILURE'
 
-const CREATE_CONTENT_REQUEST = 'Content/CREATE_CONTENT_REQUEST'
-const CREATE_CONTENT_SUCCESS = 'Content/CREATE_CONTENT_SUCCESS'
-const CREATE_CONTENT_FAILURE = 'Content/CREATE_CONTENT_FAILURE'
+const CREATE_CONTENT_REQUEST = 'ManageContent/CREATE_CONTENT_REQUEST'
+const CREATE_CONTENT_SUCCESS = 'ManageContent/CREATE_CONTENT_SUCCESS'
+const CREATE_CONTENT_FAILURE = 'ManageContent/CREATE_CONTENT_FAILURE'
 
 // Initialize State
 const initialState = {
@@ -50,38 +47,38 @@ const content = (state = initialState, action) => {
         error: action.error,
         isLoading: false
       }
-      case UPDATE_CONTENT_REQUEST:
-        return {
-          ...state,
-          isLoading: true
-        }
-      case UPDATE_CONTENT_SUCCESS:
-        return {
-          ...state,
-          isLoading: false
-        }
-      case UPDATE_CONTENT_FAILURE:
-        return {
-          ...state,
-          error: action.error,
-          isLoading: false
-        }  
-        case CREATE_CONTENT_REQUEST:
-            return {
-              ...state,
-              isLoading: true
-            }
-          case CREATE_CONTENT_SUCCESS:
-            return {
-              ...state,
-              isLoading: false
-            }
-          case CREATE_CONTENT_FAILURE:
-            return {
-              ...state,
-              error: action.error,
-              isLoading: false
-            }  
+    case UPDATE_CONTENT_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case UPDATE_CONTENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case UPDATE_CONTENT_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
+    case CREATE_CONTENT_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case CREATE_CONTENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case CREATE_CONTENT_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
     default:
       return state
   }
@@ -100,7 +97,6 @@ export const getContentList = () => {
       const response = await API.get(EndPoints.CONTENT)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
-
         dispatch({
           type: FETCH_CONTENT_LIST_SUCCESS,
           payload: response.data.data
@@ -115,117 +111,109 @@ export const getContentList = () => {
 }
 
 export const deleteContent = (id) => {
-    return async (dispatch) => {
-      try {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: DELETE_CONTENT_REQUEST
+      })
+
+      const response = await API.delete(EndPoints.CONTENT + `/${id}`)
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
-          type: DELETE_CONTENT_REQUEST
+          type: DELETE_CONTENT_SUCCESS
         })
-  
-        const response = await API.delete(EndPoints.CONTENT + `/${id}`)
-  
-        if (response.status === HTTP_STATUS_CODE.OK) {
-          dispatch({
-            type: DELETE_CONTENT_SUCCESS
-          })
-          message.success(RESPONSE_MESSAGE.DELETED)
-        }
-      } catch (err) {
-        message.error(RESPONSE_MESSAGE.FAILURE)
-        dispatch({
-          type: DELETE_CONTENT_FAILURE
-        })
+        message.success(RESPONSE_MESSAGE.DELETED)
       }
+    } catch (err) {
+      message.error(RESPONSE_MESSAGE.FAILURE)
+      dispatch({
+        type: DELETE_CONTENT_FAILURE
+      })
     }
   }
+}
 
 export const createContent = (data) => {
-    return async (dispatch) => {
-      try {
-        dispatch({
-          type: CREATE_CONTENT_REQUEST
-        })
-        const config = {
-          headers: { 'content-type': 'multipart/form-data' }
-        }
-  
-        const response = await API.post(EndPoints.CONTENT, data, config)
-  
-        if (response.status === HTTP_STATUS_CODE.CREATED) {
-          dispatch({
-            type: CREATE_CONTENT_SUCCESS
-          })
-          message.success(RESPONSE_MESSAGE.SUCCESS)
-        }
-      } catch (err) {
-        message.error(RESPONSE_MESSAGE.FAILURE)
-        dispatch({
-          type: CREATE_CONTENT_FAILURE
-        })
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: CREATE_CONTENT_REQUEST
+      })
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
       }
+
+      const response = await API.post(EndPoints.CONTENT, data, config)
+
+      if (response.status === HTTP_STATUS_CODE.CREATED) {
+        dispatch({
+          type: CREATE_CONTENT_SUCCESS
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      message.error(RESPONSE_MESSAGE.FAILURE)
+      dispatch({
+        type: CREATE_CONTENT_FAILURE
+      })
     }
   }
+}
 
-  export const updateActiveContent = (id, data) => {
-    return async (dispatch) => {
-      try {
+export const updateActiveContent = (id, data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_CONTENT_REQUEST
+      })
+      const formData = { is_active: data }
+
+      const response = await API.put(
+        EndPoints.CONTENT + '/active/' + id,
+        formData
+      )
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
-          type: UPDATE_CONTENT_REQUEST
+          type: UPDATE_CONTENT_SUCCESS,
+          payload: response.data.data
         })
-        const formData = { is_active: data }
-  
-        const response = await API.put(
-          EndPoints.CONTENT + '/active/' + id,
-          formData
-        )
-  
-        if (response.status === HTTP_STATUS_CODE.OK) {
-          dispatch({
-            type: UPDATE_CONTENT_SUCCESS,
-            payload: response.data.data
-          })
-          message.success(RESPONSE_MESSAGE.SUCCESS)
-        }
-      } catch (err) {
-        dispatch({
-          type: UPDATE_CONTENT_FAILURE
-        })
-        message.success(RESPONSE_MESSAGE.FAILURE)
+        message.success(RESPONSE_MESSAGE.SUCCESS)
       }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_CONTENT_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
     }
   }
+}
 
-  export const updateContent = (id, data) => {
-    return async (dispatch) => {
-      try {
-        dispatch({
-          type: UPDATE_CONTENT_REQUEST
-        })
+export const updateContent = (id, data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_CONTENT_REQUEST
+      })
 
-        const config = {
-          headers: { 'content-type': 'multipart/form-data' }
-        }
-  
-        const response = await API.put(
-          EndPoints.CONTENT + '/' + id,
-          data,config
-        )
-        if (response.status === HTTP_STATUS_CODE.OK) {
-          dispatch({
-            type: UPDATE_CONTENT_SUCCESS,
-            payload: response.data.data
-          })
-          message.success(RESPONSE_MESSAGE.SUCCESS)
-        }
-      } catch (err) {
-        dispatch({
-          type: UPDATE_CONTENT_FAILURE
-        })
-        message.success(RESPONSE_MESSAGE.FAILURE)
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
       }
+
+      const response = await API.put(EndPoints.CONTENT + '/' + id, data, config)
+      if (response.status === HTTP_STATUS_CODE.OK) {
+        dispatch({
+          type: UPDATE_CONTENT_SUCCESS,
+          payload: response.data.data
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_CONTENT_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
     }
   }
-
-
-
-
-
+}
