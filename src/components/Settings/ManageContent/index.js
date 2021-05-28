@@ -1,33 +1,61 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, message, Modal, Row, Select, Upload } from 'antd'
+import { Button, Form, Input, Modal, Row, Select, Upload } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
-import _ from 'lodash'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { getCategoryList } from 'store/reducers/category'
+import { getContentTypeList } from 'store/reducers/contentType'
 import { beforeUpload, getBase64 } from 'utils/images'
+import _ from 'lodash'
+import Editor from 'components/Shared/TextEditor'
+import SelectMedia from 'components/Settings/ManageContent/SelectMedia'
 
-const ManageType = (props) => {
+const ManageContent = (props) => {
   const { visible, onOk, onCancel, action, typeSelected } = props
   const [form] = Form.useForm()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
-  const { categoryList } = useSelector(
+  const [contentEditor, setContentEditor] = useState('')
+  const [mediaModal, setMediaModal] = useState(false)
+  const [imageList, setImageList] = useState([])
+
+  const { contentTypeList } = useSelector(
     (state) => ({
-      categoryList: state.category.categoryList
+      contentTypeList: state.contentType.ContentTypeList
     }),
     []
   )
 
+  useDeepEffect(() => {
+    async function fetchData() {
+      await dispatch(getContentTypeList())
+    }
+    fetchData()
+  }, [])
+
+  useDeepEffect(() => {
+    if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
+      form.setFieldsValue({
+        content_type: typeSelected.content_type.id,
+        title: typeSelected.title,
+        seo_title: typeSelected.seo_title,
+        seo_meta_description: typeSelected.seo_meta_description
+      })
+      setImageUrl(typeSelected.image)
+      setContentEditor(typeSelected.detail)
+    }
+  }, [typeSelected])
+
   const onFinish = (values) => {
     const data = {
-      code: values.code,
-      name: values.name,
-      image: values.image || values.image.file.originFileObj,
-      category: values.category
+      title: values.title,
+      content_type: values.content_type,
+      detail: contentEditor,
+      seo_title: values.seo_title,
+      seo_meta_description: values.seo_meta_description,
+      image: values.image === undefined ? [] : values.image.file.originFileObj
     }
 
     if (action === ACTION.EDIT) {
@@ -37,24 +65,8 @@ const ManageType = (props) => {
     onOk(data)
   }
 
-  useDeepEffect(() => {
-    async function fetchData() {
-      await dispatch(getCategoryList())
-    }
-    fetchData()
-  }, [])
+  const changeEditor = (html) => setContentEditor(html)
 
-  useDeepEffect(() => {
-    if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
-      form.setFieldsValue({
-        category: typeSelected.category.id,
-        name: typeSelected.name,
-        code: typeSelected.code
-      })
-      setImageUrl(typeSelected.image)
-    }
-  }, [typeSelected])
-  
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
       setLoading(true)
@@ -67,32 +79,49 @@ const ManageType = (props) => {
     }
   }
 
+  const okSelect = () => {
+    setMediaModal(false)
+  }
+
+  const cancelSelect = () => {
+    setMediaModal(false)
+  }
+
   return (
     <Modal
+      width={1500}
       closable={false}
-      title={`${action} Type`}
+      title={`${action} Content`}
       visible={visible}
       destroyOnClose={true}
       footer={[
         <Button key="cancel" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button form="manageType" key="ok" type="primary" htmlType="submit">
+        <Button
+          form="ManageContentType"
+          key="ok"
+          type="primary"
+          htmlType="submit">
           Submit
         </Button>
       ]}>
-      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
+      <Form
+        form={form}
+        name="ManageContentType"
+        onFinish={onFinish}
+        layout="vertical">
         <Form.Item
-          label="Category"
-          name="category"
+          label="Content type"
+          name="content_type"
           rules={[
             {
               required: true,
-              message: 'Please input your Type!'
+              message: 'Please input your content type!'
             }
           ]}>
           <Select>
-            {categoryList.map((val) => (
+            {contentTypeList.map((val) => (
               <Select.Option key={val.id} value={val.id}>
                 {val.name}
               </Select.Option>
@@ -100,23 +129,44 @@ const ManageType = (props) => {
           </Select>
         </Form.Item>
         <Form.Item
-          label="Name"
-          name="name"
+          label="Title"
+          name="title"
           rules={[
             {
               required: true,
-              message: 'Please input your name!'
+              message: 'Please input your Title!'
+            }
+          ]}>
+          <Input />
+        </Form.Item>
+        <Form.Item>
+          <div className="mt-4">
+            <Button
+              onClick={() => setMediaModal(true)}
+              style={{ marginBottom: 10 }}>
+              เพิ่มสื่อ
+            </Button>
+            <Editor textData={contentEditor} changeEditor={changeEditor} />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Seo title"
+          name="seo_title"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your seo title!'
             }
           ]}>
           <Input />
         </Form.Item>
         <Form.Item
-          label="Code"
-          name="code"
+          label="Meta description"
+          name="seo_meta_description"
           rules={[
             {
               required: true,
-              message: 'Please input your code!'
+              message: 'Please input your description!'
             }
           ]}>
           <Input />
@@ -154,16 +204,24 @@ const ManageType = (props) => {
             </Upload>
           </Form.Item>
         </Row>
+        {mediaModal && (
+          <SelectMedia
+            visible={mediaModal}
+            onCancel={cancelSelect}
+            onOk={okSelect}
+            setImageList={setImageList}
+          />
+        )}
       </Form>
     </Modal>
   )
 }
 
-ManageType.propTypes = {
+ManageContent.propTypes = {
   visible: PropTypes.bool,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
   action: PropTypes.string
 }
 
-export default ManageType
+export default ManageContent

@@ -20,6 +20,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@next/bundle-analyzer": "^9.5.2",
     "@svgr/webpack": "^5.4.0",
+    "@tinymce/tinymce-react": "^3.12.6",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",

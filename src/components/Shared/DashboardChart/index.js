@@ -8,14 +8,14 @@ import {
   BtnRight,
   BtnCenter
 } from 'styles/dashboard/index.style'
-import { LineAndChart } from 'styles/LineChart'
+import { LineAndChart } from 'styles/../Chart/LineChart'
 
 const DashboardChart = (props) => {
   const { value } = props
   const [clickDateStatus, setClickDateStatus] = useState([false, false, true])
 
   const ClickDate = (GetKeyValue) => {
-    let SetTrue = [...clickDateStatus]
+    const SetTrue = [...clickDateStatus]
     SetTrue.map((SetFalse, index) => (SetTrue[index] = false))
     SetTrue[GetKeyValue] = true
     setClickDateStatus(SetTrue)
