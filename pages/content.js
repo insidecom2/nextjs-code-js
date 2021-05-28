@@ -66,7 +66,7 @@ const content = () => {
     setVisible(false)
     setTypeSelected(null)
   }
-
+console.log(visible)
   const onOk = async (data) => {
     // console.log(data)
     await setVisible(false)
@@ -162,7 +162,7 @@ const content = () => {
           <Col span={12}>
             <Row justify="end">
               <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add ContentType
+                Add Content
               </Button>
             </Row>
           </Col>

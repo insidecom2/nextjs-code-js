@@ -61,10 +61,10 @@ const ManageContent = (props) => {
     if (action === ACTION.EDIT) {
       data.id = typeSelected.id
     }
-
     onOk(data)
   }
-
+  
+  console.log(contentEditor)
   const changeEditor = (html) => setContentEditor(html)
 
   const handleChange = (info) => {
