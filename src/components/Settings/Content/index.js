@@ -82,21 +82,49 @@ const ManageContent = (props) => {
      let GetClassName =  e.target.className || e.srcElement;
      let GetSrcImage = e.target || e.srcElement;
      if (String(GetClassName) === 'ant-upload-list-item-info') {
-      console.log(GetSrcImage.querySelector('.ant-upload-span a img').src)
+      // console.log(GetSrcImage.querySelector('.ant-upload-span a img').src)
       setAddImage("<img src="+GetSrcImage.querySelector('.ant-upload-span a img').src+" />")
      }
   };
 
-  console.log(String(addImage))
+  const [textCursor,setTextCursor] = useState(null);
 
   const OkImg=async()=>{
-    await setContentEditor(String(addImage))
+     console.log('Cursor',textCursor)
+    if (textCursor !== null) {
+      let arr = textCursor.text;
+      arr.splice(textCursor.start,textCursor.end,String(addImage))
+      let result = arr.join('');
+      // console.log('result',result)
+      await setContentEditor(String(result))
+    }
     await setMediaModal(false)
+    await setTextCursor(null)
   }
 
+  const insideCK =()=>{
+    let el = document.getSelection();
+    let start = el.anchorOffset;
+    let end = el.focusOffset;
+    let text = String(contentEditor);
+    // let diff = Math.abs(start - end);
+    let arr = text.split('');
+    // arr.splice(start,end,'ok')
+    // console.log(arr)
+    setTextCursor(
+        {
+         start:start,
+         end:end,
+         text:arr 
+        }
+    )
+  
+  };
+
+  console.log('state',contentEditor)
   return (
     <Modal
-      width={!mediaModal?1000:1500}
+      width={1500}
       closable={false}
       title={`${action} Content`}
       visible={visible}
@@ -153,11 +181,11 @@ const ManageContent = (props) => {
         <Form.Item>
 <div className="mt-4">
             <Button onClick={()=>setMediaModal(true)} style={{marginBottom:10}}>เพิ่มสื่อ</Button>
-              <EditerCk
+            <div onClick={insideCK}><EditerCk
                textData={contentEditor}
                changeEditor={changeEditor}
               />
-
+            </div>
           </div>
         </Form.Item>
         <Form.Item

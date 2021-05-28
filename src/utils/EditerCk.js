@@ -17,6 +17,7 @@ const EditerCk = props => {
      return<div>
        {editorLoaded?
          <CKEditor
+         
          editor={ClassicEditor}
          data={textData}
         //  onReady={(editor) => {
@@ -31,7 +32,7 @@ const EditerCk = props => {
         //    console.log('Blur.', editor)
         //  }}
         //  onFocus={(event, editor) => {
-        //    console.log('Focus.', editor)
+        //    console.log(editor)
         //  }}
        />:
        <div>loading...</div>
