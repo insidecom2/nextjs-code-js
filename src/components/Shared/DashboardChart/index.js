@@ -8,7 +8,7 @@ import {
   BtnRight,
   BtnCenter
 } from 'styles/dashboard/index.style'
-import { LineAndChart } from 'styles/../Chart/LineChart'
+import { LineAndChart } from 'components/Shared/Chart/LineChart'
 
 const DashboardChart = (props) => {
   const { value } = props

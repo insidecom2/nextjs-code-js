@@ -63,35 +63,38 @@ const Dashboard = (props) => {
         </Row>
         <Row gutter={16} style={{ paddingTop: '30px' }}>
           <Col span={12}>
-            <DashboardChart value='ยอดขาย' /> 
+            <DashboardChart value="ยอดขาย" />
           </Col>
           <Col span={6}>
-            <DashboardCardItem 
-               value="ความเคลื่อนไหว"
-               post='เผยแพร่ล่าสุด'
-               image="https://media.discordapp.net/attachments/775978814693441568/844072825182617670/Mask_Group.png"
-               detail={['Sale Promotion Design  “ค่าออกแบบเพียง 950 บาท”','Sale Promotion Design  “ค่าออกแบบเพียง 950 บาท”']}
-               date={['วันนี้, 3:59 am','4 พ.ค., 6:50 am']}
+            <DashboardCardItem
+              value="ความเคลื่อนไหว"
+              post="เผยแพร่ล่าสุด"
+              image="https://media.discordapp.net/attachments/775978814693441568/844072825182617670/Mask_Group.png"
+              detail={[
+                'Sale Promotion Design  “ค่าออกแบบเพียง 950 บาท”',
+                'Sale Promotion Design  “ค่าออกแบบเพียง 950 บาท”'
+              ]}
+              date={['วันนี้, 3:59 am', '4 พ.ค., 6:50 am']}
             />
           </Col>
-          <Col span={6} >
-              <Row>
-               <DashboardMSCard
-               value={56}
-               name="ข้อความ"
-               text="Since last month"
-               percent={4.5}
-               />
-              </Row>  
-              <Row style={{ paddingTop: '30px' }}>
-               <DashboardBestSell
-               name="สินค้าขายดี"
-               headText="กล่องฝาเสียบก้นเสียบ"
-               text="กระดาษอาร์ตการ์ด 350g..."
-               image="https://media.discordapp.net/attachments/775978814693441568/844101568898662420/AW_PRO-JAN_BANGKOK_1.png"
-               ratingProduct={4}
-               />
-              </Row>  
+          <Col span={6}>
+            <Row>
+              <DashboardMSCard
+                value={56}
+                name="ข้อความ"
+                text="Since last month"
+                percent={4.5}
+              />
+            </Row>
+            <Row style={{ paddingTop: '30px' }}>
+              <DashboardBestSell
+                name="สินค้าขายดี"
+                headText="กล่องฝาเสียบก้นเสียบ"
+                text="กระดาษอาร์ตการ์ด 350g..."
+                image="https://media.discordapp.net/attachments/775978814693441568/844101568898662420/AW_PRO-JAN_BANGKOK_1.png"
+                ratingProduct={4}
+              />
+            </Row>
           </Col>
         </Row>
       </div>

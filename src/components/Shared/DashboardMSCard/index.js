@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Col, Row, Typography } from 'antd'
 import { DashboardCardDiv } from 'styles/dashboard/index.style'
 import { numberWithCommas } from 'utils/number'
-import { DonutChart } from 'styles/../Chart/DonutChart'
+import { DonutChart } from 'components/Shared/Chart/DonutChart'
 
 const DashboardMSCard = (props) => {
   const { name, value, percent, text } = props
