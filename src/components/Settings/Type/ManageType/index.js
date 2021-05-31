@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, message, Modal, Row, Select, Upload } from 'antd'
+import { Button, Form, Input, Modal, Row, Select, Upload } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'

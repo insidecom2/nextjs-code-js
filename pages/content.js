@@ -66,7 +66,7 @@ const content = () => {
     setVisible(false)
     setTypeSelected(null)
   }
-console.log(visible)
+
   const onOk = async (data) => {
     // console.log(data)
     await setVisible(false)

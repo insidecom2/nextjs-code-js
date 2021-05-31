@@ -64,7 +64,7 @@ const ManageContent = (props) => {
     onOk(data)
   }
   
-  console.log(contentEditor)
+  // console.log(contentEditor)
   const changeEditor = (html) => setContentEditor(html)
 
   const handleChange = (info) => {
@@ -146,7 +146,7 @@ const ManageContent = (props) => {
               style={{ marginBottom: 10 }}>
               เพิ่มสื่อ
             </Button>
-            <Editor textData={contentEditor} changeEditor={changeEditor} />
+            <Editor textData={typeSelected.detail} changeEditor={changeEditor} />
           </div>
         </Form.Item>
         <Form.Item

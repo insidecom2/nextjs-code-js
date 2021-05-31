@@ -33,8 +33,10 @@ const SelectMedia = (props) => {
     console.log(date, dateString)
   }
 
-  const onSelectImage = (checkedValues) => {
-    setImageList(checkedValues)
+  const onSelectImage = async (checkedValues) => {
+    await document.querySelectorAll('.tox-icon.tox-tbtn__icon-wrap')[5].click()
+    
+    // setImageList(checkedValues)
   }
 
   return (
@@ -72,9 +74,9 @@ const SelectMedia = (props) => {
       <Checkbox.Group onChange={onSelectImage}>
         <Row gutter={[8, 8]}>
           {!_.isEmpty(mediaList) &&
-            mediaList.map((item) => {
+            mediaList.map((item,index) => {
               return (
-                <Col key={item.etag} span={4}>
+                <Col key={index} span={4}>
                   <MediaItem>
                     <Row>
                       <Checkbox value={item.name} />
