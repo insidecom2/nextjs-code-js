@@ -34,7 +34,7 @@ const SelectMedia = (props) => {
   }
 
   const onSelectImage = async (checkedValues) => {
-    await document.querySelectorAll('.tox-icon.tox-tbtn__icon-wrap')[5].click()
+    // await document.querySelectorAll('.tox-icon.tox-tbtn__icon-wrap')[5].click()
     
     // setImageList(checkedValues)
   }
