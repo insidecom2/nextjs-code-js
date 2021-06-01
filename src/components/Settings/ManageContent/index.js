@@ -7,7 +7,7 @@ import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getContentTypeList } from 'store/reducers/contentType'
 import { beforeUpload, getBase64 } from 'utils/images'
-import _ from 'lodash'
+import _, { map } from 'lodash'
 import Editor from 'components/Shared/TextEditor'
 import SelectMedia from 'components/Settings/ManageContent/SelectMedia'
 
@@ -20,6 +20,7 @@ const ManageContent = (props) => {
   const [contentEditor, setContentEditor] = useState('')
   const [mediaModal, setMediaModal] = useState(false)
   const [imageList, setImageList] = useState([])
+  const [abountCurSor,SetAbountCurSor]=useState()
 
   const { contentTypeList } = useSelector(
     (state) => ({
@@ -64,7 +65,6 @@ const ManageContent = (props) => {
     onOk(data)
   }
   
-  // console.log(contentEditor)
   const changeEditor = (html) => setContentEditor(html)
 
   const handleChange = (info) => {
@@ -79,8 +79,23 @@ const ManageContent = (props) => {
     }
   }
 
+  const clickCurSor =(evt,editor)=> {
+    SetAbountCurSor({
+      editor:editor
+    })
+  }
+
   const okSelect = () => {
-    setMediaModal(false)
+      for (let Count=0;Count<imageList.length;Count++) {
+        let range = abountCurSor.editor.selection.getRng();   
+        let newNode = abountCurSor.editor.getDoc().createElement( "img" );
+        newNode.src=imageList[Count]
+        range.insertNode(newNode)
+      }
+      setContentEditor(abountCurSor.editor.getContent())
+      setMediaModal(false)
+    // const pushImg = imageList.map((item)=>"<img  src={item}/>")
+    // console.log(...pushImg)
   }
 
   const cancelSelect = () => {
@@ -146,7 +161,7 @@ const ManageContent = (props) => {
               style={{ marginBottom: 10 }}>
               เพิ่มสื่อ
             </Button>
-            <Editor textData={typeSelected.detail} changeEditor={changeEditor} />
+            <Editor clickCurSor={clickCurSor}  textData={typeSelected.detail} changeEditor={changeEditor} />
           </div>
         </Form.Item>
         <Form.Item
@@ -210,6 +225,7 @@ const ManageContent = (props) => {
             onCancel={cancelSelect}
             onOk={okSelect}
             setImageList={setImageList}
+            abountCurSor={abountCurSor}
           />
         )}
       </Form>

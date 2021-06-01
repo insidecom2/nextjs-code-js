@@ -110,11 +110,6 @@ const content = () => {
       key: 'title'
     },
     {
-      title: 'detail',
-      dataIndex: 'detail',
-      key: 'detail'
-    },
-    {
       title: 'seo title',
       dataIndex: 'seo_title',
       key: 'seo_title'

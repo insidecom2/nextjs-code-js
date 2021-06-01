@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 
 const TextEditor = (props) => {
-  const { textData, changeEditor } = props
+  const { textData, changeEditor, clickCurSor } = props
   const editorRef = useRef(null)
   // const log = () => {
   //   if (editorRef.current) {
@@ -15,9 +15,10 @@ const TextEditor = (props) => {
       <Editor
         // onInit={(evt, editor) => (editorRef.current = editor)}
         onKeyUp={(evt,editor) => changeEditor(editor.getContent())}
+        onClick={(evt,editor) =>clickCurSor(evt,editor)}
         initialValue={textData}
         init={{
-          height: 500,
+          height: 800,
           menubar: false,
           image_advtab: true,
           plugins: [
@@ -27,21 +28,11 @@ const TextEditor = (props) => {
           ],
           toolbar:
             'undo redo | formatselect | ' +
-            'bold italic backcolor | image | alignleft aligncenter ' +
+            'bold italic backcolor  | alignleft aligncenter ' +
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'removeformat | help',
           content_style:
             'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-          image_list: [
-            {
-              title: 'My image 1',
-              value:
-                'https://i.pinimg.com/originals/4f/83/5f/4f835fc43e3552f4dfc9cb53f67cbf9e.jpg'
-            },
-            { title: 'My image 2', 
-              value: 'http://www.moxiecode.com/my2.gif' 
-            }
-          ]
         }}
       />
     </div>

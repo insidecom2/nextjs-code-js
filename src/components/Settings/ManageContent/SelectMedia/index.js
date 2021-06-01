@@ -1,16 +1,27 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Checkbox, Col, DatePicker, Modal, Row, Typography } from 'antd'
+import {
+  UploadOutlined
+} from '@ant-design/icons'
+import { Button, Checkbox, Col, DatePicker, Modal, Row, Typography,  Upload } from 'antd'
 import moment from 'moment'
-import { getMedia } from 'store/reducers/media'
+import { getMedia, createMedia } from 'store/reducers/media'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import { MediaItem } from 'styles/shared.style'
+import { beforeUpload, getBase64 } from 'utils/images'
 
 const SelectMedia = (props) => {
   const dispatch = useDispatch()
-  const { visible, onCancel, onOk, setImageList } = props
+  const { visible, onCancel, onOk, setImageList, abountCurSor } = props
+  const [onSubmit,setOnSubmit]=useState([])
+  const StartDate = new Date()
+  const { MonthPicker } = DatePicker
+  const [defaultDate, setDefaultDate] = useState([
+    StartDate.getFullYear(),
+    ('0' + (StartDate.getMonth() + 1)).slice(-2)
+  ])
   const { mediaList } = useSelector(
     (state) => ({
       mediaList: state.media.productsList
@@ -29,15 +40,43 @@ const SelectMedia = (props) => {
     fetchData()
   }, [])
 
-  const onChange = (date, dateString) => {
-    console.log(date, dateString)
+  const onOkUpload = async (data) => {
+    const formData = new FormData()
+    formData.append('image', data.image)
+    await dispatch(createMedia(formData))
+    await  dispatch(getMedia(defaultDate[0], defaultDate[1]))
   }
 
-  const onSelectImage = async (checkedValues) => {
-    // await document.querySelectorAll('.tox-icon.tox-tbtn__icon-wrap')[5].click()
-    
-    // setImageList(checkedValues)
+  const onFinish = (values) => {
+    const data = {
+      image: values.file.originFileObj
+    }
+    onOkUpload(data)
   }
+
+  const onChange =async(date, dateString) => {
+    const Res = dateString.split('-')
+    await dispatch(getMedia(Res[0], Res[1]))
+  }
+  
+  const onSelectImage = async(checkedValues) => {
+    await setOnSubmit(checkedValues)
+    await setImageList(checkedValues)
+  }
+
+  const propsImg = {
+    name: 'file',
+    headers: {
+      authorization: 'authorization-text',
+    },
+    onChange(info) {
+      if (info.file.status === 'uploading') {
+        return
+      }
+      onFinish(info)
+    },
+    beforeUpload(){beforeUpload}
+  };
 
   return (
     <Modal
@@ -50,25 +89,32 @@ const SelectMedia = (props) => {
         <Button key="cancel" onClick={onCancel}>
           Cancel
         </Button>,
+        abountCurSor&&onSubmit.length>0&&(
         <Button
           form="ManageContentType"
           key="ok"
           type="primary"
           onClick={() => onOk()}>
           Submit
-        </Button>
+        </Button>)
       ]}>
       <Row>
         <Col span={24}>
           <Typography.Title level={3}>Gallery</Typography.Title>
         </Col>
-        <Col span={24}>
-          <DatePicker
-            picker="month"
+        <Col span={5}>
+          <MonthPicker
+            defaultValue={moment(defaultDate[0] + '-' + defaultDate[1])}
+            size="default"
             placeholder="Select Month"
             style={{ margin: '10px' }}
             onChange={onChange}
           />
+        </Col>
+        <Col span={3}>
+           <Upload {...propsImg}>
+             <Button icon={<UploadOutlined />}>Click to Upload</Button>
+           </Upload>
         </Col>
       </Row>
       <Checkbox.Group onChange={onSelectImage}>
