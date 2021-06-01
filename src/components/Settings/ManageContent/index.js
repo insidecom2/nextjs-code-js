@@ -102,6 +102,8 @@ const ManageContent = (props) => {
     setMediaModal(false)
   }
 
+  console.log(contentEditor)
+
   return (
     <Modal
       width={1500}

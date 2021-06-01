@@ -14,8 +14,9 @@ const TextEditor = (props) => {
     <div>
       <Editor
         // onInit={(evt, editor) => (editorRef.current = editor)}
-        onKeyUp={(evt,editor) => changeEditor(editor.getContent())}
+        // onKeyUp={(evt,editor) => changeEditor(editor.getContent())}
         onClick={(evt,editor) =>clickCurSor(evt,editor)}
+        onChange={(evt,editor)=> changeEditor(editor.getContent())}
         initialValue={textData}
         init={{
           height: 800,
