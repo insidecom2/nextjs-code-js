@@ -132,23 +132,21 @@ const SelectMedia = (props) => {
            </Upload>
         </Col>
       </Row>
-      <Checkbox.Group onChange={onSelectImage}>
+      <Checkbox.Group onChange={onSelectImage} >
         <Row gutter={[8, 8]}>
           {!_.isEmpty(mediaList) &&
             mediaList.map((item,index) => {
               return (
-                <Col key={index} span={4}>
-                  <MediaItem>
+                <Col key={index} span={4} style={{display:'block',margin:'auto',maxHeight:'100%',maxWidth:'100%'}}>
+                  <MediaItem  style={{display:'block',margin:'auto',height:140,width:140,maxHeight:'100%',maxWidth:'100%'}} >
                     <Row>
-                      <Checkbox value={item.name} />
+                      <Checkbox style={{display:'block',margin:'auto',maxHeight:'100%',maxWidth:'100%'}} value={item.name} />
+                      <DeleteTwoTone onClick={()=>onRemove(index)} />
                     </Row>
-                    <img
+                    <img style={{display:'block',margin:'auto',height:100,maxHeight:'100%',maxWidth:'100%'}}
                       src={item.name}
                       alt={item.etag}
-                      width={150}
-                      height={150}
                     />
-                    <DeleteTwoTone onClick={()=>onRemove(index)} />
                   </MediaItem>
                 </Col>
               )
