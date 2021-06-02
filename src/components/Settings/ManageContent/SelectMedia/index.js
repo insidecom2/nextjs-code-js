@@ -1,20 +1,23 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
-  UploadOutlined
+  UploadOutlined,
+  DeleteTwoTone
 } from '@ant-design/icons'
 import { Button, Checkbox, Col, DatePicker, Modal, Row, Typography,  Upload } from 'antd'
 import moment from 'moment'
-import { getMedia, createMedia } from 'store/reducers/media'
+import { getMedia, createMedia, deleteMedia } from 'store/reducers/media'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import { MediaItem } from 'styles/shared.style'
-import { beforeUpload, getBase64 } from 'utils/images'
+import { beforeUpload } from 'utils/images'
 
 const SelectMedia = (props) => {
   const dispatch = useDispatch()
   const { visible, onCancel, onOk, setImageList, abountCurSor } = props
+  const [modalRemoveMedia, setModalRemoveMedia] = useState(false)
+  const [urlImageName, setUrlImageName] = useState()
   const [onSubmit,setOnSubmit]=useState([])
   const StartDate = new Date()
   const { MonthPicker } = DatePicker
@@ -78,6 +81,18 @@ const SelectMedia = (props) => {
     beforeUpload(){beforeUpload}
   };
 
+  const confirm = async () => {
+      await dispatch(deleteMedia(urlImageName))
+      await dispatch(getMedia(defaultDate[0], defaultDate[1]))
+      await setModalRemoveMedia(false)
+  };
+
+  const onRemove =async PositionOfImg => {
+      const PositionOfName = mediaList[PositionOfImg].name
+      await setUrlImageName(PositionOfName)
+      await setModalRemoveMedia(true)
+  };
+
   return (
     <Modal
       width={1200}
@@ -133,12 +148,22 @@ const SelectMedia = (props) => {
                       width={150}
                       height={150}
                     />
+                    <DeleteTwoTone onClick={()=>onRemove(index)} />
                   </MediaItem>
                 </Col>
               )
             })}
         </Row>
       </Checkbox.Group>
+       <Modal
+            title={'Are you sure to remove this image?'}
+            visible={modalRemoveMedia}
+            onOk={confirm}
+            onCancel={() => setModalRemoveMedia(false)}
+            okText="Ok"
+            cancelText="Cancel">
+            <img style={{ width: '100%' }} src={urlImageName} alt="" />
+       </Modal>
     </Modal>
   )
 }
