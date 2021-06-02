@@ -7,7 +7,6 @@ import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getContentTypeList } from 'store/reducers/contentType'
 import { beforeUpload, getBase64 } from 'utils/images'
-import _, { map } from 'lodash'
 import Editor from 'components/Shared/TextEditor'
 import SelectMedia from 'components/Settings/ManageContent/SelectMedia'
 
@@ -161,7 +160,7 @@ const ManageContent = (props) => {
               style={{ marginBottom: 10 }}>
               เพิ่มสื่อ
             </Button>
-            <Editor clickCurSor={clickCurSor}  textData={typeSelected.detail} changeEditor={changeEditor} />
+            <Editor clickCurSor={clickCurSor}  textData={action===ACTION.EDIT?typeSelected.detail:""} changeEditor={changeEditor} />
           </div>
         </Form.Item>
         <Form.Item
