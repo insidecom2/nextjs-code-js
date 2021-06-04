@@ -1,6 +1,5 @@
 const SET_MENU = 'Menu/SET_MENU'
 
-
 // Initialize State
 const initialState = {
   selectedMenu: '1'
@@ -12,7 +11,7 @@ const auth = (state = initialState, action) => {
     case SET_MENU:
       return {
         ...state,
-        selectedMenu: action.payload 
+        selectedMenu: action.payload
       }
     default:
       return state

@@ -1,16 +1,33 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import {Switch, Button, Col, Popconfirm, Row, Space, Table, Typography,Form  } from 'antd'
+import {
+  Switch,
+  Button,
+  Col,
+  Popconfirm,
+  Row,
+  Space,
+  Table,
+  Typography,
+  Form
+} from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageStyle from 'components/Settings/Style/ManageStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { createStyle, deleteStyle, getStyleList, updateActiveStyle, getStyleById, updateStyle } from 'store/reducers/style'
+import {
+  createStyle,
+  deleteStyle,
+  getStyleList,
+  updateActiveStyle,
+  getStyleById,
+  updateStyle
+} from 'store/reducers/style'
 
 const Style = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const [AntSelectNo, SetAntSelectNo] = useState(1);
+  const [AntSelectNo, SetAntSelectNo] = useState(1)
   const [form] = Form.useForm()
   const dispatch = useDispatch()
 
@@ -34,7 +51,11 @@ const Style = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{Number(styleList.findIndex(FindPos=>FindPos.id===text.id)) + 1}</span>
+      render: (text, record, index) => (
+        <span>
+          {Number(styleList.findIndex((FindPos) => FindPos.id === text.id)) + 1}
+        </span>
+      )
     },
     {
       title: 'Name',
@@ -46,7 +67,7 @@ const Style = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a  onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
@@ -89,12 +110,13 @@ const Style = (props) => {
     setVisible(false)
   }
   const setActive = async (e, record) => {
-    await dispatch(updateActiveStyle(record.id, e));
+    await dispatch(updateActiveStyle(record.id, e))
   }
 
   const onEdit = async (e, action, id) => {
-    let GetPosition = Number(styleList.findIndex(FindPos=>FindPos.id===id)) + 1;
-    SetAntSelectNo(GetPosition);
+    let GetPosition =
+      Number(styleList.findIndex((FindPos) => FindPos.id === id)) + 1
+    SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
     await dispatch(getStyleById(id))
@@ -111,35 +133,37 @@ const Style = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>Style List</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-              Add Style
-            </Button>
-          </Row>
-        </Col>
-      </Row>
-      <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={styleList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageStyle
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>Style List</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add Style
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={styleList}
+          rowKey={(record) => record.id}
         />
-      )}</div>
+        {visible && (
+          <ManageStyle
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }

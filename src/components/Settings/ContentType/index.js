@@ -23,7 +23,7 @@ const ManageContentType = (props) => {
   useDeepEffect(() => {
     if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
       form.setFieldsValue({
-        name: typeSelected.name,
+        name: typeSelected.name
       })
     }
   }, [typeSelected])
@@ -50,11 +50,19 @@ const ManageContentType = (props) => {
         <Button key="cancel" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button form="ManageContentType" key="ok" type="primary" htmlType="submit">
+        <Button
+          form="ManageContentType"
+          key="ok"
+          type="primary"
+          htmlType="submit">
           Submit
         </Button>
       ]}>
-      <Form form={form} name="ManageContentType" onFinish={onFinish} layout="vertical">
+      <Form
+        form={form}
+        name="ManageContentType"
+        onFinish={onFinish}
+        layout="vertical">
         <Form.Item
           label="Name"
           name="name"

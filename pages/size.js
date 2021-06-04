@@ -1,16 +1,33 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import { Switch, Button, Col, Popconfirm, Row, Space, Table, Typography,Form } from 'antd'
+import {
+  Switch,
+  Button,
+  Col,
+  Popconfirm,
+  Row,
+  Space,
+  Table,
+  Typography,
+  Form
+} from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageSize from 'components/Settings/Size/ManageSize'
 import { useDispatch, useSelector } from 'react-redux'
-import { createSize, deleteSize, getSizeList, getSizeTypeListById, updateActiveSizeType, updateSize } from 'store/reducers/size'
+import {
+  createSize,
+  deleteSize,
+  getSizeList,
+  getSizeTypeListById,
+  updateActiveSizeType,
+  updateSize
+} from 'store/reducers/size'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 
 const Size = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const [AntSelectNo, SetAntSelectNo] = useState(1);
+  const [AntSelectNo, SetAntSelectNo] = useState(1)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
 
@@ -34,7 +51,11 @@ const Size = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{Number(sizeList.findIndex(FindPos=>FindPos.id===text.id)) + 1}</span>
+      render: (text, record, index) => (
+        <span>
+          {Number(sizeList.findIndex((FindPos) => FindPos.id === text.id)) + 1}
+        </span>
+      )
     },
     {
       title: 'Width',
@@ -56,7 +77,7 @@ const Size = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a  onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
@@ -95,18 +116,18 @@ const Size = (props) => {
     setVisible(true)
   }
 
-
   const onCancel = () => {
     setVisible(false)
   }
 
   const setActive = async (e, record) => {
-    await dispatch(updateActiveSizeType(record.id, e));
+    await dispatch(updateActiveSizeType(record.id, e))
   }
 
   const onEdit = async (e, action, id) => {
-    let GetPosition = Number(sizeList.findIndex(FindPos=>FindPos.id===id)) + 1;
-    SetAntSelectNo(GetPosition);
+    let GetPosition =
+      Number(sizeList.findIndex((FindPos) => FindPos.id === id)) + 1
+    SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
     await dispatch(getSizeTypeListById(id))
@@ -123,33 +144,37 @@ const Size = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>Size List</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>Add Size</Button>
-          </Row>
-        </Col>
-      </Row>
-      <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={sizeList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageSize
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>Size List</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add Size
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={sizeList}
+          rowKey={(record) => record.id}
         />
-      )}</div>
+        {visible && (
+          <ManageSize
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }

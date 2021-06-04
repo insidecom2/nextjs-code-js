@@ -19,7 +19,7 @@ const ManageContent = (props) => {
   const [contentEditor, setContentEditor] = useState('')
   const [mediaModal, setMediaModal] = useState(false)
   const [imageList, setImageList] = useState([])
-  const [abountCurSor,SetAbountCurSor]=useState()
+  const [abountCurSor, SetAbountCurSor] = useState()
 
   const { contentTypeList } = useSelector(
     (state) => ({
@@ -63,7 +63,7 @@ const ManageContent = (props) => {
     }
     onOk(data)
   }
-  
+
   const changeEditor = (html) => setContentEditor(html)
 
   const handleChange = (info) => {
@@ -78,21 +78,21 @@ const ManageContent = (props) => {
     }
   }
 
-  const clickCurSor =(evt,editor)=> {
+  const clickCurSor = (evt, editor) => {
     SetAbountCurSor({
-      editor:editor
+      editor: editor
     })
   }
 
   const okSelect = () => {
-      for (let Count=0;Count<imageList.length;Count++) {
-        let range = abountCurSor.editor.selection.getRng();   
-        let newNode = abountCurSor.editor.getDoc().createElement( "img" );
-        newNode.src=imageList[Count]
-        range.insertNode(newNode)
-      }
-      setContentEditor(abountCurSor.editor.getContent())
-      setMediaModal(false)
+    for (let Count = 0; Count < imageList.length; Count++) {
+      let range = abountCurSor.editor.selection.getRng()
+      let newNode = abountCurSor.editor.getDoc().createElement('img')
+      newNode.src = imageList[Count]
+      range.insertNode(newNode)
+    }
+    setContentEditor(abountCurSor.editor.getContent())
+    setMediaModal(false)
     // const pushImg = imageList.map((item)=>"<img  src={item}/>")
     // console.log(...pushImg)
   }
@@ -160,7 +160,11 @@ const ManageContent = (props) => {
               style={{ marginBottom: 10 }}>
               เพิ่มสื่อ
             </Button>
-            <Editor clickCurSor={clickCurSor}  textData={action===ACTION.EDIT?typeSelected.detail:""} changeEditor={changeEditor} />
+            <Editor
+              clickCurSor={clickCurSor}
+              textData={action === ACTION.EDIT ? typeSelected.detail : ''}
+              changeEditor={changeEditor}
+            />
           </div>
         </Form.Item>
         <Form.Item

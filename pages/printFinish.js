@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import { Switch, Button, Col, Popconfirm, Row, Space, Table, Typography, Form } from 'antd'
+import {
+  Switch,
+  Button,
+  Col,
+  Popconfirm,
+  Row,
+  Space,
+  Table,
+  Typography,
+  Form
+} from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManagePrintFinish from 'components/Settings/PrintFinish/ManagePrintFinish'
 import { useDispatch, useSelector } from 'react-redux'
@@ -53,7 +63,7 @@ const PrintFinish = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-           <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
@@ -119,35 +129,37 @@ const PrintFinish = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>PrintFinish List</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-              Add Print Finish
-            </Button>
-          </Row>
-        </Col>
-      </Row>
-      <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={printFinishList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManagePrintFinish
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>PrintFinish List</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add Print Finish
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={printFinishList}
+          rowKey={(record) => record.id}
         />
-      )}</div>
+        {visible && (
+          <ManagePrintFinish
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }

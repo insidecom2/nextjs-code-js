@@ -27,7 +27,7 @@ import ManageCategory from 'components/Settings/Category/ManageCategory'
 const Category = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const [AntSelectNo, SetAntSelectNo] = useState(1);
+  const [AntSelectNo, SetAntSelectNo] = useState(1)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
 
@@ -107,8 +107,9 @@ const Category = (props) => {
   }
 
   const onEdit = async (e, action, id) => {
-    let GetPosition = Number(categoryList.findIndex(FindPos=>FindPos.id===id)) + 1;
-    SetAntSelectNo(GetPosition);
+    let GetPosition =
+      Number(categoryList.findIndex((FindPos) => FindPos.id === id)) + 1
+    SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
     await dispatch(getCategoryListById(id))
@@ -128,35 +129,37 @@ const Category = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>Category List</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-              Add Category
-            </Button>
-          </Row>
-        </Col>
-      </Row>
-      <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={categoryList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageCategory
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>Category List</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add Category
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={categoryList}
+          rowKey={(record) => record.id}
         />
-      )}</div>
+        {visible && (
+          <ManageCategory
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }

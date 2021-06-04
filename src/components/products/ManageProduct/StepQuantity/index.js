@@ -45,14 +45,20 @@ const StepQuantity = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{quantityList.findIndex((FindPos) => FindPos.id === text.id) + 1}</span>
+      render: (text, record, index) => (
+        <span>
+          {quantityList.findIndex((FindPos) => FindPos.id === text.id) + 1}
+        </span>
+      )
     },
     {
       title: 'Quantity',
       key: 'quantity',
       render: (text, record, index) => (
         <Form.Item
-          name={`quantity_${record.id}_${quantityList.findIndex((FindPos) => FindPos.id === text.id)}`}
+          name={`quantity_${record.id}_${quantityList.findIndex(
+            (FindPos) => FindPos.id === text.id
+          )}`}
           rules={[
             {
               required: true,
@@ -60,7 +66,13 @@ const StepQuantity = (props) => {
             },
             {
               validator: (rule, value, callback) =>
-                validateQuantity(rule, value, callback, record.id, quantityList.findIndex((FindPos) => FindPos.id === text.id))
+                validateQuantity(
+                  rule,
+                  value,
+                  callback,
+                  record.id,
+                  quantityList.findIndex((FindPos) => FindPos.id === text.id)
+                )
             }
           ]}>
           <InputNumber style={{ width: '100%' }} size="small" />
@@ -71,7 +83,11 @@ const StepQuantity = (props) => {
       title: 'Price',
       key: 'price',
       render: (text, record, index) => (
-        <Form.Item name={`price_${record.id}_${quantityList.findIndex((FindPos) => FindPos.id === text.id)}`} {...inputRule}>
+        <Form.Item
+          name={`price_${record.id}_${quantityList.findIndex(
+            (FindPos) => FindPos.id === text.id
+          )}`}
+          {...inputRule}>
           <InputNumber style={{ width: '100%' }} size="small" />
         </Form.Item>
       )
@@ -89,13 +105,13 @@ const StepQuantity = (props) => {
 
   const onClick = (e) => {
     e.preventDefault()
-    let VisualId = 0;
-    for (let Count=0; Count<quantityList.length; Count++) {
+    let VisualId = 0
+    for (let Count = 0; Count < quantityList.length; Count++) {
       if (quantityList[Count].id !== undefined) {
-        VisualId = VisualId + quantityList[Count].id;
+        VisualId = VisualId + quantityList[Count].id
       }
     }
-    VisualId++;
+    VisualId++
     setQuantityList((prevState) => {
       prevState.push({
         id: VisualId,

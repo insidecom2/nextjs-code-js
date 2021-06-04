@@ -3,19 +3,13 @@ import * as EndPoints from 'api/EndPoints'
 import { HTTP_STATUS_CODE, RESPONSE_MESSAGE } from 'utils/constants'
 import { message } from 'antd'
 
-const FETCH_PRINT_SIDE_LIST_REQUEST =
-  'PrintSide/FETCH_PRINT_SIDE_LIST_REQUEST'
-const FETCH_PRINT_SIDE_LIST_SUCCESS =
-  'PrintSide/FETCH_PRINT_SIDE_LIST_SUCCESS'
-const FETCH_PRINT_SIDE_LIST_FAILURE =
-  'PrintSide/FETCH_PRINT_SIDE_LIST_FAILURE'
+const FETCH_PRINT_SIDE_LIST_REQUEST = 'PrintSide/FETCH_PRINT_SIDE_LIST_REQUEST'
+const FETCH_PRINT_SIDE_LIST_SUCCESS = 'PrintSide/FETCH_PRINT_SIDE_LIST_SUCCESS'
+const FETCH_PRINT_SIDE_LIST_FAILURE = 'PrintSide/FETCH_PRINT_SIDE_LIST_FAILURE'
 
-const FETCH_PRINT_SIDE_ID_REQUEST =
-  'PrintSide/FETCH_PRINT_SIDE_ID_REQUEST'
-const FETCH_PRINT_SIDE_ID_SUCCESS =
-  'PrintSide/FETCH_PRINT_SIDE_ID_SUCCESS'
-const FETCH_PRINT_SIDE_ID_FAILURE =
-  'PrintSide/FETCH_PRINT_SIDE_ID_FAILURE'
+const FETCH_PRINT_SIDE_ID_REQUEST = 'PrintSide/FETCH_PRINT_SIDE_ID_REQUEST'
+const FETCH_PRINT_SIDE_ID_SUCCESS = 'PrintSide/FETCH_PRINT_SIDE_ID_SUCCESS'
+const FETCH_PRINT_SIDE_ID_FAILURE = 'PrintSide/FETCH_PRINT_SIDE_ID_FAILURE'
 
 const CREATE_PRINT_SIDE_REQUEST = 'PrintSide/CREATE_PRINT_SIDE_REQUEST'
 const CREATE_PRINT_SIDE_SUCCESS = 'PrintSide/CREATE_PRINT_SIDE_SUCCESS'
@@ -230,7 +224,7 @@ export const updateActivePrintSide = (id, data) => {
         type: ACTIVE_PRINT_SIDE_REQUEST
       })
       const formData = { is_active: data }
-  
+
       const response = await API.put(
         EndPoints.PRINT_SIDE + '/active/' + id,
         formData
@@ -256,11 +250,11 @@ export const getPrintSideById = (id) => {
   return async (dispatch) => {
     try {
       dispatch({
-        type: FETCH_PRINT_SIDE_ID_REQUEST 
+        type: FETCH_PRINT_SIDE_ID_REQUEST
       })
 
       const response = await API.get(EndPoints.PRINT_SIDE + '/' + id)
-    
+
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: FETCH_PRINT_SIDE_ID_SUCCESS,
@@ -276,9 +270,7 @@ export const getPrintSideById = (id) => {
 }
 
 export const updatePrintSide = (id, data) => {
-
   return async (dispatch) => {
-  
     try {
       dispatch({
         type: UPDATE_PRINT_SIDE_REQUEST

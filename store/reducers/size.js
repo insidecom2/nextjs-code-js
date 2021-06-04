@@ -179,7 +179,6 @@ export const getSizeTypeListById = (id) => {
       const response = await API.get(EndPoints.SIZE + '/' + id)
       // console.log(EndPoints.SIZE + '/' + id)
       if (response.status === HTTP_STATUS_CODE.OK) {
-
         dispatch({
           type: GET_SIZE_TYPE_SUCCESS,
           payload: response.data.data
@@ -242,18 +241,14 @@ export const deleteSize = (id) => {
 }
 
 export const updateActiveSizeType = (id, data) => {
-  
   return async (dispatch) => {
     try {
       dispatch({
         type: UPDATE_SIZE_ACTIVE_REQUEST
       })
       let formData = { is_active: data }
- 
-      const response = await API.put(
-        EndPoints.SIZE + '/active/' + id,
-        formData
-      )
+
+      const response = await API.put(EndPoints.SIZE + '/active/' + id, formData)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
@@ -272,18 +267,13 @@ export const updateActiveSizeType = (id, data) => {
 }
 
 export const updateSize = (id, data) => {
-  
   return async (dispatch) => {
-    
     try {
       dispatch({
         type: UPDATE_SIZE_REQUEST
       })
 
-      const response = await API.put(
-        EndPoints.SIZE + '/' + id,
-        data
-      )
+      const response = await API.put(EndPoints.SIZE + '/' + id, data)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({

@@ -53,7 +53,11 @@ const Material = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{materialList.findIndex((FindPos) => FindPos.id === text.id) + 1}</span>
+      render: (text, record, index) => (
+        <span>
+          {materialList.findIndex((FindPos) => FindPos.id === text.id) + 1}
+        </span>
+      )
     },
     {
       title: 'Name',
@@ -106,11 +110,11 @@ const Material = (props) => {
 
   const onOk = async (data) => {
     const formData = new FormData()
-      formData.set('name', data.name)
-      formData.set('code', data.code)
-      formData.append('image', data.image)
+    formData.set('name', data.name)
+    formData.set('code', data.code)
+    formData.append('image', data.image)
     await setVisible(false)
-    if (action===ACTION.CREATE) {
+    if (action === ACTION.CREATE) {
       await dispatch(createMaterial(formData))
     } else {
       await dispatch(updateMaterial(data.id, formData))
@@ -138,35 +142,37 @@ const Material = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>Material List</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-              Add Material
-            </Button>
-          </Row>
-        </Col>
-      </Row>
-      <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={materialList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageMaterial
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>Material List</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add Material
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={materialList}
+          rowKey={(record) => record.id}
         />
-      )}</div>
+        {visible && (
+          <ManageMaterial
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }

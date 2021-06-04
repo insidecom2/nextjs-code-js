@@ -172,7 +172,7 @@ export const createMaterial = (data) => {
       dispatch({
         type: CREATE_MATERIAL_REQUEST
       })
-      
+
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }

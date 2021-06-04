@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { MinusCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import {
+  MinusCircleOutlined,
+  LoadingOutlined,
+  PlusOutlined
+} from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
 import _ from 'lodash'
 import PropTypes, { arrayOf } from 'prop-types'
@@ -25,120 +29,138 @@ import TextArea from 'antd/lib/input/TextArea'
 import { getCategoryList } from 'store/reducers/category'
 import { getCategoryTypeList } from 'store/reducers/categoryType'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { deleteQuantityPrice, getProductsList, updateQuantityPrice } from 'store/reducers/products'
+import {
+  deleteQuantityPrice,
+  getProductsList,
+  updateQuantityPrice
+} from 'store/reducers/products'
 import { beforeUpload, getBase64 } from 'utils/images'
 
 const ModalQP = (props) => {
-const { QPRecord, QPNo, qpCB, ForAction, ForQPValue } = props;
-const [form] = Form.useForm()
-const dispatch = useDispatch()
+  const { QPRecord, QPNo, qpCB, ForAction, ForQPValue } = props
+  const [form] = Form.useForm()
+  const dispatch = useDispatch()
 
-useDeepEffect(() => {
-  if (String(ForAction)==="Edit") {
-     form.setFieldsValue({
-      quantity: QPRecord.quantity,
-      price: QPRecord.price
-    })
-  }
+  useDeepEffect(() => {
+    if (String(ForAction) === 'Edit') {
+      form.setFieldsValue({
+        quantity: QPRecord.quantity,
+        price: QPRecord.price
+      })
+    }
   }, [])
 
   const OnOK = async (SendQP) => {
-       await dispatch(updateQuantityPrice(QPRecord.id, SendQP))
-       await dispatch(getProductsList())
+    await dispatch(updateQuantityPrice(QPRecord.id, SendQP))
+    await dispatch(getProductsList())
   }
 
-// console.log(QPRecord)
-const onFinish = (values) => {
-let data = {
-  quantity: values.quantity,
-  price: values.price
-}
-if (String(ForAction)==="Edit") {
-  OnOK(data)
-} else
-{
-  ForQPValue(values.adds)
-}
-qpCB(false)
-}
+  // console.log(QPRecord)
+  const onFinish = (values) => {
+    let data = {
+      quantity: values.quantity,
+      price: values.price
+    }
+    if (String(ForAction) === 'Edit') {
+      OnOK(data)
+    } else {
+      ForQPValue(values.adds)
+    }
+    qpCB(false)
+  }
 
-return<>
-<label>No:{QPNo} mode:{ForAction}
-</label>
-<Form form={form} name="manageQP"  layout="vertical" onFinish={onFinish} >
-  
-  {String(ForAction)==="Edit"?<>
-<Form.Item
-            label="Quantity"
-            name="quantity"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Quantity!'
-              }
-            ]}>
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Price!'
-              }
-            ]}>
-            <Input />
-          </Form.Item>
-</>:<Form.List name="adds">
-        {(fields, { add, remove }) => (
+  return (
+    <>
+      <label>
+        No:{QPNo} mode:{ForAction}
+      </label>
+      <Form form={form} name="manageQP" layout="vertical" onFinish={onFinish}>
+        {String(ForAction) === 'Edit' ? (
           <>
-            {fields.map(({ key, name, fieldKey, ...restField }) => (
-              <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                <Form.Item
-                  {...restField}
-                  name={[name, 'quantity']}
-                  fieldKey={[fieldKey, 'quantity']}
-                  rules={[{ required: true, message: 'Missing Quantity' }]}
-                >
-                  <Input placeholder="Quantity" />
-                </Form.Item>
-                <Form.Item
-                  {...restField}
-                  name={[name, 'price']}
-                  fieldKey={[fieldKey, 'price']}
-                  rules={[{ required: true, message: 'Missing Price' }]}
-                >
-                  <Input placeholder="Price" />
-                </Form.Item>
-                <MinusCircleOutlined onClick={() => remove(name)} />
-              </Space>
-            ))}
-            <Form.Item>
-              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                Add Quantity
-              </Button>
+            <Form.Item
+              label="Quantity"
+              name="quantity"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Quantity!'
+                }
+              ]}>
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Price"
+              name="price"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Price!'
+                }
+              ]}>
+              <Input />
             </Form.Item>
           </>
+        ) : (
+          <Form.List name="adds">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, fieldKey, ...restField }) => (
+                  <Space
+                    key={key}
+                    style={{ display: 'flex', marginBottom: 8 }}
+                    align="baseline">
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'quantity']}
+                      fieldKey={[fieldKey, 'quantity']}
+                      rules={[{ required: true, message: 'Missing Quantity' }]}>
+                      <Input placeholder="Quantity" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'price']}
+                      fieldKey={[fieldKey, 'price']}
+                      rules={[{ required: true, message: 'Missing Price' }]}>
+                      <Input placeholder="Price" />
+                    </Form.Item>
+                    <MinusCircleOutlined onClick={() => remove(name)} />
+                  </Space>
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}>
+                    Add Quantity
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
         )}
-      </Form.List>
+      </Form>
+      <span>
+        <Button
+          key="CancelQP"
+          type="primary"
+          onClick={() => qpCB(false)}
+          style={{ margin: '0 8px' }}>
+          Cancel
+        </Button>
+        <Button
+          form="manageQP"
+          key="SaveQP"
+          type="primary"
+          htmlType="submit"
+          style={{ margin: '0 8px' }}>
+          Save
+        </Button>
+      </span>
+    </>
+  )
 }
-
-
- </Form> 
-<span>
-<Button key="CancelQP" type="primary" onClick={()=>qpCB(false)}  style={{ margin: '0 8px' }}>
-             Cancel
-            </Button>
-<Button form="manageQP" key="SaveQP" type="primary"  htmlType="submit"  style={{ margin: '0 8px' }}>
-             Save
-            </Button>
-  </span>  
-
-
-</>
-};
 
 const CreateProducts = (props) => {
   const { visible, onOk, onCancel, action, TrNo, typeSelected } = props
@@ -149,19 +171,19 @@ const CreateProducts = (props) => {
   const { Step } = Steps
   const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
-  const [StatusOnSelect,SetStatusOnSelect] = useState(0);
-  const [QPAction,setQPAction] = useState("")
-  const [GetQPValue, setGetQPValue] = useState([]);
-  const [EditQP,SetEditQP] = useState(false);
-  const [GetRecordQP, SetGetRecordQP] = useState();
-  const [PositionOfQP, SetPositionOfQP] = useState();
+  const [StatusOnSelect, SetStatusOnSelect] = useState(0)
+  const [QPAction, setQPAction] = useState('')
+  const [GetQPValue, setGetQPValue] = useState([])
+  const [EditQP, SetEditQP] = useState(false)
+  const [GetRecordQP, SetGetRecordQP] = useState()
+  const [PositionOfQP, SetPositionOfQP] = useState()
 
   const { categoryList, typeList, productsList, isLoading } = useSelector(
     (state) => ({
       productsList: state.products.productsList,
       categoryList: state.category.categoryList,
       typeList: state.categoryType.categoryTypeList,
-      isLoading: state.products.isLoading,
+      isLoading: state.products.isLoading
     }),
     []
   )
@@ -173,26 +195,28 @@ const CreateProducts = (props) => {
   }
 
   const next = () => {
-      setCurrent(current + 1)
+    setCurrent(current + 1)
   }
-  
+
   const prev = () => {
     setCurrent(current - 1)
   }
 
   const onSelectCategory = async (value) => {
-    await SetStatusOnSelect(1);
+    await SetStatusOnSelect(1)
     await settype(typeList.filter((key) => key.category.id == value))
   }
 
-  const CallBackQPValue=(CallQP)=>setGetQPValue(CallQP);
-  const [fileList, setFileList] = useState([]);
+  const CallBackQPValue = (CallQP) => setGetQPValue(CallQP)
+  const [fileList, setFileList] = useState([])
 
-  const setDefaultImg =()=>{
+  const setDefaultImg = () => {
     const defaultImg = []
-    const ImageList = productsList[0].product_image.map((ListImg)=>defaultImg.push({url:ListImg.image}))
+    const ImageList = productsList[0].product_image.map((ListImg) =>
+      defaultImg.push({ url: ListImg.image })
+    )
     setFileList(defaultImg)
-  };
+  }
 
   useDeepEffect(() => {
     async function fetchData() {
@@ -204,7 +228,7 @@ const CreateProducts = (props) => {
   }, [])
 
   useDeepEffect(() => {
-    if (StatusOnSelect && type.length>0) {
+    if (StatusOnSelect && type.length > 0) {
       form.setFieldsValue({
         type: type[0].id
       })
@@ -213,8 +237,12 @@ const CreateProducts = (props) => {
 
   useDeepEffect(() => {
     if (action === ACTION.EDIT && !_.isNull(typeSelected)) {
-      if (typeList.length>0) {
-         settype(typeList.filter((key) => key.category.id == typeSelected.category_type.category.id))
+      if (typeList.length > 0) {
+        settype(
+          typeList.filter(
+            (key) => key.category.id == typeSelected.category_type.category.id
+          )
+        )
       }
       form.setFieldsValue({
         code: typeSelected.code,
@@ -225,32 +253,35 @@ const CreateProducts = (props) => {
         price: typeSelected.price,
         weight: typeSelected.weight,
         size: typeSelected.size,
-        category:typeSelected.category_type.category.id, 
+        category: typeSelected.category_type.category.id,
         type: typeSelected.category_type.id
       })
-    }  
-  }, [typeList,typeSelected])
+    }
+  }, [typeList, typeSelected])
 
   const onEdit = async (e, record) => {
     const GetPosition =
-      Number(productsList[0].product_quantity_price.findIndex((FindPos) => FindPos.id === record.id)) + 1
+      Number(
+        productsList[0].product_quantity_price.findIndex(
+          (FindPos) => FindPos.id === record.id
+        )
+      ) + 1
     e.preventDefault()
-    await SetPositionOfQP(GetPosition)  
+    await SetPositionOfQP(GetPosition)
     await SetGetRecordQP(record)
-    await setQPAction("Edit")
+    await setQPAction('Edit')
     await SetEditQP(true)
   }
 
   const onClick = (e) => {
     SetPositionOfQP(productsList[0].product_quantity_price.length + 1)
     e.preventDefault()
-    setQPAction("Add")
+    setQPAction('Add')
     SetEditQP(true)
   }
 
-  const QPCallBack=(GetStatus)=>SetEditQP(GetStatus)
+  const QPCallBack = (GetStatus) => SetEditQP(GetStatus)
   const onFinish = (values) => {
-
     const dataList = {
       data: {
         code: values.code,
@@ -265,8 +296,8 @@ const CreateProducts = (props) => {
         values.image === undefined
           ? []
           : values.image.fileList.map((key) => key.originFileObj),
-      quantity: GetQPValue===undefined?[]:GetQPValue
-     }
+      quantity: GetQPValue === undefined ? [] : GetQPValue
+    }
     // console.log(dataList)
     if (action === ACTION.EDIT) {
       dataList.id = typeSelected.id
@@ -277,28 +308,28 @@ const CreateProducts = (props) => {
       next()
     }
   }
-  
-  const onPreview = async file => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(image.outerHTML);
-  };
 
-  const onRemove = file => {
-    let PositionOfImg = fileList.indexOf(file);
-    let PositionOfId = productsList[0].product_image[PositionOfImg].id;
+  const onPreview = async (file) => {
+    let src = file.url
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file.originFileObj)
+        reader.onload = () => resolve(reader.result)
+      })
+    }
+    const image = new Image()
+    image.src = src
+    const imgWindow = window.open(src)
+    imgWindow.document.write(image.outerHTML)
+  }
+
+  const onRemove = (file) => {
+    let PositionOfImg = fileList.indexOf(file)
+    let PositionOfId = productsList[0].product_image[PositionOfImg].id
     let CopyFile = [...fileList]
     if (PositionOfImg > -1) {
-      CopyFile.splice(PositionOfImg, 1);
+      CopyFile.splice(PositionOfImg, 1)
     }
     setFileList(CopyFile)
 
@@ -311,8 +342,11 @@ const CreateProducts = (props) => {
       key: 'no',
       render: (text) => (
         <span>
-          {Number(productsList[0].product_quantity_price.findIndex((FindPos) => FindPos.id === text.id)) +
-            1}
+          {Number(
+            productsList[0].product_quantity_price.findIndex(
+              (FindPos) => FindPos.id === text.id
+            )
+          ) + 1}
         </span>
       )
     },
@@ -398,11 +432,10 @@ const CreateProducts = (props) => {
                 message: 'Please input your Type!'
               }
             ]}>
-            <Select >
+            <Select>
               {type.map((val2) => (
                 <Select.Option key={val2.id} value={val2.id}>
                   {val2.name}
-
                 </Select.Option>
               ))}
             </Select>
@@ -451,7 +484,6 @@ const CreateProducts = (props) => {
       content: (
         <>
           <Form.Item label="Image" name="image" valuePropName="upload">
-       
             <Upload
               name="avatar"
               listType="picture-card"
@@ -461,10 +493,7 @@ const CreateProducts = (props) => {
               onChange={handleChange}
               onPreview={onPreview}
               fileList={fileList}
-              onRemove={onRemove}
-              >
-              
-              
+              onRemove={onRemove}>
               <div>
                 {imageUrl ? (
                   <img
@@ -487,7 +516,6 @@ const CreateProducts = (props) => {
                 )}
               </div>
             </Upload>
-      
           </Form.Item>
         </>
       )
@@ -497,30 +525,22 @@ const CreateProducts = (props) => {
       content: (
         <>
           <Form.Item valuePropName="Last" label="Last" name="is_Last">
-            {!EditQP &&
-            (
-            
-            <>
-         
-          <Row justify="end">
-            <Button onClick={onClick}>
-              Add Quantity
-            </Button>
-          </Row>
-       
-            <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={productsList[0].product_quantity_price}
-        rowKey={(record) => record.id}
-      />
-      
-      </>
-      )
-            }
+            {!EditQP && (
+              <>
+                <Row justify="end">
+                  <Button onClick={onClick}>Add Quantity</Button>
+                </Row>
+
+                <Table
+                  bordered
+                  loading={isLoading}
+                  columns={columns}
+                  dataSource={productsList[0].product_quantity_price}
+                  rowKey={(record) => record.id}
+                />
+              </>
+            )}
           </Form.Item>
-      
         </>
       )
     }
@@ -546,9 +566,11 @@ const CreateProducts = (props) => {
       destroyOnClose={true}
       footer={[
         <span key="span01" style={{ margin: '0 8px' }}>
-          {!EditQP &&(<Button key="cancel" onClick={onCancel}>
-            Cancel
-          </Button>)}
+          {!EditQP && (
+            <Button key="cancel" onClick={onCancel}>
+              Cancel
+            </Button>
+          )}
           {current > 0 && !EditQP && (
             <Button
               key="previous"
@@ -557,12 +579,15 @@ const CreateProducts = (props) => {
               Previous
             </Button>
           )}
-        </span>
-        ,
-        <span key="span02" >
-          {current < steps.length - 1 &&(
-            <Button form="manageType" key="next" type="primary"  htmlType="submit">
-             Next
+        </span>,
+        <span key="span02">
+          {current < steps.length - 1 && (
+            <Button
+              form="manageType"
+              key="next"
+              type="primary"
+              htmlType="submit">
+              Next
             </Button>
           )}
           {current === steps.length - 1 && !EditQP && (
@@ -591,9 +616,15 @@ const CreateProducts = (props) => {
         </div>
       </Form>
 
-      {EditQP &&
-      (<ModalQP QPRecord={GetRecordQP} QPNo={PositionOfQP} qpCB={QPCallBack} ForAction={QPAction} ForQPValue={CallBackQPValue} />)
-      }
+      {EditQP && (
+        <ModalQP
+          QPRecord={GetRecordQP}
+          QPNo={PositionOfQP}
+          qpCB={QPCallBack}
+          ForAction={QPAction}
+          ForQPValue={CallBackQPValue}
+        />
+      )}
     </Modal>
   )
 }

@@ -15,7 +15,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import ManageContentType from 'components/Settings/ContentType'
-import { getContentTypeList, updateActiveContentType, deleteContentType, updateContentType, createContentType } from 'store/reducers/contentType'
+import {
+  getContentTypeList,
+  updateActiveContentType,
+  deleteContentType,
+  updateContentType,
+  createContentType
+} from 'store/reducers/contentType'
 
 const contentType = () => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -64,7 +70,7 @@ const contentType = () => {
 
   const onOk = async (data) => {
     await setVisible(false)
-    const formData = data;
+    const formData = data
     if (action === ACTION.CREATE) {
       await dispatch(createContentType(formData))
     } else if (action === ACTION.EDIT) {
@@ -130,27 +136,30 @@ const contentType = () => {
           </Col>
           <Col span={12}>
             <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>Add ContentType</Button>
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add ContentType
+              </Button>
             </Row>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <Table bordered columns={columns}
-                 loading={isLoading}
-                 dataSource={contentTypeList}
-                 rowKey={(record) => record.id}
-            ></Table>
+            <Table
+              bordered
+              columns={columns}
+              loading={isLoading}
+              dataSource={contentTypeList}
+              rowKey={(record) => record.id}></Table>
             {visible && (
-        <ManageContentType
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          typeSelected={typeSelected}
-          TrNo={AntSelectNo}
-        />
-      )}
+              <ManageContentType
+                visible={visible}
+                onOk={onOk}
+                onCancel={onCancel}
+                action={action}
+                typeSelected={typeSelected}
+                TrNo={AntSelectNo}
+              />
+            )}
           </Col>
         </Row>
       </div>

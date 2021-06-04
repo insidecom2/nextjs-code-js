@@ -1,5 +1,5 @@
 const withImages = require('next-images')
-const withCSS = require('@zeit/next-css');
+const withCSS = require('@zeit/next-css')
 const withBundleAnalyzer = require('@next/bundle-analyzer')
 
 const compose = (plugins) => ({
@@ -33,16 +33,16 @@ const compose = (plugins) => ({
       }
       return config
     }, config)
-  },
+  }
 })
 
 module.exports = compose([
   [
     withBundleAnalyzer,
     {
-      enabled: process.env.ANALYZE === 'true',
-    },
-  ],
+      enabled: process.env.ANALYZE === 'true'
+    }
+  ]
 ])
 
 module.exports = withImages({
@@ -60,15 +60,15 @@ module.exports = withCSS({
 module.exports = {
   trailingSlash: true,
   images: {
-    loader: 'imgix',
+    loader: 'imgix'
   },
-  async redirects(){
+  async redirects() {
     return [
       {
         source: '/report/',
         destination: '/dashboard',
         permanent: true
-      },
+      }
     ]
   }
 }

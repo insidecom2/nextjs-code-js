@@ -10,12 +10,9 @@ const FETCH_PRINT_FINISH_LIST_SUCCESS =
 const FETCH_PRINT_FINISH_LIST_FAILURE =
   'PrintFinish/FETCH_PRINT_FINISH_LIST_FAILURE'
 
-const FETCH_PRINT_FINISH_ID_REQUEST =
-  'PrintFinish/FETCH_PRINT_ID_LIST_REQUEST'
-const FETCH_PRINT_FINISH_ID_SUCCESS =
-  'PrintFinish/FETCH_PRINT_ID_LIST_SUCCESS'
-const FETCH_PRINT_FINISH_ID_FAILURE =
-  'PrintFinish/FETCH_PRINT_ID_LIST_FAILURE'
+const FETCH_PRINT_FINISH_ID_REQUEST = 'PrintFinish/FETCH_PRINT_ID_LIST_REQUEST'
+const FETCH_PRINT_FINISH_ID_SUCCESS = 'PrintFinish/FETCH_PRINT_ID_LIST_SUCCESS'
+const FETCH_PRINT_FINISH_ID_FAILURE = 'PrintFinish/FETCH_PRINT_ID_LIST_FAILURE'
 
 const CREATE_PRINT_FINISH_REQUEST = 'PrintFinish/CREATE_PRINT_FINISH_REQUEST'
 const CREATE_PRINT_FINISH_SUCCESS = 'PrintFinish/CREATE_PRINT_FINISH_SUCCESS'
@@ -238,7 +235,7 @@ export const getPrintFinishById = (id) => {
       })
 
       const response = await API.get(EndPoints.PRINT_FINISH + '/' + id)
-     
+
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: FETCH_PRINT_FINISH_ID_SUCCESS,
@@ -252,7 +249,6 @@ export const getPrintFinishById = (id) => {
     }
   }
 }
-
 
 export const updateActivePrintFinish = (id, data) => {
   return async (dispatch) => {
@@ -283,9 +279,7 @@ export const updateActivePrintFinish = (id, data) => {
 }
 
 export const updatePrintFinish = (id, data) => {
-
   return async (dispatch) => {
-
     try {
       dispatch({
         type: UPDATE_PRINT_FINISH_REQUEST
@@ -303,7 +297,6 @@ export const updatePrintFinish = (id, data) => {
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {
-     
         dispatch({
           type: UPDATE_PRINT_FINISH_SUCCESS,
           payload: response.data.data

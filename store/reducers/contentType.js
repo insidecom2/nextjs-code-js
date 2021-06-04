@@ -8,7 +8,7 @@ const FETCH_CONTENT_TYPE_LIST_REQUEST =
 const FETCH_CONTENT_TYPE_LIST_SUCCESS =
   'ContentType/FETCH_CONTENT_TYPE_LIST_SUCCESS'
 const FETCH_CONTENT_TYPE_LIST_FAILURE =
-  'ContentType/FETCH_CONTENT_TYPE_LIST_FAILURE' 
+  'ContentType/FETCH_CONTENT_TYPE_LIST_FAILURE'
 
 const DELETE_CONTENT_TYPE_REQUEST = 'ContentType/DELETE_CONTENT_TYPE_REQUEST'
 const DELETE_CONTENT_TYPE_SUCCESS = 'ContentType/DELETE_CONTENT_TYPE_SUCCESS'
@@ -50,38 +50,38 @@ const contentType = (state = initialState, action) => {
         error: action.error,
         isLoading: false
       }
-      case UPDATE_CONTENT_TYPE_REQUEST:
-        return {
-          ...state,
-          isLoading: true
-        }
-      case UPDATE_CONTENT_TYPE_SUCCESS:
-        return {
-          ...state,
-          isLoading: false
-        }
-      case UPDATE_CONTENT_TYPE_FAILURE:
-        return {
-          ...state,
-          error: action.error,
-          isLoading: false
-        }  
-        case CREATE_CONTENT_TYPE_REQUEST:
-            return {
-              ...state,
-              isLoading: true
-            }
-          case CREATE_CONTENT_TYPE_SUCCESS:
-            return {
-              ...state,
-              isLoading: false
-            }
-          case CREATE_CONTENT_TYPE_FAILURE:
-            return {
-              ...state,
-              error: action.error,
-              isLoading: false
-            }  
+    case UPDATE_CONTENT_TYPE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case UPDATE_CONTENT_TYPE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case UPDATE_CONTENT_TYPE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
+    case CREATE_CONTENT_TYPE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case CREATE_CONTENT_TYPE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case CREATE_CONTENT_TYPE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false
+      }
     default:
       return state
   }
@@ -100,7 +100,6 @@ export const getContentTypeList = () => {
       const response = await API.get(EndPoints.CONTENT_TYPE)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
-
         dispatch({
           type: FETCH_CONTENT_TYPE_LIST_SUCCESS,
           payload: response.data.data
@@ -115,107 +114,102 @@ export const getContentTypeList = () => {
 }
 
 export const updateActiveContentType = (id, data) => {
-    return async (dispatch) => {
-      try {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_CONTENT_TYPE_REQUEST
+      })
+      const formData = { is_active: data }
+
+      const response = await API.put(
+        EndPoints.CONTENT_TYPE + '/active/' + id,
+        formData
+      )
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
-          type: UPDATE_CONTENT_TYPE_REQUEST
+          type: UPDATE_CONTENT_TYPE_SUCCESS,
+          payload: response.data.data
         })
-        const formData = { is_active: data }
-  
-        const response = await API.put(
-          EndPoints.CONTENT_TYPE + '/active/' + id,
-          formData
-        )
-  
-        if (response.status === HTTP_STATUS_CODE.OK) {
-          dispatch({
-            type: UPDATE_CONTENT_TYPE_SUCCESS,
-            payload: response.data.data
-          })
-          message.success(RESPONSE_MESSAGE.SUCCESS)
-        }
-      } catch (err) {
-        dispatch({
-          type: UPDATE_CONTENT_TYPE_FAILURE
-        })
-        message.success(RESPONSE_MESSAGE.FAILURE)
+        message.success(RESPONSE_MESSAGE.SUCCESS)
       }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_CONTENT_TYPE_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
     }
   }
+}
 
-  export const deleteContentType = (id) => {
-    return async (dispatch) => {
-      try {
+export const deleteContentType = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: DELETE_CONTENT_TYPE_REQUEST
+      })
+
+      const response = await API.delete(EndPoints.CONTENT_TYPE + `/${id}`)
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
-          type: DELETE_CONTENT_TYPE_REQUEST
+          type: DELETE_CONTENT_TYPE_SUCCESS
         })
-  
-        const response = await API.delete(EndPoints.CONTENT_TYPE + `/${id}`)
-  
-        if (response.status === HTTP_STATUS_CODE.OK) {
-          dispatch({
-            type: DELETE_CONTENT_TYPE_SUCCESS
-          })
-          message.success(RESPONSE_MESSAGE.DELETED)
-        }
-      } catch (err) {
-        message.error(RESPONSE_MESSAGE.FAILURE)
-        dispatch({
-          type: DELETE_CONTENT_TYPE_FAILURE
-        })
+        message.success(RESPONSE_MESSAGE.DELETED)
       }
+    } catch (err) {
+      message.error(RESPONSE_MESSAGE.FAILURE)
+      dispatch({
+        type: DELETE_CONTENT_TYPE_FAILURE
+      })
     }
   }
+}
 
-  export const updateContentType = (id, data) => {
-    return async (dispatch) => {
-      try {
+export const updateContentType = (id, data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: UPDATE_CONTENT_TYPE_REQUEST
+      })
+
+      const response = await API.put(EndPoints.CONTENT_TYPE + '/' + id, data)
+      if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
-          type: UPDATE_CONTENT_TYPE_REQUEST
+          type: UPDATE_CONTENT_TYPE_SUCCESS,
+          payload: response.data.data
         })
-  
-        const response = await API.put(
-          EndPoints.CONTENT_TYPE + '/' + id,
-          data
-        )
-        if (response.status === HTTP_STATUS_CODE.OK) {
-          dispatch({
-            type: UPDATE_CONTENT_TYPE_SUCCESS,
-            payload: response.data.data
-          })
-          message.success(RESPONSE_MESSAGE.SUCCESS)
-        }
-      } catch (err) {
-        dispatch({
-          type: UPDATE_CONTENT_TYPE_FAILURE
-        })
-        message.success(RESPONSE_MESSAGE.FAILURE)
+        message.success(RESPONSE_MESSAGE.SUCCESS)
       }
+    } catch (err) {
+      dispatch({
+        type: UPDATE_CONTENT_TYPE_FAILURE
+      })
+      message.success(RESPONSE_MESSAGE.FAILURE)
     }
   }
+}
 
-  export const createContentType = (data) => {
-    return async (dispatch) => {
-      try {
+export const createContentType = (data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: CREATE_CONTENT_TYPE_REQUEST
+      })
+
+      const response = await API.post(EndPoints.CONTENT_TYPE, data)
+
+      if (response.status === HTTP_STATUS_CODE.CREATED) {
         dispatch({
-          type: CREATE_CONTENT_TYPE_REQUEST
+          type: CREATE_CONTENT_TYPE_SUCCESS
         })
-  
-        const response = await API.post(EndPoints.CONTENT_TYPE, data)
-  
-        if (response.status === HTTP_STATUS_CODE.CREATED) {
-          dispatch({
-            type: CREATE_CONTENT_TYPE_SUCCESS
-          })
-          message.success(RESPONSE_MESSAGE.SUCCESS)
-        }
-      } catch (err) {
-        message.error(RESPONSE_MESSAGE.FAILURE)
-        dispatch({
-          type: CREATE_CONTENT_TYPE_FAILURE
-        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
       }
+    } catch (err) {
+      message.error(RESPONSE_MESSAGE.FAILURE)
+      dispatch({
+        type: CREATE_CONTENT_TYPE_FAILURE
+      })
     }
   }
-
-
+}

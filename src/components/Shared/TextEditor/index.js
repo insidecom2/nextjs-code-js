@@ -9,19 +9,19 @@ const TextEditor = (props) => {
   //     console.log(editorRef.current.getContent())
   //   }
   // }
-  const putCurSor =async(evt,editor)=> {
-    await editor.selection.select(editor.getBody(), true).click();
+  const putCurSor = async (evt, editor) => {
+    await editor.selection.select(editor.getBody(), true).click()
     await editor.selection.collapse(false)
-  };
+  }
 
   return (
     <div>
       <Editor
         // onInit={(evt, editor) => (editorRef.current = editor)}
         // onKeyUp={(evt,editor) => changeEditor(editor.getContent())}
-        onInit={(evt, editor) => putCurSor(evt,editor)}
-        onClick={(evt,editor) =>clickCurSor(evt,editor)}
-        onChange={(evt,editor)=> changeEditor(editor.getContent())}
+        onInit={(evt, editor) => putCurSor(evt, editor)}
+        onClick={(evt, editor) => clickCurSor(evt, editor)}
+        onChange={(evt, editor) => changeEditor(editor.getContent())}
         initialValue={textData}
         init={{
           height: 800,
@@ -38,7 +38,7 @@ const TextEditor = (props) => {
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'removeformat | help',
           content_style:
-            'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
         }}
       />
     </div>

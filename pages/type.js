@@ -139,34 +139,38 @@ const Type = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>Type List</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>Add Type</Button>
-          </Row>
-        </Col>
-      </Row>
-      <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={categoryTypeList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageType
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          typeSelected={typeSelected}
-          TrNo={AntSelectNo}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>Type List</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add Type
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={categoryTypeList}
+          rowKey={(record) => record.id}
         />
-      )}</div>
+        {visible && (
+          <ManageType
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            typeSelected={typeSelected}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }

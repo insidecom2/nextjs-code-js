@@ -36,7 +36,6 @@ const initialState = {
 
 // Default Reducer
 const style = (state = initialState, action) => {
-
   switch (action.type) {
     case UPDATE_STYLE_REQUEST:
       return {
@@ -174,7 +173,7 @@ export const createStyle = (data) => {
         type: CREATE_STYLE_REQUEST
       })
 
-      const formData = new FormData();
+      const formData = new FormData()
       formData.set('name', data.name)
       formData.set('render_2d', data.render_2d)
       formData.set('render_3d', data.render_3d)
@@ -182,7 +181,7 @@ export const createStyle = (data) => {
       formData.append('image', data.image)
 
       const config = {
-        headers: {'content-type': 'multipart/form-data'}
+        headers: { 'content-type': 'multipart/form-data' }
       }
 
       const response = await API.post(EndPoints.STYLE, formData, config)
@@ -227,7 +226,6 @@ export const deleteStyle = (id) => {
 }
 
 export const updateActiveStyle = (id, data) => {
-  
   return async (dispatch) => {
     try {
       dispatch({
@@ -256,7 +254,6 @@ export const updateActiveStyle = (id, data) => {
   }
 }
 
-
 export const getStyleById = (id) => {
   return async (dispatch) => {
     try {
@@ -265,9 +262,8 @@ export const getStyleById = (id) => {
       })
 
       const response = await API.get(EndPoints.STYLE + '/' + id)
-     
-      if (response.status === HTTP_STATUS_CODE.OK) {
 
+      if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: GET_STYLE_SUCCESS,
           payload: response.data.data
@@ -282,16 +278,13 @@ export const getStyleById = (id) => {
 }
 
 export const updateStyle = (id, data) => {
-
-
   return async (dispatch) => {
-  
     try {
       dispatch({
         type: UPDATE_STYLE_REQUEST
       })
 
-      const formData = new FormData();
+      const formData = new FormData()
       formData.set('name', data.name)
       formData.set('render_2d', data.render_2d)
       formData.set('render_3d', data.render_3d)
@@ -299,17 +292,15 @@ export const updateStyle = (id, data) => {
       formData.append('image', data.image)
 
       const config = {
-        headers: {'content-type': 'multipart/form-data'}
+        headers: { 'content-type': 'multipart/form-data' }
       }
-  
+
       const response = await API.put(
         EndPoints.STYLE + '/' + id,
-        formData
-        ,  
+        formData,
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {
-     
         dispatch({
           type: UPDATE_STYLE_SUCCESS,
           payload: response.data.data

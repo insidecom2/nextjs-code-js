@@ -54,7 +54,7 @@ const ManageType = (props) => {
       setImageUrl(typeSelected.image)
     }
   }, [typeSelected])
-  
+
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
       setLoading(true)

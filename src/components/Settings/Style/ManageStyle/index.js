@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd';
-import { useSelector } from 'react-redux';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
+import { useSelector } from 'react-redux'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
 import { beforeUpload, getBase64 } from 'utils/images'
 const ManageStyle = (props) => {
@@ -13,12 +13,9 @@ const ManageStyle = (props) => {
 
   const { typeId, defaultImage, styleValue } = useSelector(
     (state) => ({
-      typeId: action==='Edit'?state.style.categoryType.id:"",
+      typeId: action === 'Edit' ? state.style.categoryType.id : '',
       styleValue: state.style.categoryType,
-      defaultImage:
-        action === 'Edit'
-          ? state.style.categoryType.image
-          : ''
+      defaultImage: action === 'Edit' ? state.style.categoryType.image : ''
     }),
     []
   )
@@ -26,7 +23,7 @@ const ManageStyle = (props) => {
   const onFinish = (values) => {
     const data = {
       name: values.name,
-      image: values.image||values.image.file.originFileObj,
+      image: values.image || values.image.file.originFileObj,
       render_2d: values.render_2d,
       render_3d: values.render_3d,
       video_link: values.video
@@ -35,30 +32,28 @@ const ManageStyle = (props) => {
     onOk(typeId, data)
   }
 
-useEffect(() => {
-  if (action === ACTION.EDIT) {
-    form.setFieldsValue({
-      name:styleValue.name,
-      render_2d:styleValue.render_2d,
-      render_3d:styleValue.render_3d,
-      video:styleValue.video_link
-    })    
-} 
-setimageUrl(defaultImage);
-},[styleValue]);
-const handleChange = info => {
-       if (info.file.status === 'uploading') {
-         setloading(true)
-         getBase64(info.file.originFileObj, imageUrl =>
-          setimageUrl(imageUrl));
-         return;
-       }
-       if (info.file.status === 'done') {
-         // Get this url from response in real world.
-         setloading(false)
-        
-       }
-     };
+  useEffect(() => {
+    if (action === ACTION.EDIT) {
+      form.setFieldsValue({
+        name: styleValue.name,
+        render_2d: styleValue.render_2d,
+        render_3d: styleValue.render_3d,
+        video: styleValue.video_link
+      })
+    }
+    setimageUrl(defaultImage)
+  }, [styleValue])
+  const handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      setloading(true)
+      getBase64(info.file.originFileObj, (imageUrl) => setimageUrl(imageUrl))
+      return
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      setloading(false)
+    }
+  }
 
   return (
     <Modal
@@ -74,7 +69,7 @@ const handleChange = info => {
           Submit
         </Button>
       ]}>
-      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical" >
+      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
         <p>No : {TrNo}</p>
         <Form.Item
           label="Name"
@@ -84,8 +79,7 @@ const handleChange = info => {
               required: true,
               message: 'Please input your name!'
             }
-          ]}
-         >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -96,8 +90,7 @@ const handleChange = info => {
               required: true,
               message: 'Please input your 2D!'
             }
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -108,8 +101,7 @@ const handleChange = info => {
               required: true,
               message: 'Please input your 3D!'
             }
-          ]}
-   >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
@@ -120,14 +112,12 @@ const handleChange = info => {
               required: true,
               message: 'Please input your video link!'
             }
-          ]}
-       >
+          ]}>
           <Input />
         </Form.Item>
 
-        <Form.Item label="Image" name="image" >
-         
-          <Upload 
+        <Form.Item label="Image" name="image">
+          <Upload
             fileList={null}
             name="avatar"
             listType="picture-card"
@@ -136,23 +126,21 @@ const handleChange = info => {
             beforeUpload={beforeUpload}
             onChange={handleChange}>
             <div>
-  
-               
-           
               {imageUrl ? (
                 <img src={imageUrl} alt="avatar" style={{ height: '100px' }} />
               ) : (
                 <div style={{ marginTop: 8 }}>
-                  {
-                   loading ? <LoadingOutlined /> : 
-                     <div><PlusOutlined /><br/><label>Upload</label></div>  
-                  }
+                  {loading ? (
+                    <LoadingOutlined />
+                  ) : (
+                    <div>
+                      <PlusOutlined />
+                      <br />
+                      <label>Upload</label>
+                    </div>
+                  )}
                 </div>
-              )
-              }
-              
-          
-              
+              )}
             </div>
           </Upload>
         </Form.Item>

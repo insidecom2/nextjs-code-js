@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-  "baseUrl": ".",
+    "baseUrl": ".",
     "paths": {
       "public/*": ["public/*"],
       "api/*": ["src/api/*"],
@@ -8,7 +8,7 @@
       "utils/*": ["src/utils/*"],
       "assets/*": ["src/assets/*"],
       "components/*": ["src/components/*"],
-      "store/*": ["store/*"],
+      "store/*": ["store/*"]
     }
   }
 }

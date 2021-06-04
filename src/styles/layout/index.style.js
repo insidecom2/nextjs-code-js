@@ -4,16 +4,16 @@ import { Layout, Menu } from 'antd'
 const { Header, Sider } = Layout
 
 export const AvatarTextStatus = styled.label`
-font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 20px;
-color: #FFFFFF;
-padding-right:10px;
-span:after {
-  content:url('https://media.discordapp.net/attachments/775978814693441568/844422554948337684/Group_18.png');
-  padding-left:10px;
-}
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 20px;
+  color: #ffffff;
+  padding-right: 10px;
+  span:after {
+    content: url('https://media.discordapp.net/attachments/775978814693441568/844422554948337684/Group_18.png');
+    padding-left: 10px;
+  }
 `
 
 export const Logo = styled.div`
@@ -57,12 +57,11 @@ export const SiderEx = styled(Sider)`
     color: #7f63f4 !important;
   }
   .ant-layout-sider-trigger {
-    background-color: #F0EEFF !important;
+    background-color: #f0eeff !important;
   }
 `
 
 export const MenuEx = styled(Menu)`
-
   .ant-menu-item {
     height: 56px !important;
     max-height: 100% !important;
@@ -70,26 +69,28 @@ export const MenuEx = styled(Menu)`
     margin: 0 !important;
   }
 
-  .ant-menu-item span{
+  .ant-menu-item span {
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
     line-height: 51px;
-    color: #6A707E; 
+    color: #6a707e;
   }
 
-  .ant-menu-item:hover span{
-   color:#7f63f4;
-  } 
+  .ant-menu-item:hover span {
+    color: #7f63f4;
+  }
 
-  .ant-menu-item::after,.ant-menu-submenu-open .ant-menu-submenu-title,.ant-menu-item:hover {
+  .ant-menu-item::after,
+  .ant-menu-submenu-open .ant-menu-submenu-title,
+  .ant-menu-item:hover {
     border-right: 3px solid #7f63f4 !important;
   }
 
   .ant-menu-item.ant-menu-item-selected:hover {
     border-right: unset !important;
   }
- 
+
   .ant-menu-item.ant-menu-item-selected span,
   .ant-menu-submenu-open .ant-menu-submenu-title span {
     color: #7f63f4 !important;
@@ -127,5 +128,4 @@ export const MenuEx = styled(Menu)`
   .ant-menu-item:hover {
     background: #f0eeff !important;
   }
-
 `
