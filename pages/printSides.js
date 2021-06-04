@@ -92,11 +92,17 @@ const PrintSides = (props) => {
     setVisible(true)
   }
 
-  const onOk = async (GetId, data) => {
+  const onOk = async (data) => {
+    const formData = new FormData()
+      formData.set('name', data.name)
+      formData.set('code', data.code)
+      formData.append('image', data.image)
     await setVisible(false)
-    String(action) !== 'Edit'
-      ? await dispatch(createPrintSide(data))
-      : await dispatch(updatePrintSide(GetId, data))
+    if(action===ACTION.CREATE) {
+      await dispatch(createPrintSide(formData))
+    } else {
+      await dispatch(updatePrintSide(data.id, formData))
+    } 
       await dispatch(getPrintSideList())
   }
 

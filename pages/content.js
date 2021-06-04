@@ -110,11 +110,6 @@ const content = () => {
       key: 'title'
     },
     {
-      title: 'detail',
-      dataIndex: 'detail',
-      key: 'detail'
-    },
-    {
       title: 'seo title',
       dataIndex: 'seo_title',
       key: 'seo_title'
@@ -162,7 +157,7 @@ const content = () => {
           <Col span={12}>
             <Row justify="end">
               <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add ContentType
+                Add Content
               </Button>
             </Row>
           </Col>

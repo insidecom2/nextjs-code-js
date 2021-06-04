@@ -22,7 +22,7 @@ const UPDATE_MEDIA_FAILURE = 'Products/UPDATE_MEDIA_FAILURE'
 // Initialize State
 const initialState = {
   isLoading: false,
-  productsList: [],
+  mediaList: [],
   error: {}
 }
 
@@ -56,7 +56,7 @@ const media = (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: action,
-        productsList: action.payload
+        mediaList: action.payload
       }
     case FETCH_MEDIA_FAILURE:
       return {

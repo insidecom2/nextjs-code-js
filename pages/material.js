@@ -104,11 +104,17 @@ const Material = (props) => {
     setVisible(true)
   }
 
-  const onOk = async (GetId, data) => {
+  const onOk = async (data) => {
+    const formData = new FormData()
+      formData.set('name', data.name)
+      formData.set('code', data.code)
+      formData.append('image', data.image)
     await setVisible(false)
-    String(action) !== 'Edit'
-      ? await dispatch(createMaterial(data))
-      : await dispatch(updateMaterial(GetId, data))
+    if (action===ACTION.CREATE) {
+      await dispatch(createMaterial(formData))
+    } else {
+      await dispatch(updateMaterial(data.id, formData))
+    }
     await dispatch(getMaterialList())
   }
 

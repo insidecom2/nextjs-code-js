@@ -45,22 +45,7 @@ const ManageProducts = (props) => {
     fetchData()
   }, [])
 
-  // const onEdit = async (e, record) => {
-  //   const GetPosition =
-  //     Number(
-  //       productsList[0].product_quantity_price.findIndex(
-  //         (FindPos) => FindPos.id === record.id
-  //       )
-  //     ) + 1
-  //   e.preventDefault()
-  //   await setPositionOfQP(GetPosition)
-  //   await SetGetRecordQP(record)
-  //   await setQPAction('Edit')
-  //   await SetEditQP(true)
-  // }
-
   const onFinish = (values) => {
-    console.log(values)
     const quantityDataList = []
     quantityList.forEach((item, index) => {
       quantityDataList.push({
