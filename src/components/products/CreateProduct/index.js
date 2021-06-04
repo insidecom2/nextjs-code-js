@@ -302,7 +302,7 @@ const CreateProducts = (props) => {
     }
     setFileList(CopyFile)
 
-    console.log(PositionOfId)
+    // console.log(PositionOfId)
   }
 
   const columns = [

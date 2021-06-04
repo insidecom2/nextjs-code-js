@@ -113,8 +113,6 @@ const StepQuantity = (props) => {
     })
   }
 
-  //console.log(quantityList)
-
   return (
     <div>
       <Row justify="end" style={{ marginBottom: 10 }}>
