@@ -283,16 +283,12 @@ export const updatePrintSide = (id, data) => {
       dispatch({
         type: UPDATE_PRINT_SIDE_REQUEST
       })
-      const formData = new FormData()
-      formData.set('name', data.name)
-      formData.set('code', data.name)
-      formData.append('image', data.image)
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }
       const response = await API.put(
         EndPoints.PRINT_SIDE + '/' + id,
-        formData,
+        data,
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {

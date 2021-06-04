@@ -27,7 +27,7 @@ const SelectMedia = (props) => {
   ])
   const { mediaList } = useSelector(
     (state) => ({
-      mediaList: state.media.productsList
+      mediaList: state.media.mediaList
     }),
     []
   )
@@ -138,7 +138,7 @@ const SelectMedia = (props) => {
             mediaList.map((item,index) => {
               return (
                 <Col key={index} span={4} style={{display:'block',margin:'auto',maxHeight:'100%',maxWidth:'100%'}}>
-                  <MediaItem  style={{display:'block',margin:'auto',height:140,width:140,maxHeight:'100%',maxWidth:'100%'}} >
+                  <MediaItem  style={{display:'block',margin:'auto',width:140,maxHeight:'100%',maxWidth:'100%'}} >
                     <Row>
                       <Checkbox style={{display:'block',margin:'auto',maxHeight:'100%',maxWidth:'100%'}} value={item.name} />
                       <DeleteTwoTone onClick={()=>onRemove(index)} />

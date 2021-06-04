@@ -172,16 +172,12 @@ export const createMaterial = (data) => {
       dispatch({
         type: CREATE_MATERIAL_REQUEST
       })
-
-      const formData = new FormData()
-      formData.set('name', data.name)
-      formData.set('code', data.code)
-      formData.append('image', data.image)
+      
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }
 
-      const response = await API.post(EndPoints.MATERIAL, formData, config)
+      const response = await API.post(EndPoints.MATERIAL, data, config)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
@@ -280,16 +276,12 @@ export const updateMaterial = (id, data) => {
       dispatch({
         type: UPDATE_MATERIAL_REQUEST
       })
-      const formData = new FormData()
-      formData.set('name', data.name)
-      formData.set('code', data.name)
-      formData.append('image', data.image)
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }
       const response = await API.put(
         EndPoints.MATERIAL + '/' + id,
-        formData,
+        data,
         config
       )
       if (response.status === HTTP_STATUS_CODE.OK) {

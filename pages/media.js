@@ -24,30 +24,30 @@ const media = () => {
   const [modalRemoveMedia, setModalRemoveMedia] = useState(false)
   const [urlImageName, setUrlImageName] = useState()
 
-  useDeepEffect(() => {
-    fetchData(defaultDate[0], defaultDate[1])
-  }, [])
-
-  useDeepEffect(() => {
-    setDefaultImg()
-  }, [mediaList])
-
   const { mediaList } = useSelector(
     (state) => ({
-      mediaList: state.media.productsList
+      mediaList: state.media.mediaList
     }),
     []
   )
-
-  const fetchData = async (Year, Month) => {
-    dispatch(getMedia(Year, Month))
-  }
 
   const setDefaultImg = async () => {
     const defaultImg = []
     await mediaList.map((ListImg) => defaultImg.push({ url: ListImg.name }))
     await setFileList(defaultImg)
   }
+
+  useDeepEffect(() => {
+    setDefaultImg()
+  }, [mediaList])
+
+  const fetchData = async (Year, Month) => {
+    dispatch(getMedia(Year, Month))
+  }
+
+  useDeepEffect(() => {
+    fetchData(defaultDate[0], defaultDate[1])
+  }, [])
 
   const onOkUpload = async (data) => {
     const formData = new FormData()
