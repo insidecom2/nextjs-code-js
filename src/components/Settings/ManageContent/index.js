@@ -211,178 +211,194 @@ const ManageContent = (props) => {
         layout="vertical">
         <Row>
           <Col span={20}>
-            <Form.Item
-              label="Content type"
-              name="content_type"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your content type!'
-                }
-              ]}>
-              <Select>
-                {contentTypeList.map((val) => (
-                  <Select.Option key={val.id} value={val.id}>
-                    {val.name}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={20}>
-            <Form.Item
-              label="Title"
-              name="title"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Title!'
-                }
-              ]}>
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item>
-          <div className="mt-4">
-            <Button
-              onClick={() => setMediaModal(true)}
-              style={{ marginBottom: 10 }}>
-              เพิ่มสื่อ
-            </Button>
             <Row>
-              <Col span={20}>
-                <Editor
-                  keyupEditor={keyupEditor}
-                  clickCurSor={clickCurSor}
-                  textData={action === ACTION.EDIT ? typeSelected.detail : ''}
-                  changeEditor={changeEditor}
-                />
+              <Col span={24}>
+                <Form.Item
+                  label="Content type"
+                  name="content_type"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your content type!'
+                    }
+                  ]}>
+                  <Select>
+                    {contentTypeList.map((val) => (
+                      <Select.Option key={val.id} value={val.id}>
+                        {val.name}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
               </Col>
-              <Col span={4}>
-                <Row style={{ paddingLeft: 20 }}>
-                  <Space direction="vertical">
-                    <Card title="Check SEO">
-                      <Checkbox.Group options={plainOptions} value={options} />
-                    </Card>
-                  </Space>
-                </Row>
-                <Row justify="center" style={{ paddingTop: 20 }}>
-                  <Form.Item
-                    label="รูปประจำเรื่อง"
-                    name="image"
-                    valuePropName="upload">
-                    <Upload
-                      name="avatar"
-                      listType="picture-card"
-                      className="avatar-uploader"
-                      showUploadList={false}
-                      beforeUpload={beforeUpload}
-                      onChange={handleChange}>
-                      <div>
-                        {imageUrl ? (
-                          <img
-                            src={imageUrl}
-                            alt="avatar"
-                            style={{ height: '100px' }}
-                          />
+            </Row>
+
+            <Row>
+              <Col span={24}>
+                <Form.Item
+                  label="Title"
+                  name="title"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Title!'
+                    }
+                  ]}>
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col span={24}>
+                <div className="mt-4">
+                  <Button
+                    onClick={() => setMediaModal(true)}
+                    style={{ marginBottom: 10 }}>
+                    เพิ่มสื่อ
+                  </Button>
+                  <Form.Item>
+                    <Row>
+                      <Col span={24}>
+                        <Editor
+                          keyupEditor={keyupEditor}
+                          clickCurSor={clickCurSor}
+                          textData={
+                            action === ACTION.EDIT ? typeSelected.detail : ''
+                          }
+                          changeEditor={changeEditor}
+                        />
+                      </Col>
+                      <Col span={4}></Col>
+                    </Row>
+                  </Form.Item>
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Form.Item
+                  label="Focus keyphrase"
+                  name="focus_keyphrase"
+                  help={
+                    focusKeyphrase > CONTENT_PAGE.FOCUSKEY
+                      ? searchFocus === CONTENT_PAGE.FOCUSKEY
+                        ? undefined
+                        : 'key not match!'
+                      : 'Please input seo focus keyphrase!'
+                  }
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input seo focus keyphrase!'
+                    }
+                  ]}>
+                  <Input onChange={FocusKey} />
+                </Form.Item>
+                <Form.Item
+                  label="Seo title"
+                  name="seo_title"
+                  help={
+                    Title >= CONTENT_PAGE.TITLE
+                      ? undefined
+                      : Title === 0
+                      ? undefined
+                      : 'Title must be minimum ' +
+                        String(CONTENT_PAGE.TITLE) +
+                        ' characters.'
+                  }
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your seo title!'
+                    },
+                    {
+                      min: 20,
+                      message:
+                        'Title must be minimum ' +
+                        String(CONTENT_PAGE.TITLE) +
+                        ' characters.'
+                    }
+                  ]}>
+                  <Input onChange={(e) => setTitle(e.target.value.length)} />
+                </Form.Item>
+                <Form.Item
+                  label="Meta description"
+                  name="seo_meta_description"
+                  help={
+                    description >= CONTENT_PAGE.DESCRIPTION
+                      ? undefined
+                      : description === 0
+                      ? undefined
+                      : 'Description must be minimum ' +
+                        String(CONTENT_PAGE.DESCRIPTION) +
+                        ' characters.'
+                  }
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your description!'
+                    },
+                    {
+                      min: CONTENT_PAGE.DESCRIPTION,
+                      message:
+                        'Description must be minimum ' +
+                        String(CONTENT_PAGE.DESCRIPTION) +
+                        ' characters.'
+                    }
+                  ]}>
+                  <Input
+                    onChange={(e) => setDescription(e.target.value.length)}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Col>
+
+          <Col span={4}>
+            <Row style={{ paddingLeft: 20 }}>
+              <Space direction="vertical">
+                <Card title="Check SEO">
+                  <Checkbox.Group options={plainOptions} value={options} />
+                </Card>
+              </Space>
+            </Row>
+            <Row justify="center" style={{ paddingTop: 20 }}>
+              <Form.Item
+                label="รูปประจำเรื่อง"
+                name="image"
+                valuePropName="upload">
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  beforeUpload={beforeUpload}
+                  onChange={handleChange}>
+                  <div>
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt="avatar"
+                        style={{ height: '100px' }}
+                      />
+                    ) : (
+                      <div style={{ marginTop: 8 }}>
+                        {loading ? (
+                          <LoadingOutlined />
                         ) : (
-                          <div style={{ marginTop: 8 }}>
-                            {loading ? (
-                              <LoadingOutlined />
-                            ) : (
-                              <div>
-                                <PlusOutlined />
-                                <br />
-                                <label>Upload</label>
-                              </div>
-                            )}
+                          <div>
+                            <PlusOutlined />
+                            <br />
+                            <label>Upload</label>
                           </div>
                         )}
                       </div>
-                    </Upload>
-                  </Form.Item>
-                </Row>
-              </Col>
+                    )}
+                  </div>
+                </Upload>
+              </Form.Item>
             </Row>
-          </div>
-        </Form.Item>
-        <Row>
-          <Col span={20}>
-            <Form.Item
-              label="Focus keyphrase"
-              name="focus_keyphrase"
-              help={
-                focusKeyphrase > CONTENT_PAGE.FOCUSKEY
-                  ? searchFocus === CONTENT_PAGE.FOCUSKEY
-                    ? undefined
-                    : 'key not match!'
-                  : 'Please input seo focus keyphrase!'
-              }
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input seo focus keyphrase!'
-                }
-              ]}>
-              <Input onChange={FocusKey} />
-            </Form.Item>
-            <Form.Item
-              label="Seo title"
-              name="seo_title"
-              help={
-                Title >= CONTENT_PAGE.TITLE
-                  ? undefined
-                  : Title === 0
-                  ? undefined
-                  : 'Title must be minimum ' +
-                    String(CONTENT_PAGE.TITLE) +
-                    ' characters.'
-              }
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your seo title!'
-                },
-                {
-                  min: 20,
-                  message:
-                    'Title must be minimum ' +
-                    String(CONTENT_PAGE.TITLE) +
-                    ' characters.'
-                }
-              ]}>
-              <Input onChange={(e) => setTitle(e.target.value.length)} />
-            </Form.Item>
-            <Form.Item
-              label="Meta description"
-              name="seo_meta_description"
-              help={
-                description >= CONTENT_PAGE.DESCRIPTION
-                  ? undefined
-                  : description === 0
-                  ? undefined
-                  : 'Description must be minimum ' +
-                    String(CONTENT_PAGE.DESCRIPTION) +
-                    ' characters.'
-              }
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your description!'
-                },
-                {
-                  min: CONTENT_PAGE.DESCRIPTION,
-                  message:
-                    'Description must be minimum ' +
-                    String(CONTENT_PAGE.DESCRIPTION) +
-                    ' characters.'
-                }
-              ]}>
-              <Input onChange={(e) => setDescription(e.target.value.length)} />
-            </Form.Item>
           </Col>
         </Row>
 
