@@ -27,7 +27,6 @@ const MainLayout = (props) => {
   const router = useRouter()
   const [collapsed, setCollapsed] = useState(false)
   const dispatch = useDispatch()
-
   const { selectedMenu } = useSelector(
     (state) => ({
       selectedMenu: state.menu.selectedMenu
@@ -68,7 +67,8 @@ const MainLayout = (props) => {
         <MenuEx
           selectedKeys={[selectedMenu]}
           mode="inline"
-          defaultOpenKeys={['sub1', 'sub2']}>
+          //defaultOpenKeys={['sub1', 'sub2']}
+        >
           <Menu.Item
             key="1"
             icon={<AppstoreOutlined />}
