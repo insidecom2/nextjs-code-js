@@ -69,10 +69,12 @@ const ManageContent = (props) => {
     'Link'
   ]
   const [options, setOptions] = useState([])
-  const [Title, setTitle] = useState(typeSelected.title.length)
+  const [Title, setTitle] = useState(
+    action === ACTION.EDIT ? typeSelected.title.length : 0
+  )
   const [focusKeyphrase, setFocusKeyphrase] = useState(0)
   const [description, setDescription] = useState(
-    typeSelected.seo_meta_description
+    action === ACTION.EDIT ? typeSelected.seo_meta_description : 0
   )
   const [detailContent, setDetailContent] = useState(0)
   const [searchFocus, setSearchFocus] = useState(null)
@@ -302,7 +304,7 @@ const ManageContent = (props) => {
                     Title >= CONTENT_PAGE.TITLE
                       ? undefined
                       : Title === 0
-                      ? undefined
+                      ? 'Please input your seo title!'
                       : 'Title must be minimum ' +
                         String(CONTENT_PAGE.TITLE) +
                         ' characters.'
@@ -329,7 +331,7 @@ const ManageContent = (props) => {
                     description >= CONTENT_PAGE.DESCRIPTION
                       ? undefined
                       : description === 0
-                      ? undefined
+                      ? 'Please input your description!'
                       : 'Description must be minimum ' +
                         String(CONTENT_PAGE.DESCRIPTION) +
                         ' characters.'
