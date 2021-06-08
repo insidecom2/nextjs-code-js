@@ -88,8 +88,9 @@ const ManageContent = (props) => {
     return doc.body
   }
 
-  const keyupEditor = (editor) => {
+  const changeEditor = (editor) => {
     let str = editor.getContent({ format: 'text' })
+    setContentEditor(editor.getContent())
     setCheckImage(
       stringToHTML(editor.getContent()).getElementsByTagName('img').length
     )
@@ -98,10 +99,7 @@ const ManageContent = (props) => {
     setCheckLink(
       stringToHTML(editor.getContent()).getElementsByTagName('a').length
     )
-    // setCheckImage(editor.selection.getNode().getElementsByTagName('img').length)
   }
-
-  const changeEditor = (html) => setContentEditor(html)
 
   const FocusKey = (e) => {
     let ValueOf = e.target.value
@@ -263,7 +261,6 @@ const ManageContent = (props) => {
                     <Row>
                       <Col span={24}>
                         <Editor
-                          keyupEditor={keyupEditor}
                           clickCurSor={clickCurSor}
                           textData={
                             action === ACTION.EDIT ? typeSelected.detail : ''
