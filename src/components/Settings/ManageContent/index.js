@@ -1,9 +1,21 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Modal, Row, Select, Upload } from 'antd'
+import {
+  Space,
+  Card,
+  Checkbox,
+  Col,
+  Button,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Upload
+} from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { ACTION } from 'utils/constants.js'
+import { ACTION, CONTENT_PAGE } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getContentTypeList } from 'store/reducers/contentType'
 import { beforeUpload, getBase64 } from 'utils/images'
@@ -19,7 +31,7 @@ const ManageContent = (props) => {
   const [contentEditor, setContentEditor] = useState('')
   const [mediaModal, setMediaModal] = useState(false)
   const [imageList, setImageList] = useState([])
-  const [abountCurSor,SetAbountCurSor]=useState()
+  const [abountCurSor, SetAbountCurSor] = useState()
 
   const { contentTypeList } = useSelector(
     (state) => ({
@@ -48,6 +60,79 @@ const ManageContent = (props) => {
     }
   }, [typeSelected])
 
+  const plainOptions = [
+    'Title',
+    'Description',
+    'Focus Key',
+    'Content',
+    'Image',
+    'Link'
+  ]
+  const [options, setOptions] = useState([])
+  const [Title, setTitle] = useState(typeSelected.title.length)
+  const [focusKeyphrase, setFocusKeyphrase] = useState(0)
+  const [description, setDescription] = useState(
+    typeSelected.seo_meta_description
+  )
+  const [detailContent, setDetailContent] = useState(0)
+  const [searchFocus, setSearchFocus] = useState(null)
+  const [contentInnerText, setContentInnerText] = useState()
+  const [checkImage, setCheckImage] = useState()
+  const [checkLink, setCheckLink] = useState()
+
+  const stringToHTML = (str) => {
+    var parser = new DOMParser()
+    var doc = parser.parseFromString(str, 'text/html')
+    return doc.body
+  }
+
+  const keyupEditor = (editor) => {
+    let str = editor.getContent({ format: 'text' })
+    setCheckImage(
+      stringToHTML(editor.getContent()).getElementsByTagName('img').length
+    )
+    setDetailContent(str.length)
+    setContentInnerText(str)
+    setCheckLink(
+      stringToHTML(editor.getContent()).getElementsByTagName('a').length
+    )
+    // setCheckImage(editor.selection.getNode().getElementsByTagName('img').length)
+  }
+
+  const changeEditor = (html) => setContentEditor(html)
+
+  const FocusKey = (e) => {
+    let ValueOf = e.target.value
+    setSearchFocus(contentInnerText.search(ValueOf))
+    setFocusKeyphrase(ValueOf.length)
+  }
+
+  useDeepEffect(() => {
+    let countPlainOptions = [...plainOptions]
+    Title >= CONTENT_PAGE.TITLE
+      ? (countPlainOptions[0] = 'Title')
+      : (countPlainOptions[0] = undefined)
+    description >= CONTENT_PAGE.DESCRIPTION
+      ? (countPlainOptions[1] = 'Description')
+      : (countPlainOptions[1] = undefined)
+    setOptions(countPlainOptions)
+    focusKeyphrase > CONTENT_PAGE.FOCUSKEY &&
+    searchFocus === CONTENT_PAGE.FOCUSKEY
+      ? (countPlainOptions[2] = 'Focus Key')
+      : (countPlainOptions[2] = undefined)
+    setOptions(countPlainOptions)
+    detailContent >= CONTENT_PAGE.CONTENT
+      ? (countPlainOptions[3] = 'Content')
+      : (countPlainOptions[3] = undefined)
+    checkImage > 0
+      ? (countPlainOptions[4] = 'Image')
+      : (countPlainOptions[4] = undefined)
+    checkLink > 0
+      ? (countPlainOptions[5] = 'Link')
+      : (countPlainOptions[5] = undefined)
+    setOptions(countPlainOptions)
+  }, [description, Title, focusKeyphrase, detailContent, checkImage, checkLink])
+
   const onFinish = (values) => {
     const data = {
       title: values.title,
@@ -63,8 +148,6 @@ const ManageContent = (props) => {
     }
     onOk(data)
   }
-  
-  const changeEditor = (html) => setContentEditor(html)
 
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
@@ -78,21 +161,22 @@ const ManageContent = (props) => {
     }
   }
 
-  const clickCurSor =(evt,editor)=> {
+  const clickCurSor = (evt, editor) => {
     SetAbountCurSor({
-      editor:editor
+      editor: editor
     })
   }
 
   const okSelect = () => {
-      for (let Count=0;Count<imageList.length;Count++) {
-        let range = abountCurSor.editor.selection.getRng();   
-        let newNode = abountCurSor.editor.getDoc().createElement( "img" );
-        newNode.src=imageList[Count]
-        range.insertNode(newNode)
-      }
-      setContentEditor(abountCurSor.editor.getContent())
-      setMediaModal(false)
+    for (let Count = 0; Count < imageList.length; Count++) {
+      let range = abountCurSor.editor.selection.getRng()
+      let newNode = abountCurSor.editor.getDoc().createElement('img')
+      newNode.src = imageList[Count]
+      range.insertNode(newNode)
+    }
+    setContentEditor(abountCurSor.editor.getContent())
+    setCheckImage(imageList.length)
+    setMediaModal(false)
     // const pushImg = imageList.map((item)=>"<img  src={item}/>")
     // console.log(...pushImg)
   }
@@ -125,34 +209,42 @@ const ManageContent = (props) => {
         name="ManageContentType"
         onFinish={onFinish}
         layout="vertical">
-        <Form.Item
-          label="Content type"
-          name="content_type"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your content type!'
-            }
-          ]}>
-          <Select>
-            {contentTypeList.map((val) => (
-              <Select.Option key={val.id} value={val.id}>
-                {val.name}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label="Title"
-          name="title"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Title!'
-            }
-          ]}>
-          <Input />
-        </Form.Item>
+        <Row>
+          <Col span={20}>
+            <Form.Item
+              label="Content type"
+              name="content_type"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your content type!'
+                }
+              ]}>
+              <Select>
+                {contentTypeList.map((val) => (
+                  <Select.Option key={val.id} value={val.id}>
+                    {val.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={20}>
+            <Form.Item
+              label="Title"
+              name="title"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Title!'
+                }
+              ]}>
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
         <Form.Item>
           <div className="mt-4">
             <Button
@@ -160,64 +252,140 @@ const ManageContent = (props) => {
               style={{ marginBottom: 10 }}>
               เพิ่มสื่อ
             </Button>
-            <Editor clickCurSor={clickCurSor}  textData={action===ACTION.EDIT?typeSelected.detail:""} changeEditor={changeEditor} />
+            <Row>
+              <Col span={20}>
+                <Editor
+                  keyupEditor={keyupEditor}
+                  clickCurSor={clickCurSor}
+                  textData={action === ACTION.EDIT ? typeSelected.detail : ''}
+                  changeEditor={changeEditor}
+                />
+              </Col>
+              <Col span={4}>
+                <Row style={{ paddingLeft: 20 }}>
+                  <Space direction="vertical">
+                    <Card title="Check SEO">
+                      <Checkbox.Group options={plainOptions} value={options} />
+                    </Card>
+                  </Space>
+                </Row>
+                <Row justify="center" style={{ paddingTop: 20 }}>
+                  <Form.Item
+                    label="รูปประจำเรื่อง"
+                    name="image"
+                    valuePropName="upload">
+                    <Upload
+                      name="avatar"
+                      listType="picture-card"
+                      className="avatar-uploader"
+                      showUploadList={false}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChange}>
+                      <div>
+                        {imageUrl ? (
+                          <img
+                            src={imageUrl}
+                            alt="avatar"
+                            style={{ height: '100px' }}
+                          />
+                        ) : (
+                          <div style={{ marginTop: 8 }}>
+                            {loading ? (
+                              <LoadingOutlined />
+                            ) : (
+                              <div>
+                                <PlusOutlined />
+                                <br />
+                                <label>Upload</label>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </Upload>
+                  </Form.Item>
+                </Row>
+              </Col>
+            </Row>
           </div>
         </Form.Item>
-        <Form.Item
-          label="Seo title"
-          name="seo_title"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your seo title!'
-            }
-          ]}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Meta description"
-          name="seo_meta_description"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your description!'
-            }
-          ]}>
-          <Input />
-        </Form.Item>
-        <Row justify="center">
-          <Form.Item label="Image" name="image" valuePropName="upload">
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              beforeUpload={beforeUpload}
-              onChange={handleChange}>
-              <div>
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{ height: '100px' }}
-                  />
-                ) : (
-                  <div style={{ marginTop: 8 }}>
-                    {loading ? (
-                      <LoadingOutlined />
-                    ) : (
-                      <div>
-                        <PlusOutlined />
-                        <br />
-                        <label>Upload</label>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </Upload>
-          </Form.Item>
+        <Row>
+          <Col span={20}>
+            <Form.Item
+              label="Focus keyphrase"
+              name="focus_keyphrase"
+              help={
+                focusKeyphrase > CONTENT_PAGE.FOCUSKEY
+                  ? searchFocus === CONTENT_PAGE.FOCUSKEY
+                    ? undefined
+                    : 'key not match!'
+                  : 'Please input seo focus keyphrase!'
+              }
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input seo focus keyphrase!'
+                }
+              ]}>
+              <Input onChange={FocusKey} />
+            </Form.Item>
+            <Form.Item
+              label="Seo title"
+              name="seo_title"
+              help={
+                Title >= CONTENT_PAGE.TITLE
+                  ? undefined
+                  : Title === 0
+                  ? undefined
+                  : 'Title must be minimum ' +
+                    String(CONTENT_PAGE.TITLE) +
+                    ' characters.'
+              }
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your seo title!'
+                },
+                {
+                  min: 20,
+                  message:
+                    'Title must be minimum ' +
+                    String(CONTENT_PAGE.TITLE) +
+                    ' characters.'
+                }
+              ]}>
+              <Input onChange={(e) => setTitle(e.target.value.length)} />
+            </Form.Item>
+            <Form.Item
+              label="Meta description"
+              name="seo_meta_description"
+              help={
+                description >= CONTENT_PAGE.DESCRIPTION
+                  ? undefined
+                  : description === 0
+                  ? undefined
+                  : 'Description must be minimum ' +
+                    String(CONTENT_PAGE.DESCRIPTION) +
+                    ' characters.'
+              }
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your description!'
+                },
+                {
+                  min: CONTENT_PAGE.DESCRIPTION,
+                  message:
+                    'Description must be minimum ' +
+                    String(CONTENT_PAGE.DESCRIPTION) +
+                    ' characters.'
+                }
+              ]}>
+              <Input onChange={(e) => setDescription(e.target.value.length)} />
+            </Form.Item>
+          </Col>
         </Row>
+
         {mediaModal && (
           <SelectMedia
             visible={mediaModal}

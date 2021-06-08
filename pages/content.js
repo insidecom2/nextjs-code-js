@@ -115,11 +115,6 @@ const content = () => {
       key: 'seo_title'
     },
     {
-      title: 'seo meta description',
-      dataIndex: 'seo_meta_description',
-      key: 'seo_meta_description'
-    },
-    {
       title: 'content type',
       render: (text) => <Space>{text.content_type.name}</Space>
     },

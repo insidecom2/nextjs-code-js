@@ -17,3 +17,10 @@ export const RESPONSE_MESSAGE = {
   DATANOTFOUND: 'ไม่มีข้อมูล',
   DELETED: 'ลบสำเสร็จ'
 }
+
+export const CONTENT_PAGE = {
+  TITLE: 20,
+  DESCRIPTION: 140,
+  FOCUSKEY: 0,
+  CONTENT: 300
+}

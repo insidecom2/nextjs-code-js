@@ -18,7 +18,6 @@ const StepQuantity = (props) => {
           [`price_${item.id}_${index}`]: item.price
         })
       })
-
       setQuantityList(product.product_quantity_price)
     }
   }, [])
@@ -124,6 +123,7 @@ const StepQuantity = (props) => {
         columns={columns}
         dataSource={quantityList}
         // rowKey={(record) => moment(record.createdAt).unix()}
+        rowKey={(record)=>record.id}
         pagination={false}
       />
     </div>
