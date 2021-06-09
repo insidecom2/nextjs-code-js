@@ -107,7 +107,7 @@ const MainLayout = (props) => {
           <Menu.Item
             key="4"
             icon={<TrophyOutlined />}
-            onClick={(e) => onClick(e, 'broadcast')}>
+            onClick={(e) => onClick(e, 'promotion')}>
             จัดการแคมเปญ
           </Menu.Item>
           <Menu.Item
@@ -125,7 +125,7 @@ const MainLayout = (props) => {
           <Menu.Item
             key="7"
             icon={<SendOutlined />}
-            onClick={(e) => onClick(e, 'broadcast')}>
+            onClick={(e) => onClick(e, 'shipping')}>
             การจัดส่ง
           </Menu.Item>
           <SubMenu key="sub1" icon={<ControlFilled />} title="ตั้งค่า">

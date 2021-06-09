@@ -12,6 +12,8 @@ import menu from 'store/reducers/menu'
 import media from 'store/reducers/media'
 import contentType from 'store/reducers/contentType'
 import content from 'store/reducers/content'
+import shipping from 'store/reducers/shipping'
+import promotion from 'store/reducers/promotion'
 
 export default combineReducers({
   auth,
@@ -26,5 +28,7 @@ export default combineReducers({
   menu,
   media,
   contentType,
-  content
+  content,
+  shipping,
+  promotion
 })
