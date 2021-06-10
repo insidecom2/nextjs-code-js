@@ -111,29 +111,6 @@ const ManageShipping = (props) => {
           ]}>
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Created"
-          name="createdAt"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your created at!'
-            }
-          ]}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Updated"
-          name="updatedAt"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your updated at!'
-            }
-          ]}>
-          <Input />
-        </Form.Item>
-
         <Form.Item label="Image" name="image">
           <Upload
             fileList={null}

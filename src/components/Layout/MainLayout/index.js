@@ -128,7 +128,7 @@ const MainLayout = (props) => {
             onClick={(e) => onClick(e, 'shipping')}>
             การจัดส่ง
           </Menu.Item>
-          <SubMenu key="sub1" icon={<ControlFilled />} title="ตั้งค่า">
+          <SubMenu key="sub1" icon={<ControlFilled />} title="ตั้งค่าสินค้า">
             <Menu.Item key="8" onClick={(e) => onClick(e, 'category')}>
               หมวดหมู่
             </Menu.Item>
@@ -151,6 +151,12 @@ const MainLayout = (props) => {
               พิมพ์ด้าน
             </Menu.Item>
           </SubMenu>
+          <Menu.Item
+            key="100"
+            icon={<SendOutlined />}
+            onClick={(e) => onClick(e, 'setting')}>
+            ตั้งค่าเว็บไซต์
+          </Menu.Item>
         </MenuEx>
       </SiderEx>
       <Layout>

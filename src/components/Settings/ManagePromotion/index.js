@@ -84,11 +84,19 @@ const ManagePromotion = (props) => {
         <Button key="cancel" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button form="manageType" key="ok" type="primary" htmlType="submit">
+        <Button
+          form="managePromotion"
+          key="ok"
+          type="primary"
+          htmlType="submit">
           Submit
         </Button>
       ]}>
-      <Form form={form} name="manageType" onFinish={onFinish} layout="vertical">
+      <Form
+        form={form}
+        name="managePromotion"
+        onFinish={onFinish}
+        layout="vertical">
         <p>No : {TrNo}</p>
         <Form.Item
           label="Title"

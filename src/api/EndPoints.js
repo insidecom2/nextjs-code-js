@@ -15,3 +15,4 @@ export const CONTENT_TYPE = `/content-type`
 export const CONTENT = `/content`
 export const SHIPPING = `/shipping`
 export const PROMOTION = `/promotion`
+export const SETTING = `/web-setting`
