@@ -11,7 +11,9 @@ import {
   TrophyOutlined,
   SendOutlined,
   HomeOutlined,
-  FileTextOutlined
+  FileTextOutlined,
+  SettingOutlined,
+  PicRightOutlined
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
@@ -151,9 +153,15 @@ const MainLayout = (props) => {
           </SubMenu>
           <Menu.Item
             key="100"
-            icon={<SendOutlined />}
+            icon={<SettingOutlined />}
             onClick={(e) => onClick(e, 'setting')}>
             ตั้งค่าเว็บไซต์
+          </Menu.Item>
+          <Menu.Item
+            key="101"
+            icon={<PicRightOutlined />}
+            onClick={(e) => onClick(e, 'banner')}>
+            แบนเนอร์
           </Menu.Item>
         </MenuEx>
       </SiderEx>

@@ -14,7 +14,6 @@ const setting = () => {
     }),
     []
   )
-  console.log(settingList)
 
   const fetchData = async () => {
     await dispatch(getSettingList())

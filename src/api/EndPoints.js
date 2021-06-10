@@ -16,3 +16,4 @@ export const CONTENT = `/content`
 export const SHIPPING = `/shipping`
 export const PROMOTION = `/promotion`
 export const SETTING = `/web-setting`
+export const BANNER = `/slide-image`

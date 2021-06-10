@@ -15,6 +15,7 @@ import content from 'store/reducers/content'
 import shipping from 'store/reducers/shipping'
 import promotion from 'store/reducers/promotion'
 import setting from 'store/reducers/setting'
+import banner from 'store/reducers/banner'
 
 export default combineReducers({
   auth,
@@ -32,5 +33,6 @@ export default combineReducers({
   content,
   shipping,
   promotion,
-  setting
+  setting,
+  banner
 })
