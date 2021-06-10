@@ -42,7 +42,7 @@ const setting = () => {
     formData.set('email', data.email)
     formData.set('telephone', Number(data.telephone))
     formData.set('address', data.address)
-    formData.set('facebook', datafacebook)
+    formData.set('facebook', data.facebook)
     formData.set('line', data.line)
     formData.set('google_analytics', data.google_analytics)
     formData.set('facebook_pixel', data.facebook_pixel)
