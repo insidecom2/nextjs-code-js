@@ -82,6 +82,13 @@ const banner = () => {
     setVisible(true)
   }
 
+  const styleCSS = {
+    display: 'block',
+    margin: 'auto',
+    width: 100,
+    maxWidth: '100%'
+  }
+
   const columns = [
     {
       title: 'No.',
@@ -96,7 +103,7 @@ const banner = () => {
       title: 'Image',
       key: 'image',
       render: (text, record, index) => (
-        <img style={{ width: 100, maxWidth: '100%' }} src={record.image} />
+        <img style={styleCSS} src={record.image} />
       )
     },
     {
