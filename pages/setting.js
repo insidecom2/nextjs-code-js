@@ -1,17 +1,6 @@
-import {
-  Form,
-  Button,
-  Col,
-  Input,
-  Popconfirm,
-  Row,
-  Space,
-  Switch,
-  Table,
-  Typography
-} from 'antd'
+import { Form, Button, Col, Input, Row, Typography } from 'antd'
 import MainLayout from 'components/Layout/MainLayout'
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getSettingList, updateSetting } from 'store/reducers/setting'
@@ -19,14 +8,12 @@ import { getSettingList, updateSetting } from 'store/reducers/setting'
 const setting = () => {
   const dispatch = useDispatch()
   const [form] = Form.useForm()
-  const { isLoading, settingList } = useSelector(
+  const { settingList } = useSelector(
     (state) => ({
-      isLoading: state.setting.isLoading,
       settingList: state.setting.SettingTypeList
     }),
     []
   )
-
   console.log(settingList)
 
   const fetchData = async () => {
@@ -49,6 +36,34 @@ const setting = () => {
     fetchData()
   }, [settingList])
 
+  const onOk = async (data) => {
+    const formData = new FormData()
+    formData.set('title', data.title)
+    formData.set('email', data.email)
+    formData.set('telephone', Number(data.telephone))
+    formData.set('address', data.address)
+    formData.set('facebook', datafacebook)
+    formData.set('line', data.line)
+    formData.set('google_analytics', data.google_analytics)
+    formData.set('facebook_pixel', data.facebook_pixel)
+    await dispatch(updateSetting(formData))
+    await dispatch(getSettingList())
+  }
+
+  const onFinish = (values) => {
+    const data = {
+      title: values.title,
+      email: values.email,
+      telephone: values.telephone,
+      address: values.address,
+      facebook: values.facebook,
+      line: values.line,
+      google_analytics: values.google_analytics,
+      facebook_pixel: values.facebook_pixel
+    }
+    onOk(data)
+  }
+
   return (
     <MainLayout>
       <div style={{ margin: '0 16px', padding: 10 }}>
@@ -62,7 +77,7 @@ const setting = () => {
             <Form
               form={form}
               name="manageWebSetting"
-              //   onFinish={onFinish}
+              onFinish={onFinish}
               layout="vertical">
               <Form.Item
                 label="Title"
