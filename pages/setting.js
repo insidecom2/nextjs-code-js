@@ -37,16 +37,17 @@ const setting = () => {
   }, [settingList])
 
   const onOk = async (data) => {
-    const formData = new FormData()
-    formData.set('title', data.title)
-    formData.set('email', data.email)
-    formData.set('telephone', Number(data.telephone))
-    formData.set('address', data.address)
-    formData.set('facebook', datafacebook)
-    formData.set('line', data.line)
-    formData.set('google_analytics', data.google_analytics)
-    formData.set('facebook_pixel', data.facebook_pixel)
-    await dispatch(updateSetting(formData))
+    // const formData = new FormData()
+    // formData.set('title', data.title)
+    // formData.set('email', data.email)
+    // formData.set('telephone', data.telephone)
+    // formData.set('address', data.address)
+    // formData.set('facebook', data.facebook)
+    // formData.set('line', data.line)
+    // formData.set('google_analytics', data.google_analytics)
+    // formData.set('facebook_pixel', data.facebook_pixel)
+
+    await dispatch(updateSetting(data))
     await dispatch(getSettingList())
   }
 

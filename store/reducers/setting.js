@@ -94,7 +94,7 @@ export const updateSetting = (data) => {
       })
 
       const config = {
-        headers: { 'content-type': 'multipart/form-data' }
+        headers: { 'content-type': 'application/json' }
       }
 
       const response = await API.patch(EndPoints.SETTING, data, config)

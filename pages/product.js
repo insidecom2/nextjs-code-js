@@ -120,7 +120,6 @@ const Products = (props) => {
   }
 
   const onOk = async (data) => {
-    console.log(data)
     const formData = new FormData()
     formData.set('productData', JSON.stringify(data.productData))
     for (let Count = 0; Count < data.images.length; Count++) {
