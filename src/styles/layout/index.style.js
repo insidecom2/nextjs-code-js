@@ -28,15 +28,6 @@ export const HeaderEx = styled(Header)`
 `
 
 export const SiderEx = styled(Sider)`
-  .ant-layout-sider-children div {
-    background: #2e26d9;
-    margin-top: 0 !important;
-    height: 32px;
-    max-height: 100% !important;
-    font-weight: 500 !important;
-    font-size: 37px !important;
-  }
-
   .ant-layout-sider-children .ant-menu-submenu-title {
     background: #f9f9ff !important;
     font-size: 16px !important;
