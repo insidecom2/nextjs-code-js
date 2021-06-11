@@ -79,92 +79,28 @@ const setting = () => {
               name="manageWebSetting"
               onFinish={onFinish}
               layout="vertical">
-              <Form.Item
-                label="Title"
-                name="title"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your title!'
-                  }
-                ]}>
+              <Form.Item label="Title" name="title">
                 <Input />
               </Form.Item>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your email!'
-                  }
-                ]}>
+              <Form.Item label="Email" name="email">
                 <Input />
               </Form.Item>
-              <Form.Item
-                label="Telephone"
-                name="telephone"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your telephone!'
-                  }
-                ]}>
+              <Form.Item label="Telephone" name="telephone">
                 <Input />
               </Form.Item>
-              <Form.Item
-                label="Address"
-                name="address"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your discount address!'
-                  }
-                ]}>
+              <Form.Item label="Address" name="address">
                 <Input />
               </Form.Item>
-              <Form.Item
-                label="Facebook"
-                name="facebook"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your facebook!'
-                  }
-                ]}>
+              <Form.Item label="Facebook" name="facebook">
                 <Input />
               </Form.Item>
-              <Form.Item
-                label="Line"
-                name="line"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your line!'
-                  }
-                ]}>
+              <Form.Item label="Line" name="line">
                 <Input />
               </Form.Item>
-              <Form.Item
-                label="Google Analytics"
-                name="google_analytics"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your google analytics!'
-                  }
-                ]}>
+              <Form.Item label="Google Analytics" name="google_analytics">
                 <Input />
               </Form.Item>
-              <Form.Item
-                label="Facebook Pixel"
-                name="facebook_pixel"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your google facebook pixel!'
-                  }
-                ]}>
+              <Form.Item label="Facebook Pixel" name="facebook_pixel">
                 <Input />
               </Form.Item>
             </Form>

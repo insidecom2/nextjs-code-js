@@ -21,6 +21,7 @@ import { getContentTypeList } from 'store/reducers/contentType'
 import { beforeUpload, getBase64 } from 'utils/images'
 import Editor from 'components/Shared/TextEditor'
 import SelectMedia from 'components/Settings/ManageContent/SelectMedia'
+import { UploadEx } from 'styles/Upload/index.style'
 
 const ManageContent = (props) => {
   const { visible, onOk, onCancel, action, typeSelected } = props
@@ -362,19 +363,19 @@ const ManageContent = (props) => {
                 </Card>
               </Space>
             </Row>
-            <Row justify="center" style={{ paddingTop: 20 }}>
+            <Row justify="center" style={{ paddingTop: 20, paddingLeft: 20 }}>
               <Form.Item
                 label="รูปประจำเรื่อง"
                 name="image"
                 valuePropName="upload">
-                <Upload
+                <UploadEx
                   name="avatar"
                   listType="picture-card"
                   className="avatar-uploader"
                   showUploadList={false}
                   beforeUpload={beforeUpload}
                   onChange={handleChange}>
-                  <div>
+                  <div style={{ width: 200, maxWidth: '100%' }}>
                     {imageUrl ? (
                       <img
                         src={imageUrl}
@@ -395,7 +396,7 @@ const ManageContent = (props) => {
                       </div>
                     )}
                   </div>
-                </Upload>
+                </UploadEx>
               </Form.Item>
             </Row>
           </Col>

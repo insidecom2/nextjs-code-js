@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Modal, Upload } from 'antd'
+import { Button, Empty, Form, Input, Modal, Upload } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
 import { beforeUpload, getBase64 } from 'utils/images'
+import { UploadEx } from 'styles/Upload/index.style'
 
 const ManagBanner = (props) => {
   const { visible, onOk, onCancel, action, TrNo, typeSelected } = props
@@ -12,7 +13,7 @@ const ManagBanner = (props) => {
   const [imageUrl, setimageUrl] = useState()
   const onFinish = (values) => {
     const data = {
-      link: values.link,
+      link: values.link === undefined ? '' : values.link,
       image: values.image === undefined ? null : values.image.file.originFileObj
     }
     if (action === ACTION.EDIT) {
@@ -61,19 +62,11 @@ const ManagBanner = (props) => {
         onFinish={onFinish}
         layout="vertical">
         <p>No : {TrNo}</p>
-        <Form.Item
-          label="Link"
-          name="link"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your link!'
-            }
-          ]}>
+        <Form.Item label="Link" name="link">
           <Input />
         </Form.Item>
         <Form.Item label="Image" name="image">
-          <Upload
+          <UploadEx
             fileList={null}
             name="avatar"
             listType="picture-card"
@@ -99,7 +92,7 @@ const ManagBanner = (props) => {
                 </div>
               )}
             </div>
-          </Upload>
+          </UploadEx>
         </Form.Item>
       </Form>
     </Modal>
