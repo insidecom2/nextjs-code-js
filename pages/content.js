@@ -75,6 +75,7 @@ const content = () => {
     formData.set('content_type', data.content_type)
     formData.set('detail', data.detail)
     formData.set('seo_title', data.seo_title)
+    formData.set('focus_key', data.focus_key)
     formData.set('seo_meta_description', data.seo_meta_description)
     formData.append('image', data.image)
     if (action === ACTION.CREATE) {

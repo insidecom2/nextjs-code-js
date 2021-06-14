@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 
 const TextEditor = (props) => {
-  const { textData, changeEditor, clickCurSor } = props
+  const { textData, changeEditor, clickCurSor, onInitFocusKey } = props
   const editorRef = useRef(null)
 
   const putCurSor = async (evt, editor) => {

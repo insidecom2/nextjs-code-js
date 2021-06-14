@@ -54,7 +54,8 @@ const ManageContent = (props) => {
         content_type: typeSelected.content_type.id,
         title: typeSelected.title,
         seo_title: typeSelected.seo_title,
-        seo_meta_description: typeSelected.seo_meta_description
+        seo_meta_description: typeSelected.seo_meta_description,
+        focus_keyphrase: typeSelected.focus_key
       })
       setImageUrl(typeSelected.image)
       setContentEditor(typeSelected.detail)
@@ -73,12 +74,14 @@ const ManageContent = (props) => {
   const [Title, setTitle] = useState(
     action === ACTION.EDIT ? typeSelected.seo_title.length : 0
   )
-  const [focusKeyphrase, setFocusKeyphrase] = useState(0)
+  const [focusKeyphrase, setFocusKeyphrase] = useState(
+    action === ACTION.EDIT ? typeSelected.focus_key.length : 0
+  )
+  const [searchFocus, setSearchFocus] = useState(null)
   const [description, setDescription] = useState(
     action === ACTION.EDIT ? typeSelected.seo_meta_description.length : 0
   )
   const [detailContent, setDetailContent] = useState(0)
-  const [searchFocus, setSearchFocus] = useState(null)
   const [contentInnerText, setContentInnerText] = useState()
   const [checkImage, setCheckImage] = useState()
   const [checkLink, setCheckLink] = useState()
@@ -99,6 +102,11 @@ const ManageContent = (props) => {
     setContentInnerText(str)
     setCheckLink(
       stringToHTML(editor.getContent()).getElementsByTagName('a').length
+    )
+    setSearchFocus(
+      (action === ACTION.EDIT && str[0]) === typeSelected.focus_key[0]
+        ? 0
+        : null
     )
   }
 
@@ -141,6 +149,7 @@ const ManageContent = (props) => {
       detail: contentEditor,
       seo_title: values.seo_title,
       seo_meta_description: values.seo_meta_description,
+      focus_key: values.focus_keyphrase,
       image: values.image === undefined ? [] : values.image.file.originFileObj
     }
 
