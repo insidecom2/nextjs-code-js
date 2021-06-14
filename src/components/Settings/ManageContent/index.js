@@ -140,7 +140,15 @@ const ManageContent = (props) => {
       ? (countPlainOptions[5] = 'Link')
       : (countPlainOptions[5] = undefined)
     setOptions(countPlainOptions)
-  }, [description, Title, focusKeyphrase, detailContent, checkImage, checkLink])
+  }, [
+    description,
+    Title,
+    focusKeyphrase,
+    searchFocus,
+    detailContent,
+    checkImage,
+    checkLink
+  ])
 
   const onFinish = (values) => {
     const data = {
