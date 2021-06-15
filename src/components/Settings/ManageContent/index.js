@@ -22,6 +22,7 @@ import { beforeUpload, getBase64 } from 'utils/images'
 import Editor from 'components/Shared/TextEditor'
 import SelectMedia from 'components/Settings/ManageContent/SelectMedia'
 import { UploadEx } from 'styles/Upload/index.style'
+import { CheckSeo } from 'styles/checkSeo/index.style'
 
 const ManageContent = (props) => {
   const { visible, onOk, onCancel, action, typeSelected } = props
@@ -95,13 +96,14 @@ const ManageContent = (props) => {
     'H3',
     'H4',
     'H5',
-    'H6'
+    'H6',
+    '1000Char'
   ]
   const listEffect = [
     Title,
     description,
     focusKeyphrase,
-    detailContent,
+    options,
     checkImage,
     checkLink,
     headOne,
@@ -109,7 +111,8 @@ const ManageContent = (props) => {
     headThree,
     headFour,
     headFive,
-    headSix
+    headSix,
+    detailContent
   ]
 
   const stringToHTML = (str) => {
@@ -174,19 +177,26 @@ const ManageContent = (props) => {
           countPlainOptions[Count] = undefined
         }
       }
-      if (Count === 3) {
-        if (listEffect[Count] >= CONTENT_PAGE.CONTENT) {
-          countPlainOptions[Count] = plainOptions[Count]
-        } else {
-          countPlainOptions[Count] = undefined
-        }
-      }
       if (Count > 3) {
         if (listEffect[Count] > 0) {
           countPlainOptions[Count] = plainOptions[Count]
         } else {
           countPlainOptions[Count] = undefined
         }
+      }
+      if (Count === 12) {
+        if (listEffect[Count] >= CONTENT_PAGE.CONTENT) {
+          countPlainOptions[Count] = plainOptions[Count]
+        } else {
+          countPlainOptions[Count] = undefined
+        }
+      }
+      const newValueChecker = [...options.filter((item, index) => index > 3)]
+      let index = newValueChecker.indexOf(undefined)
+      if (Number(index) === -1) {
+        countPlainOptions[3] = plainOptions[3]
+      } else {
+        countPlainOptions[3] = undefined
       }
     }
     setOptions(countPlainOptions)
@@ -432,7 +442,7 @@ const ManageContent = (props) => {
             <Row style={{ paddingLeft: 20 }}>
               <Space direction="vertical">
                 <Card title="Check SEO">
-                  <Checkbox.Group options={plainOptions} value={options} />
+                  <CheckSeo options={plainOptions} value={options} />
                 </Card>
               </Space>
             </Row>
