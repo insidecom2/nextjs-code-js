@@ -33,6 +33,27 @@ const ManageContent = (props) => {
   const [mediaModal, setMediaModal] = useState(false)
   const [imageList, setImageList] = useState([])
   const [abountCurSor, SetAbountCurSor] = useState()
+  const [headOne, setHeadOne] = useState(0)
+  const [headTwo, setHeadTwo] = useState(0)
+  const [headThree, setHeadThree] = useState(0)
+  const [headFour, setHeadFour] = useState(0)
+  const [headFive, setHeadFive] = useState(0)
+  const [headSix, setHeadSix] = useState(0)
+  const [options, setOptions] = useState([])
+  const [Title, setTitle] = useState(
+    action === ACTION.EDIT ? typeSelected.seo_title.length : 0
+  )
+  const [focusKeyphrase, setFocusKeyphrase] = useState(
+    action === ACTION.EDIT ? typeSelected.focus_key.length : 0
+  )
+  const [searchFocus, setSearchFocus] = useState(null)
+  const [description, setDescription] = useState(
+    action === ACTION.EDIT ? typeSelected.seo_meta_description.length : 0
+  )
+  const [detailContent, setDetailContent] = useState(0)
+  const [contentInnerText, setContentInnerText] = useState()
+  const [checkImage, setCheckImage] = useState()
+  const [checkLink, setCheckLink] = useState()
 
   const { contentTypeList } = useSelector(
     (state) => ({
@@ -68,33 +89,42 @@ const ManageContent = (props) => {
     'Focus Key',
     'Content',
     'Image',
-    'Link'
+    'Link',
+    'H1',
+    'H2',
+    'H3',
+    'H4',
+    'H5',
+    'H6'
   ]
-  const [options, setOptions] = useState([])
-  const [Title, setTitle] = useState(
-    action === ACTION.EDIT ? typeSelected.seo_title.length : 0
-  )
-  const [focusKeyphrase, setFocusKeyphrase] = useState(
-    action === ACTION.EDIT ? typeSelected.focus_key.length : 0
-  )
-  const [searchFocus, setSearchFocus] = useState(null)
-  const [description, setDescription] = useState(
-    action === ACTION.EDIT ? typeSelected.seo_meta_description.length : 0
-  )
-  const [detailContent, setDetailContent] = useState(0)
-  const [contentInnerText, setContentInnerText] = useState()
-  const [checkImage, setCheckImage] = useState()
-  const [checkLink, setCheckLink] = useState()
+  const listEffect = [
+    Title,
+    description,
+    focusKeyphrase,
+    detailContent,
+    checkImage,
+    checkLink,
+    headOne,
+    headTwo,
+    headThree,
+    headFour,
+    headFive,
+    headSix
+  ]
 
   const stringToHTML = (str) => {
-    var parser = new DOMParser()
-    var doc = parser.parseFromString(str, 'text/html')
+    let parser = new DOMParser()
+    let doc = parser.parseFromString(str, 'text/html')
     return doc.body
   }
 
   const changeEditor = (editor) => {
-    let str = editor.getContent({ format: 'text' })
-    setContentEditor(editor.getContent())
+    const str = editor.getContent({ format: 'text' })
+    const theContent = String(editor.getContent()).replace(
+      /<[^/>][^>]*>&nbsp;<\/[^>]+>/,
+      ''
+    )
+    setContentEditor(theContent)
     setCheckImage(
       stringToHTML(editor.getContent()).getElementsByTagName('img').length
     )
@@ -108,6 +138,12 @@ const ManageContent = (props) => {
         ? 0
         : null
     )
+    setHeadOne(stringToHTML(theContent).getElementsByTagName('h1').length)
+    setHeadTwo(stringToHTML(theContent).getElementsByTagName('h2').length)
+    setHeadThree(stringToHTML(theContent).getElementsByTagName('h3').length)
+    setHeadFour(stringToHTML(theContent).getElementsByTagName('h4').length)
+    setHeadFive(stringToHTML(theContent).getElementsByTagName('h5').length)
+    setHeadSix(stringToHTML(theContent).getElementsByTagName('h6').length)
   }
 
   const FocusKey = (e) => {
@@ -118,27 +154,41 @@ const ManageContent = (props) => {
 
   useDeepEffect(() => {
     let countPlainOptions = [...plainOptions]
-    Title >= CONTENT_PAGE.TITLE
-      ? (countPlainOptions[0] = 'Title')
-      : (countPlainOptions[0] = undefined)
-    description >= CONTENT_PAGE.DESCRIPTION
-      ? (countPlainOptions[1] = 'Description')
-      : (countPlainOptions[1] = undefined)
-    setOptions(countPlainOptions)
-    focusKeyphrase > CONTENT_PAGE.FOCUSKEY &&
-    searchFocus === CONTENT_PAGE.FOCUSKEY
-      ? (countPlainOptions[2] = 'Focus Key')
-      : (countPlainOptions[2] = undefined)
-    setOptions(countPlainOptions)
-    detailContent >= CONTENT_PAGE.CONTENT
-      ? (countPlainOptions[3] = 'Content')
-      : (countPlainOptions[3] = undefined)
-    checkImage > 0
-      ? (countPlainOptions[4] = 'Image')
-      : (countPlainOptions[4] = undefined)
-    checkLink > 0
-      ? (countPlainOptions[5] = 'Link')
-      : (countPlainOptions[5] = undefined)
+    for (let Count = 0; Count < listEffect.length; Count++) {
+      if (Count < 2) {
+        let checkCount =
+          Count === 0 ? CONTENT_PAGE.TITLE : CONTENT_PAGE.DESCRIPTION
+        if (listEffect[Count] >= checkCount) {
+          countPlainOptions[Count] = plainOptions[Count]
+        } else {
+          countPlainOptions[Count] = undefined
+        }
+      }
+      if (Count === 2) {
+        if (
+          listEffect[Count] > CONTENT_PAGE.FOCUSKEY &&
+          searchFocus === CONTENT_PAGE.FOCUSKEY
+        ) {
+          countPlainOptions[Count] = plainOptions[Count]
+        } else {
+          countPlainOptions[Count] = undefined
+        }
+      }
+      if (Count === 3) {
+        if (listEffect[Count] >= CONTENT_PAGE.CONTENT) {
+          countPlainOptions[Count] = plainOptions[Count]
+        } else {
+          countPlainOptions[Count] = undefined
+        }
+      }
+      if (Count > 3) {
+        if (listEffect[Count] > 0) {
+          countPlainOptions[Count] = plainOptions[Count]
+        } else {
+          countPlainOptions[Count] = undefined
+        }
+      }
+    }
     setOptions(countPlainOptions)
   }, [
     description,
@@ -147,7 +197,13 @@ const ManageContent = (props) => {
     searchFocus,
     detailContent,
     checkImage,
-    checkLink
+    checkLink,
+    headOne,
+    headTwo,
+    headThree,
+    headFour,
+    headFive,
+    headSix
   ])
 
   const onFinish = (values) => {
