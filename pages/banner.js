@@ -35,10 +35,10 @@ const banner = () => {
     fetchData()
   }, [])
 
-  const setActive = async (e, record) => {
-    await dispatch(updateActivebanner(record.id, e))
-    await dispatch(getbannerList())
-  }
+  // const setActive = async (e, record) => {
+  //   await dispatch(updateActivebanner(record.id, e))
+  //   await dispatch(getbannerList())
+  // }
 
   const confirm = async (e, record) => {
     e.preventDefault()
@@ -85,14 +85,16 @@ const banner = () => {
   const styleCSS = {
     display: 'block',
     margin: 'auto',
-    width: 100,
-    maxWidth: '100%'
+
+    maxWidth: '100%',
+    height: '300px'
   }
 
   const columns = [
     {
       title: 'No.',
       key: 'no',
+      width: '10%',
       render: (text, record, index) => (
         <span>
           {bannerList.findIndex((FindPos) => FindPos.id === text.id) + 1}
@@ -102,6 +104,7 @@ const banner = () => {
     {
       title: 'Image',
       key: 'image',
+      width: '40%',
       render: (text, record, index) => (
         <img style={styleCSS} src={record.image} />
       )
@@ -109,7 +112,8 @@ const banner = () => {
     {
       title: 'Link',
       dataIndex: 'link',
-      key: 'link'
+      key: 'link',
+      width: '20%'
     },
     {
       title: 'Action',
