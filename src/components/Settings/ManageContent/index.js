@@ -224,7 +224,8 @@ const ManageContent = (props) => {
       seo_title: values.seo_title,
       seo_meta_description: values.seo_meta_description,
       focus_key: values.focus_keyphrase,
-      image: values.image === undefined ? [] : values.image.file.originFileObj
+      image:
+        values.image === undefined ? false : values.image.file.originFileObj
     }
 
     if (action === ACTION.EDIT) {
