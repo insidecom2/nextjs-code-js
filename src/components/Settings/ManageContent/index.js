@@ -147,11 +147,10 @@ const ManageContent = (props) => {
     setCheckLink(
       stringToHTML(editor.getContent()).getElementsByTagName('a').length
     )
-    setSearchFocus(
-      (action === ACTION.EDIT && str[0]) === typeSelected.focus_key[0]
-        ? 0
-        : null
-    )
+    if (action === ACTION.EDIT)
+      if (str[0] === typeSelected.focus_key[0]) {
+        setSearchFocus(0)
+      }
     setHeadOne(stringToHTML(theContent).getElementsByTagName('h1').length)
     setHeadTwo(stringToHTML(theContent).getElementsByTagName('h2').length)
     setHeadThree(stringToHTML(theContent).getElementsByTagName('h3').length)
@@ -192,7 +191,7 @@ const ManageContent = (props) => {
           listEffect[Count] > CONTENT_PAGE.FOCUSKEY &&
           searchFocus === CONTENT_PAGE.FOCUSKEY
         ) {
-          if (AllTrue(checkFocusList))
+          if (AllTrue(checkFocusList) && detectFocusKey !== '')
             countPlainOptions[Count] = plainOptions[Count]
         } else {
           countPlainOptions[Count] = undefined
