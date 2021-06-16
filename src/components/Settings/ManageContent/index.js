@@ -121,6 +121,16 @@ const ManageContent = (props) => {
     return doc.body
   }
 
+  const [detectFocusKey, setDetectFocusKey] = useState(
+    action === ACTION.EDIT ? typeSelected.focus_key : ''
+  )
+  const [detectTitle, setDetectTitle] = useState(Title)
+  const [detectSeoTitle, setDetectSeoTitle] = useState(
+    action === ACTION.EDIT ? typeSelected.seo_meta_description : ''
+  )
+  const [detectDescription, setDetectDescription] = useState()
+  const [detectContent, setDetectContent] = useState()
+
   const changeEditor = (editor) => {
     const str = editor.getContent({ format: 'text' })
     const theContent = String(editor.getContent()).replace(
@@ -133,6 +143,7 @@ const ManageContent = (props) => {
     )
     setDetailContent(str.length)
     setContentInnerText(str)
+    setDetectContent(str)
     setCheckLink(
       stringToHTML(editor.getContent()).getElementsByTagName('a').length
     )
@@ -156,6 +167,15 @@ const ManageContent = (props) => {
   }
 
   useDeepEffect(() => {
+    const checkFocusList = [
+      String(detectTitle).search(String(detectFocusKey)),
+      String(detectSeoTitle).search(String(detectFocusKey)),
+      String(detectDescription).search(String(detectFocusKey)),
+      String(detectContent).search(String(detectFocusKey))
+    ]
+    let AllTrue = (arr) => arr.every((v) => v > -1)
+    // console.log(AllTrue(checkFocusList))
+    // console.log(checkFocusList)
     let countPlainOptions = [...plainOptions]
     for (let Count = 0; Count < listEffect.length; Count++) {
       if (Count < 2) {
@@ -172,7 +192,8 @@ const ManageContent = (props) => {
           listEffect[Count] > CONTENT_PAGE.FOCUSKEY &&
           searchFocus === CONTENT_PAGE.FOCUSKEY
         ) {
-          countPlainOptions[Count] = plainOptions[Count]
+          if (AllTrue(checkFocusList))
+            countPlainOptions[Count] = plainOptions[Count]
         } else {
           countPlainOptions[Count] = undefined
         }
@@ -213,7 +234,12 @@ const ManageContent = (props) => {
     headThree,
     headFour,
     headFive,
-    headSix
+    headSix,
+    detectFocusKey,
+    detectTitle,
+    detectSeoTitle,
+    detectDescription,
+    detectContent
   ])
 
   const onFinish = (values) => {
@@ -321,6 +347,7 @@ const ManageContent = (props) => {
             <Row>
               <Col span={24}>
                 <Form.Item
+                  onChange={(e) => setDetectTitle(e.target.value)}
                   label="Title"
                   name="title"
                   rules={[
@@ -362,6 +389,7 @@ const ManageContent = (props) => {
             <Row>
               <Col span={24}>
                 <Form.Item
+                  onChange={(e) => setDetectFocusKey(e.target.value)}
                   label="Focus keyphrase"
                   name="focus_keyphrase"
                   help={
@@ -373,7 +401,7 @@ const ManageContent = (props) => {
                   }
                   rules={[
                     {
-                      required: true,
+                      required: false,
                       message: 'Please input seo focus keyphrase!'
                     }
                   ]}>
@@ -382,6 +410,7 @@ const ManageContent = (props) => {
                 <Form.Item
                   label="Seo title"
                   name="seo_title"
+                  onChange={(e) => setDetectSeoTitle(e.target.value)}
                   help={
                     Title >= CONTENT_PAGE.TITLE
                       ? undefined
@@ -393,7 +422,7 @@ const ManageContent = (props) => {
                   }
                   rules={[
                     {
-                      required: true,
+                      required: false,
                       message: 'Please input your seo title!'
                     },
                     {
@@ -407,6 +436,7 @@ const ManageContent = (props) => {
                   <Input onChange={(e) => setTitle(e.target.value.length)} />
                 </Form.Item>
                 <Form.Item
+                  onChange={(e) => setDetectDescription(e.target.value)}
                   label="Meta description"
                   name="seo_meta_description"
                   help={
@@ -420,7 +450,7 @@ const ManageContent = (props) => {
                   }
                   rules={[
                     {
-                      required: true,
+                      required: false,
                       message: 'Please input your description!'
                     },
                     {
