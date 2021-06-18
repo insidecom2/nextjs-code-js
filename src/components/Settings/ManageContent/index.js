@@ -147,10 +147,13 @@ const ManageContent = (props) => {
     setCheckLink(
       stringToHTML(editor.getContent()).getElementsByTagName('a').length
     )
-    if (action === ACTION.EDIT)
+    if (action === ACTION.EDIT) {
       if (str[0] === typeSelected.focus_key[0]) {
         setSearchFocus(0)
+      } else {
+        setSearchFocus(null)
       }
+    }
     setHeadOne(stringToHTML(theContent).getElementsByTagName('h1').length)
     setHeadTwo(stringToHTML(theContent).getElementsByTagName('h2').length)
     setHeadThree(stringToHTML(theContent).getElementsByTagName('h3').length)
@@ -188,13 +191,12 @@ const ManageContent = (props) => {
       }
       if (Count === 2) {
         if (
-          listEffect[Count] > CONTENT_PAGE.FOCUSKEY &&
-          searchFocus === CONTENT_PAGE.FOCUSKEY
+          Boolean(listEffect[Count] > CONTENT_PAGE.FOCUSKEY &&
+          searchFocus === CONTENT_PAGE.FOCUSKEY && AllTrue(checkFocusList) && detectFocusKey !== '')
         ) {
-          if (AllTrue(checkFocusList) && detectFocusKey !== '')
             countPlainOptions[Count] = plainOptions[Count]
         } else {
-          countPlainOptions[Count] = undefined
+            countPlainOptions[Count] = undefined
         }
       }
       if (Count > 3) {
@@ -240,6 +242,8 @@ const ManageContent = (props) => {
     detectDescription,
     detectContent
   ])
+
+  // console.log(options)
 
   const onFinish = (values) => {
     const data = {
