@@ -175,7 +175,11 @@ export const createCategory = (data) => {
         type: CREATE_CATEGORY_REQUEST
       })
 
-      const response = await API.post(EndPoints.CATEGORY, data)
+      const config = {
+        headers: { 'content-type': 'application/json' }
+      }
+
+      const response = await API.post(EndPoints.CATEGORY, data, config)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
@@ -198,11 +202,12 @@ export const updateCategory = (id, data) => {
       dispatch({
         type: UPDATE_CATEGORY_REQUEST
       })
-      let formData = new FormData()
-      formData.append('image', data.image)
-      formData.append('name', data.name)
+      
+      const config = {
+        headers: { 'content-type': 'application/json' }
+      }
 
-      const response = await API.put(EndPoints.CATEGORY + `/${id}`, formData)
+      const response = await API.put(EndPoints.CATEGORY + `/${id}`, data, config)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({

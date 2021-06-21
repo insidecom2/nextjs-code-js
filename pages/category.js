@@ -119,11 +119,16 @@ const Category = (props) => {
     setVisible(false)
   }
 
-  const onOk = async (GetId, data) => {
+  const onOk = async (data) => {
+    const formData = new FormData()
+      formData.set('name', data.name)
+      formData.set('code', data.code)
+      formData.set('description:', data.description)
+      formData.append('image', data.image)
     await setVisible(false)
     String(action) !== 'Edit'
-      ? await dispatch(createCategory(data))
-      : await dispatch(updateCategory(GetId, data))
+      ? await dispatch(createCategory(formData))
+      : await dispatch(updateCategory(data.id, formData))
     await dispatch(getCategoryList())
   }
 

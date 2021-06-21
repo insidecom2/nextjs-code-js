@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Form, Input, InputNumber, Row, Select } from 'antd'
+import { Checkbox, Col, Form, Input, InputNumber, Row, Select } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
@@ -19,10 +19,14 @@ const StepProduct = (props) => {
         type: productSelected.category_type.id,
         price: productSelected.price,
         weight: productSelected.weight,
-        size: productSelected.size
+        size: productSelected.size,
+        estimate: productSelected.estimate
       })
     }
   }, [productSelected])
+  const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+  };
 
   return (
     <div>
@@ -135,6 +139,11 @@ const StepProduct = (props) => {
               }
             ]}>
             <InputNumber value="0" style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+        <Col style={{paddingTop:10}} span={5}>
+        <Form.Item {...tailLayout} name="estimate" valuePropName="checked">
+            <Checkbox>estimate</Checkbox>
           </Form.Item>
         </Col>
       </Row>

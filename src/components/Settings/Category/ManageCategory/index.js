@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
+import { Row, Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
 import { useSelector } from 'react-redux'
 import { ACTION } from 'utils/constants.js'
+import { beforeUpload, getBase64 } from 'utils/images'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 
 const ManageCategory = (props) => {
   const { visible, onOk, onCancel, action, TrNo } = props
   const [form] = Form.useForm()
-
+  const [imageUrl, setImageUrl] = useState('')
+  const [loading, setLoading] = useState(false)
   const { typeId, CategoryValue } = useSelector(
     (state) => ({
       CategoryValue: state.category.category,
@@ -19,19 +22,38 @@ const ManageCategory = (props) => {
   const onFinish = (values) => {
     const data = {
       code: values.code,
-      name: values.name
+      name: values.name,
+      description: values.description,
+      image: values.image === undefined?[] : values.image.file.originFileObj,
     }
-    onOk(typeId, data)
+    if (action===ACTION.EDIT) {
+        data.id = typeId;
+    }
+    onOk(data)
   }
 
   useEffect(() => {
     if (action === ACTION.EDIT) {
       form.setFieldsValue({
         name: CategoryValue.name,
-        code: CategoryValue.code
+        code: CategoryValue.code,
+        description: CategoryValue.description
       })
+      setImageUrl(CategoryValue.image)
     }
   }, [CategoryValue])
+
+  const handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      setLoading(true)
+      return
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      setLoading(false)
+      getBase64(info.file.originFileObj, (imageUrl) => setImageUrl(imageUrl))
+    }
+  }
 
   return (
     <Modal
@@ -75,6 +97,50 @@ const ManageCategory = (props) => {
           ]}>
           <Input />
         </Form.Item>
+        <Form.Item
+          label="Description:"
+          name="description"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your description!'
+            }
+          ]}>
+          <Input />
+        </Form.Item>
+        <Row justify="center">
+          <Form.Item label="Image" name="image" valuePropName="upload">
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+              onChange={handleChange}>
+              <div>
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{ height: '100px' }}
+                  />
+                ) : (
+                  <div style={{ marginTop: 8 }}>
+                    {loading ? (
+                      <LoadingOutlined />
+                    ) : (
+                      <div>
+                        <PlusOutlined />
+                        <br />
+                        <label>Upload</label>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </Upload>
+          </Form.Item>
+        </Row>
       </Form>
     </Modal>
   )

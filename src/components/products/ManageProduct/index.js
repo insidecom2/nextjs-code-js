@@ -63,7 +63,8 @@ const ManageProducts = (props) => {
         detail: values.detail,
         price: values.price,
         weight: values.weight,
-        size: values.size
+        size: values.size,
+        estimate:values.estimate
       },
       quantityList: quantityDataList,
       images:

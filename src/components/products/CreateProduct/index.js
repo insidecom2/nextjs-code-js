@@ -343,7 +343,6 @@ const CreateProducts = (props) => {
       )
     }
   ]
-
   const steps = [
     {
       title: 'First',

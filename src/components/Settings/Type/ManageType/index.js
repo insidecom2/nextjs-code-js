@@ -26,7 +26,7 @@ const ManageType = (props) => {
     const data = {
       code: values.code,
       name: values.name,
-      image: values.image || values.image.file.originFileObj,
+      image: values.image === undefined?[] : values.image.file.originFileObj,
       category: values.category
     }
 
