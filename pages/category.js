@@ -123,7 +123,7 @@ const Category = (props) => {
     const formData = new FormData()
       formData.set('name', data.name)
       formData.set('code', data.code)
-      formData.set('description:', data.description)
+      formData.set('description', data.description)
       formData.append('image', data.image)
     await setVisible(false)
     String(action) !== 'Edit'
