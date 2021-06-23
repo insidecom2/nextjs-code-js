@@ -23,6 +23,7 @@ import {
   updateActiveCategoryType
 } from 'store/reducers/categoryType'
 import { getCategoryList } from 'store/reducers/category'
+import { unset } from 'lodash'
 
 const Type = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -68,7 +69,7 @@ const Type = (props) => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <span>{text.toString().toUpperCase()}</span>
+      render: (text) => <span >{text.toString()}</span>
     },
     {
       title: 'Active',

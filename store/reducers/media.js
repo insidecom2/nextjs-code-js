@@ -187,7 +187,7 @@ export const deleteMedia = (name) => {
           dispatch({
             type: CREATE_MEDIA_SUCCESS
           })
-          message.success(RESPONSE_MESSAGE.SUCCESS)
+          //message.success(RESPONSE_MESSAGE.SUCCESS)
         }
 
       } catch (err) {

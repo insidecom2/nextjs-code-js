@@ -63,7 +63,7 @@ const handleChange = info => {
   return (
     <Modal
       closable={false}
-      title={`${action} Category Type`}
+      title={`${action} Style`}
       visible={visible}
       destroyOnClose={true}
       footer={[

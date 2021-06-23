@@ -80,7 +80,7 @@ const Products = (props) => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <span>{text.toString().toUpperCase()}</span>
+      render: (text) => <span>{text.toString()}</span>
     },
     {
       title: 'Category / Type',

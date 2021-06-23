@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
 import { useDispatch, useSelector } from 'react-redux'
-import { Col, DatePicker, Form, Modal, Row, Typography, Upload } from 'antd'
+import { Spin, Alert, Col, DatePicker, Form, Modal, Row, Typography, Upload } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { createMedia, deleteMedia, getMedia } from 'store/reducers/media'
@@ -11,7 +11,7 @@ import { beforeUpload, getBase64 } from 'utils/images'
 const media = () => {
   const [form] = Form.useForm()
   const [imageUrl, setImageUrl] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [fileList, setFileList] = useState([])
   const StartDate = new Date()
   const dispatch = useDispatch()
@@ -39,6 +39,9 @@ const media = () => {
 
   useDeepEffect(() => {
     setDefaultImg()
+    if (mediaList.length>0) {
+      setLoading(false)
+    }
   }, [mediaList])
 
   const fetchData = async (Year, Month) => {
@@ -57,11 +60,12 @@ const media = () => {
     await setDefaultImg()
   }
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     const data = {
       image: values.file.originFileObj
     }
-    onOkUpload(data)
+    await setLoading(true)
+    await onOkUpload(data)
   }
 
   const confirm = async () => {
@@ -100,6 +104,7 @@ const media = () => {
   }
 
   return (
+    <Spin tip="Loading..." spinning={loading}>
     <MainLayout>
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
@@ -187,6 +192,7 @@ const media = () => {
         </Row>
       </div>
     </MainLayout>
+    </Spin>
   )
 }
 

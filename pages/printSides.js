@@ -41,7 +41,9 @@ const PrintSides = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
+      render: (text, record, index) => <span>{Number(
+        printSideList.findIndex((FindPos) => FindPos.id === text.id)
+      ) + 1}</span>
     },
     {
       title: 'Name',
@@ -153,6 +155,7 @@ const PrintSides = (props) => {
           onCancel={onCancel}
           action={action}
           TrNo={AntSelectNo}
+          allData={printSideList}
         />
       )}</div>
     </MainLayout>

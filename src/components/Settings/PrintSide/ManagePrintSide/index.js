@@ -5,8 +5,10 @@ import { useSelector } from 'react-redux';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { ACTION } from 'utils/constants.js'
 import { beforeUpload, getBase64 } from 'utils/images'
+//import _ from 'lodash';
+
 const ManagePrintSide = (props) => {
-  const { visible, onOk, onCancel, action, TrNo } = props
+  const { visible, onOk, onCancel, action, TrNo, allData } = props
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
@@ -30,8 +32,12 @@ const ManagePrintSide = (props) => {
     }
     if (action===ACTION.EDIT) {
       data.id = typeId;
-    }
-    onOk(data)
+    } 
+    //if (action===ACTION.EDIT || Number(_.filter(allData,{"name":data.name}).length)===0) {
+      onOk(data)
+    //} else {
+    //  console.log("ชื่อซ้ำ")
+    //}
   }
 
 useEffect(() => {
