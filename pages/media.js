@@ -72,6 +72,7 @@ const media = () => {
     if (!statusPreview) {
       await dispatch(deleteMedia(urlImageName))
       await fetchData(defaultDate[0], defaultDate[1])
+      await setLoading(true)
       await setDefaultImg()
     }
     await setModalRemoveMedia(false)
