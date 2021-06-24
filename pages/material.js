@@ -40,7 +40,7 @@ const Material = (props) => {
     }),
     []
   )
- console.log(materialList)
+
   const fetchData = async () => {
     await dispatch(getMaterialList())
   }
