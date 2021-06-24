@@ -8,7 +8,6 @@ export const Headmediaimage = styled.div`
 position: relative;
 display: block;
 margin: auto;
-width: 200px;
 height: 200px;
 text-align: center;
 max-width: 100%;

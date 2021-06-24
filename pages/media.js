@@ -195,11 +195,11 @@ const media = () => {
         </Row>
         <Row>
           {
-            mediaList.map((item, positionImageMedia)=> <Headmediaimage key={positionImageMedia}>
+            mediaList.map((item, positionImageMedia)=> <Col style={{padding: 5}} span={3} key={positionImageMedia}><Headmediaimage >
                <Mediaicon id={positionImageMedia} onClick={(e)=>onPreview(e.currentTarget.id)} />
                   <Mediaimagelist
                     src={item.name}
-              /></Headmediaimage>)
+              /></Headmediaimage></Col>)
           }
           </Row>
       </div>
