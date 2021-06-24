@@ -44,20 +44,20 @@ const PrintFinish = (props) => {
       render: (text, record, index) => <span>{index + 1}</span>
     },
     {
-      title: 'Name',
+      title: 'ชื่อ',
       dataIndex: 'name',
       key: 'name'
     },
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => (
+      render: (text, record, index) => printFinishList[Number(printFinishList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
         <Space>
-           <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
+           <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
           <Popconfirm
-            title="Are you sure to delete?"
+            title="คุณแน่ใจที่จะลบ?"
             onConfirm={(e) => confirm(e, record)}>
-            <a>delete</a>
+            <a>ลบ</a>
           </Popconfirm>
         </Space>
       )
@@ -122,12 +122,12 @@ const PrintFinish = (props) => {
     <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
-          <Typography.Title level={3}>PrintFinish List</Typography.Title>
+          <Typography.Title level={3}>รายการพิมพ์เสร็จ</Typography.Title>
         </Col>
         <Col span={12}>
           <Row justify="end">
             <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-              Add Print Finish
+              เพิ่ม พิมพ์เสร็จ
             </Button>
           </Row>
         </Col>

@@ -81,16 +81,17 @@ setimageUrl(defaultImage);
       <Form form={form} name="manageType" onFinish={onFinish} layout="vertical" >
         <p>No : {TrNo}</p>
         <Form.Item
-          label="Name"
-          name="name"
+          label="ชื่อ"
+          name="name"    
           rules={[
             {
               required: true,
               message: 'Please input your name!'
-            }
+            },
+      
           ]}
         >
-          <Input />
+          <Input  />
         </Form.Item>
         <Form.Item
           label="code"

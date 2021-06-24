@@ -54,13 +54,13 @@ const Size = (props) => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => (
+      render: (text, record, index) => sizeList[Number(sizeList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
         <Space>
-          <a  onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
+          <a  onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
           <Popconfirm
-            title="Are you sure to delete?"
+            title="คุณแน่ใจที่จะลบ?"
             onConfirm={(e) => confirm(e, record)}>
-            <a>delete</a>
+            <a>ลบ</a>
           </Popconfirm>
         </Space>
       )
@@ -126,11 +126,11 @@ const Size = (props) => {
     <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
-          <Typography.Title level={3}>Size List</Typography.Title>
+          <Typography.Title level={3}>รายการขนาด</Typography.Title>
         </Col>
         <Col span={12}>
           <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>Add Size</Button>
+            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>เพิ่ม ขนาด</Button>
           </Row>
         </Col>
       </Row>

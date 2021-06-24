@@ -122,13 +122,13 @@ const content = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => (
+      render: (text, record, index) => contentList[Number(contentList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
         <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
           <Popconfirm
-            title="Are you sure to delete?"
+            title="คุณแน่ใจที่จะลบ?"
             onConfirm={(e) => confirm(e, record)}>
-            <a>delete</a>
+            <a>ลบ</a>
           </Popconfirm>
         </Space>
       )
@@ -153,7 +153,7 @@ const content = () => {
           <Col span={12}>
             <Row justify="end">
               <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add Content
+                เพิ่ม บทความ
               </Button>
             </Row>
           </Col>

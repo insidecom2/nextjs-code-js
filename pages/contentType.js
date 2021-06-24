@@ -93,20 +93,20 @@ const contentType = () => {
       )
     },
     {
-      title: 'Name',
+      title: 'ชื่อ',
       dataIndex: 'name',
       key: 'name'
     },
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => (
+      render: (text, record, index) => contentTypeList[Number(contentTypeList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
         <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
           <Popconfirm
-            title="Are you sure to delete?"
+            title="คุณแน่ใจที่จะลบ?"
             onConfirm={(e) => confirm(e, record)}>
-            <a>delete</a>
+            <a>ลบ</a>
           </Popconfirm>
         </Space>
       )
@@ -126,11 +126,11 @@ const contentType = () => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>รายการหมวดหมู่บทความ</Typography.Title>
+            <Typography.Title level={3}>รายการประเภทบทความ</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>Add ContentType</Button>
+            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>เพิ่ม xitg4mบทความ</Button>
             </Row>
           </Col>
         </Row>

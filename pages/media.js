@@ -112,7 +112,7 @@ const media = () => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>Media</Typography.Title>
+            <Typography.Title level={3}>คลังจัดเก็บ</Typography.Title>
           </Col>
         </Row>
         <Row>
@@ -147,7 +147,7 @@ const media = () => {
                         <div>
                           <PlusOutlined />
                           <br />
-                          <label>Upload</label>
+                          <label>อัพโหลด</label>
                         </div>
                       )}
                     </div>
@@ -159,7 +159,7 @@ const media = () => {
         </Row>
         <Row>
           <Col span={24}>
-            <Typography.Title level={3}>Gallery</Typography.Title>
+            <Typography.Title level={3}>แกลลอรี่</Typography.Title>
           </Col>
           <Row>
             <Col span={24}>
@@ -175,7 +175,7 @@ const media = () => {
             </Col>
           </Row>
           <Modal
-            title={statusPreview ? '' : 'Are you sure to remove this image?'}
+            title={statusPreview ? '' : 'คุณแน่ใจจะลบภาพนี้?'}
             visible={modalRemoveMedia}
             onOk={confirm}
             onCancel={() => setModalRemoveMedia(false)}
@@ -195,7 +195,7 @@ const media = () => {
         </Row>
         <Row>
           {
-            mediaList.map((item, positionImageMedia)=> <Col style={{padding: 5}} span={3} key={positionImageMedia}><Headmediaimage >
+            mediaList.map((item, positionImageMedia)=> <Col style={{padding: 3}} span={3} key={positionImageMedia}><Headmediaimage >
                <Mediaicon id={positionImageMedia} onClick={(e)=>onPreview(e.currentTarget.id)} />
                   <Mediaimagelist
                     src={item.name}

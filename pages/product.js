@@ -39,14 +39,13 @@ const Products = (props) => {
     []
   )
 
-  // console.log(productsList)
+  //console.log(productsList)
 
   // useDeepEffect(() => {
   //   if (!_.isNull(productSelected)) {
   //     const data = _.find(productsList, (item) => {
   //       return item.id === productSelected.id
   //     })
-
   //     setProductSelected(data)
   //   }
   // }, [productsList])
@@ -77,7 +76,7 @@ const Products = (props) => {
       )
     },
     {
-      title: 'Name',
+      title: 'ชื่อ',
       dataIndex: 'name',
       key: 'name',
       render: (text) => <span>{text.toString()}</span>
@@ -91,13 +90,13 @@ const Products = (props) => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => (
+      render: (text, record, index) => productsList[Number(productsList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
         <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
           <Popconfirm
-            title="Are you sure to delete?"
+            title="คุณแน่ใจที่จะลบ?"
             onConfirm={(e) => confirm(e, record)}>
-            <a>delete</a>
+            <a>ลบ</a>
           </Popconfirm>
         </Space>
       )
@@ -161,12 +160,12 @@ const Products = (props) => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>Products List</Typography.Title>
+            <Typography.Title level={3}>รายการ สินค้า</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
               <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add Products
+                เพิ่ม สินค้า
               </Button>
             </Row>
           </Col>

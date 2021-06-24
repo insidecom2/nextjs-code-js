@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React from 'react'
-import { Button, Form, Input, InputNumber, Row, Space, Table } from 'antd'
+import { Button, Empty, Form, Input, InputNumber, Row, Space, Table } from 'antd'
 import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
@@ -28,9 +28,12 @@ const StepQuantity = (props) => {
         quantityList.forEach((item, index) => {
           const targetValue = form.getFieldValue(`quantity_${item.id}_${index}`)
           if (value === Number(targetValue) && indexInput !== index) {
-            callback(`ไม่สามารถใส่ Quantity ซ้ำได้`)
+            callback(`ไม่สามารถใส่ ปริมาณ ซ้ำได้`)
           }
         })
+        if (value<0) {
+          callback(`ไม่สามารถใส่ ปริมาณ ติดลบ`)
+        }
         callback()
       } else {
         callback('ไม่สามารถกรอกค่า 0 ')
@@ -40,6 +43,18 @@ const StepQuantity = (props) => {
     }
   }
 
+  const validatePrice = (rule, value, callback, id, indexInput) => {
+    if (!_.isNull(value)) {
+          if (value<0) 
+          callback('กรุณากรอกเป็นตัวเลข')
+    } else {
+      callback()
+    }
+    
+
+    
+  }
+
   const columns = [
     {
       title: 'No.',
@@ -47,7 +62,7 @@ const StepQuantity = (props) => {
       render: (text, record, index) => <span>{quantityList.findIndex((FindPos) => FindPos.id === text.id) + 1}</span>
     },
     {
-      title: 'Quantity',
+      title: 'ปริมาณ',
       key: 'quantity',
       render: (text, record, index) => (
         <Form.Item
@@ -67,10 +82,22 @@ const StepQuantity = (props) => {
       )
     },
     {
-      title: 'Price',
+      title: 'ราคา',
       key: 'price',
+      
       render: (text, record, index) => (
-        <Form.Item name={`price_${record.id}_${quantityList.findIndex((FindPos) => FindPos.id === text.id)}`} {...inputRule}>
+        <Form.Item name={`price_${record.id}_${quantityList.findIndex((FindPos) => FindPos.id === text.id)}`} 
+        rules={[
+          {
+            required: true,
+            message: 'Please input!'
+          },
+          {
+            validator: (rule, value, callback) =>
+              validatePrice(rule, value, callback, record.id, quantityList.findIndex((FindPos) => FindPos.id === text.id))
+          }
+        ]}
+        >
           <InputNumber style={{ width: '100%' }} size="small" />
         </Form.Item>
       )
