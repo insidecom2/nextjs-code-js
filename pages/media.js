@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
 import { useDispatch, useSelector } from 'react-redux'
-import { Spin, Alert, Col, DatePicker, Form, Modal, Row, Typography, Upload } from 'antd'
+import { Spin, Alert, Col, DatePicker, Form, Modal, Row, Typography, Upload, Image } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { createMedia, deleteMedia, getMedia } from 'store/reducers/media'
 import moment from 'moment'
 import { beforeUpload, getBase64 } from 'utils/images'
+import { Mediaimagelist, Headmediaimage, Mediaicon } from 'styles/media/index.style'
+import {
+  CloseSquareOutlined
+} from '@ant-design/icons'
 
 const media = () => {
   const [form] = Form.useForm()
@@ -78,11 +82,9 @@ const media = () => {
     await setModalRemoveMedia(false)
   }
 
-  const onPreview = async (file, actionThis) => {
-    const PositionOfImg = fileList.indexOf(file)
-    const PositionOfName = mediaList[PositionOfImg].name
-    await setStatusPreview(actionThis)
-    await setUrlImageName(PositionOfName)
+  const onPreview = async (file) => {
+    await setStatusPreview(false)
+    await setUrlImageName(mediaList[file].name)
     await setModalRemoveMedia(true)
   }
 
@@ -96,12 +98,12 @@ const media = () => {
       setLoading(false)
       getBase64(info.file.originFileObj, (imageUrl) => setImageUrl(imageUrl))
     }
-    onFinish(info)
+    onFinish(info);
   }
 
   const handleDatePickerChange = async (date, dateString) => {
-    const Res = dateString.split('-')
-    await fetchData(Res[0], Res[1])
+       const Res = dateString.split('-');
+       await fetchData(Res[0], Res[1]);
   }
 
   return (
@@ -181,7 +183,7 @@ const media = () => {
             cancelText="Cancel">
             <img style={{ width: '100%' }} src={urlImageName} alt="" />
           </Modal>
-          <Upload
+          {/* <Upload
             name="avatar"
             listType="picture-card"
             className="avatar-uploader"
@@ -189,8 +191,17 @@ const media = () => {
             fileList={fileList}
             onRemove={(file, actionThis) => onPreview(file, false)}
             onPreview={(file, actionThis) => onPreview(file, true)}
-          />
+          /> */}
         </Row>
+        <Row>
+          {
+            mediaList.map((item, positionImageMedia)=> <Headmediaimage key={positionImageMedia}>
+               <Mediaicon id={positionImageMedia} onClick={(e)=>onPreview(e.currentTarget.id)} />
+                  <Mediaimagelist
+                    src={item.name}
+              /></Headmediaimage>)
+          }
+          </Row>
       </div>
     </MainLayout>
     </Spin>
