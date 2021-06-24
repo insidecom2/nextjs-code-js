@@ -105,6 +105,7 @@ const PrintFinish = (props) => {
   }
   const setActive = async (e, record) => {
     await dispatch(updateActivePrintFinish(record.id, e))
+    await dispatch(getPrintFinishList())
   }
 
   const onEdit = async (e, action, id) => {

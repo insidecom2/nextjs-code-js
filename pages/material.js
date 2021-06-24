@@ -40,7 +40,7 @@ const Material = (props) => {
     }),
     []
   )
-
+ console.log(materialList)
   const fetchData = async () => {
     await dispatch(getMaterialList())
   }
@@ -83,7 +83,7 @@ const Material = (props) => {
           <Form.Item
             valuePropName="checked"
             name={'active_' + record.id}
-            initialValue={!text}>
+            initialValue={!!text}>
             <Switch onChange={(e) => setActive(e, record)} />
           </Form.Item>
         </Form>
@@ -120,6 +120,7 @@ const Material = (props) => {
 
   const setActive = async (e, record) => {
     await dispatch(updateActiveMaterial(record.id, e))
+    await dispatch(getMaterialList())
   }
 
   const onCancel = () => {

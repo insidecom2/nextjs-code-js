@@ -90,6 +90,7 @@ const Style = (props) => {
   }
   const setActive = async (e, record) => {
     await dispatch(updateActiveStyle(record.id, e));
+    await dispatch(getStyleList())
   }
 
   const onEdit = async (e, action, id) => {

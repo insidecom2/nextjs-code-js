@@ -56,7 +56,7 @@ const PrintSides = (props) => {
       render: (text, record, index) => printSideList[Number(printSideList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
         <Space>
           <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
-          <Popconfirm
+          <Popconfirm 
             title="คุณแน่ใจที่จะลบ?"
             onConfirm={(e) => confirm(e, record)}>
             <a>ลบ</a>

@@ -41,6 +41,7 @@ const Category = (props) => {
 
   const setActive = async (e, record) => {
     await dispatch(updateActiveCategory(record.id, e))
+    await dispatch(getCategoryList())
   }
 
   const fetchData = async () => {

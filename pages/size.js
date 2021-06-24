@@ -102,6 +102,7 @@ const Size = (props) => {
 
   const setActive = async (e, record) => {
     await dispatch(updateActiveSizeType(record.id, e));
+    await dispatch(getSizeList())
   }
 
   const onEdit = async (e, action, id) => {
