@@ -9,7 +9,8 @@ import {
   Table,
   Typography,
   Form,
-  Switch
+  Switch,
+  Image
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import { useDispatch, useSelector } from 'react-redux'
@@ -63,6 +64,14 @@ const Category = (props) => {
       title: 'ลำดับ.',
       key: 'no',
       render: (text, record, index) => <span>{index + 1}</span>
+    },
+    {
+      title: 'ภาพ',
+      key: 'image',
+      render: (text, record, index) => (
+        <Image width={200} src={text.image.toString()} />
+      ),
+      width: '10%'
     },
     {
       title: 'ชื่อ',

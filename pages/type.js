@@ -8,7 +8,8 @@ import {
   Space,
   Table,
   Switch,
-  Typography
+  Typography,
+  Image
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageType from 'components/Settings/Type/ManageType'
@@ -64,6 +65,13 @@ const Type = (props) => {
           ) + 1}
         </span>
       )
+    },
+    {
+      title: 'ภาพ',
+      key: 'image',
+      dataIndex: 'image',
+      render: (text, record, index) => <Image width={200} src={text} />,
+      width: '10%'
     },
     {
       title: 'ชื่อ',

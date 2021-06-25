@@ -1,6 +1,15 @@
 import moment from 'moment'
 import React from 'react'
-import { Button, Empty, Form, Input, InputNumber, Row, Space, Table } from 'antd'
+import {
+  Button,
+  Empty,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Space,
+  Table
+} from 'antd'
 import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
@@ -31,10 +40,10 @@ const StepQuantity = (props) => {
             callback(`ไม่สามารถใส่ ปริมาณ ซ้ำได้`)
           }
         })
-        if (value<0) {
+
+        if (value < 0) {
           callback(`ไม่สามารถใส่ ปริมาณ ติดลบ`)
         }
-        callback()
       } else {
         callback('ไม่สามารถกรอกค่า 0 ')
       }
@@ -45,28 +54,30 @@ const StepQuantity = (props) => {
 
   const validatePrice = (rule, value, callback, id, indexInput) => {
     if (!_.isNull(value)) {
-          if (value<0) 
-          callback('กรุณากรอกเป็นตัวเลข')
+      if (value < 0) callback('กรุณากรอกเป็นตัวเลข')
     } else {
       callback()
     }
-    
-
-    
   }
 
   const columns = [
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{quantityList.findIndex((FindPos) => FindPos.id === text.id) + 1}</span>
+      render: (text, record, index) => (
+        <span>
+          {quantityList.findIndex((FindPos) => FindPos.id === text.id) + 1}
+        </span>
+      )
     },
     {
       title: 'ปริมาณ',
       key: 'quantity',
       render: (text, record, index) => (
         <Form.Item
-          name={`quantity_${record.id}_${quantityList.findIndex((FindPos) => FindPos.id === text.id)}`}
+          name={`quantity_${record.id}_${quantityList.findIndex(
+            (FindPos) => FindPos.id === text.id
+          )}`}
           rules={[
             {
               required: true,
@@ -74,7 +85,13 @@ const StepQuantity = (props) => {
             },
             {
               validator: (rule, value, callback) =>
-                validateQuantity(rule, value, callback, record.id, quantityList.findIndex((FindPos) => FindPos.id === text.id))
+                validateQuantity(
+                  rule,
+                  value,
+                  callback,
+                  record.id,
+                  quantityList.findIndex((FindPos) => FindPos.id === text.id)
+                )
             }
           ]}>
           <InputNumber style={{ width: '100%' }} size="small" />
@@ -84,20 +101,28 @@ const StepQuantity = (props) => {
     {
       title: 'ราคา',
       key: 'price',
-      
+
       render: (text, record, index) => (
-        <Form.Item name={`price_${record.id}_${quantityList.findIndex((FindPos) => FindPos.id === text.id)}`} 
-        rules={[
-          {
-            required: true,
-            message: 'Please input!'
-          },
-          {
-            validator: (rule, value, callback) =>
-              validatePrice(rule, value, callback, record.id, quantityList.findIndex((FindPos) => FindPos.id === text.id))
-          }
-        ]}
-        >
+        <Form.Item
+          name={`price_${record.id}_${quantityList.findIndex(
+            (FindPos) => FindPos.id === text.id
+          )}`}
+          rules={[
+            {
+              required: true,
+              message: 'Please input!'
+            },
+            {
+              validator: (rule, value, callback) =>
+                validatePrice(
+                  rule,
+                  value,
+                  callback,
+                  record.id,
+                  quantityList.findIndex((FindPos) => FindPos.id === text.id)
+                )
+            }
+          ]}>
           <InputNumber style={{ width: '100%' }} size="small" />
         </Form.Item>
       )
@@ -115,13 +140,13 @@ const StepQuantity = (props) => {
 
   const onClick = (e) => {
     e.preventDefault()
-    let VisualId = 0;
-    for (let Count=0; Count<quantityList.length; Count++) {
+    let VisualId = 0
+    for (let Count = 0; Count < quantityList.length; Count++) {
       if (quantityList[Count].id !== undefined) {
-        VisualId = VisualId + quantityList[Count].id;
+        VisualId = VisualId + quantityList[Count].id
       }
     }
-    VisualId++;
+    VisualId++
     setQuantityList((prevState) => {
       prevState.push({
         id: VisualId,
@@ -150,7 +175,7 @@ const StepQuantity = (props) => {
         columns={columns}
         dataSource={quantityList}
         // rowKey={(record) => moment(record.createdAt).unix()}
-        rowKey={(record)=>record.id}
+        rowKey={(record) => record.id}
         pagination={false}
       />
     </div>
