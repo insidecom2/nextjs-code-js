@@ -85,21 +85,26 @@ const Products = (props) => {
       title: 'Category / Type',
       dataIndex: 'category_type',
       key: 'name',
-      render: (text) => <span>{text.category.name + ' / ' + text.name}</span>
+      render: (text) => (
+        <span>{text ? text.category.name + ' / ' + text.name : ''}</span>
+      )
     },
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => productsList[Number(productsList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
-        <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
-          <Popconfirm
-            title="คุณแน่ใจที่จะลบ?"
-            onConfirm={(e) => confirm(e, record)}>
-            <a>ลบ</a>
-          </Popconfirm>
-        </Space>
-      )
+      render: (text, record, index) =>
+        productsList[
+          Number(productsList.findIndex((FindPos) => FindPos.id === text.id))
+        ].is_active && (
+          <Space>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
+            <Popconfirm
+              title="คุณแน่ใจที่จะลบ?"
+              onConfirm={(e) => confirm(e, record)}>
+              <a>ลบ</a>
+            </Popconfirm>
+          </Space>
+        )
     },
     {
       title: 'Active',

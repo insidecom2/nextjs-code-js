@@ -27,7 +27,7 @@ import ManageCategory from 'components/Settings/Category/ManageCategory'
 const Category = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const [AntSelectNo, SetAntSelectNo] = useState(1);
+  const [AntSelectNo, SetAntSelectNo] = useState(1)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
 
@@ -60,28 +60,31 @@ const Category = (props) => {
 
   const columns = [
     {
-      title: 'No.',
+      title: 'ลำดับ.',
       key: 'no',
       render: (text, record, index) => <span>{index + 1}</span>
     },
     {
-      title: 'Name',
+      title: 'ชื่อ',
       dataIndex: 'name',
       key: 'name'
     },
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => categoryList[Number(categoryList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
-        <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
-          <Popconfirm
-            title="คุณแน่ใจที่จะลบ?"
-            onConfirm={(e) => confirm(e, record)}>
-            <a>ลบ</a>
-          </Popconfirm>
-        </Space>
-      )
+      render: (text, record, index) =>
+        categoryList[
+          Number(categoryList.findIndex((FindPos) => FindPos.id === text.id))
+        ].is_active && (
+          <Space>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
+            <Popconfirm
+              title="คุณแน่ใจที่จะลบ?"
+              onConfirm={(e) => confirm(e, record)}>
+              <a>ลบ</a>
+            </Popconfirm>
+          </Space>
+        )
     },
     {
       title: 'Active',
@@ -108,8 +111,9 @@ const Category = (props) => {
   }
 
   const onEdit = async (e, action, id) => {
-    let GetPosition = Number(categoryList.findIndex(FindPos=>FindPos.id===id)) + 1;
-    SetAntSelectNo(GetPosition);
+    let GetPosition =
+      Number(categoryList.findIndex((FindPos) => FindPos.id === id)) + 1
+    SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
     await dispatch(getCategoryListById(id))
@@ -122,10 +126,10 @@ const Category = (props) => {
 
   const onOk = async (data) => {
     const formData = new FormData()
-      formData.set('name', data.name)
-      formData.set('code', data.code)
-      formData.set('description', data.description)
-      formData.append('image', data.image)
+    formData.set('name', data.name)
+    formData.set('code', data.code)
+    formData.set('description', data.description)
+    formData.append('image', data.image)
     await setVisible(false)
     String(action) !== 'Edit'
       ? await dispatch(createCategory(formData))
@@ -134,35 +138,37 @@ const Category = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>รายการหมวดหมู่</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-              เพิ่ม หมวดหมู่
-            </Button>
-          </Row>
-        </Col>
-      </Row>
-      <Table
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={categoryList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageCategory
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>รายการหมวดหมู่</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                เพิ่ม หมวดหมู่
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={categoryList}
+          rowKey={(record) => record.id}
         />
-      )}</div>
+        {visible && (
+          <ManageCategory
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }
