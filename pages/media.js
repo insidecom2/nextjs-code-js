@@ -1,16 +1,32 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
 import { useDispatch, useSelector } from 'react-redux'
-import { Spin, Alert, Col, DatePicker, Form, Modal, Row, Typography, Upload, Image } from 'antd'
+import {
+  Spin,
+  Alert,
+  Col,
+  DatePicker,
+  Form,
+  Modal,
+  Row,
+  Typography,
+  Upload,
+  Image,
+  message
+} from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { createMedia, deleteMedia, getMedia } from 'store/reducers/media'
 import moment from 'moment'
 import { beforeUpload, getBase64 } from 'utils/images'
-import { Mediaimagelist, Headmediaimage, Mediaicon } from 'styles/media/index.style'
 import {
-  CloseSquareOutlined
-} from '@ant-design/icons'
+  Mediaimagelist,
+  Headmediaimage,
+  Mediaicon,
+  Copyicon,
+  AlertCopied
+} from 'styles/media/index.style'
+import { CloseSquareOutlined } from '@ant-design/icons'
 
 const media = () => {
   const [form] = Form.useForm()
@@ -43,7 +59,7 @@ const media = () => {
 
   useDeepEffect(() => {
     setDefaultImg()
-    if (mediaList.length>0) {
+    if (mediaList.length > 0) {
       setLoading(false)
     }
   }, [mediaList])
@@ -98,92 +114,97 @@ const media = () => {
       setLoading(false)
       getBase64(info.file.originFileObj, (imageUrl) => setImageUrl(imageUrl))
     }
-    onFinish(info);
+    onFinish(info)
   }
 
   const handleDatePickerChange = async (date, dateString) => {
-       const Res = dateString.split('-');
-       await fetchData(Res[0], Res[1]);
+    const Res = dateString.split('-')
+    await fetchData(Res[0], Res[1])
+  }
+
+  const onCopyUrl = (url) => {
+    message.success('Copy url ของรูปแล้ว')
+    navigator.clipboard.writeText(url)
   }
 
   return (
     <Spin tip="Loading..." spinning={loading}>
-    <MainLayout>
-      <div style={{ margin: '0 16px', padding: 10 }}>
-        <Row>
-          <Col span={12}>
-            <Typography.Title level={3}>คลังจัดเก็บ</Typography.Title>
-          </Col>
-        </Row>
-        <Row>
-          <Form
-            form={form}
-            name="manageMedia"
-            onFinish={onFinish}
-            layout="vertical">
-            <Form.Item
-              label="Upload image"
-              name="uploadImage"
-              valuePropName="upload">
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                beforeUpload={beforeUpload}
-                onChange={handleChange}>
-                <div>
-                  {imageUrl && loading ? (
-                    <img
-                      src={imageUrl}
-                      alt="avatar"
-                      style={{ height: '100px' }}
-                    />
-                  ) : (
-                    <div style={{ marginTop: 8 }}>
-                      {loading ? (
-                        <LoadingOutlined />
-                      ) : (
-                        <div>
-                          <PlusOutlined />
-                          <br />
-                          <label>อัพโหลด</label>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </Upload>
-            </Form.Item>
-          </Form>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Typography.Title level={3}>แกลลอรี่</Typography.Title>
-          </Col>
+      <MainLayout>
+        <div style={{ margin: '0 16px', padding: 10 }}>
           <Row>
-            <Col span={24}>
-              <MonthPicker
-                defaultValue={moment(defaultDate[0] + '-' + defaultDate[1])}
-                size="default"
-                placeholder="Select Month"
-                style={{ margin: '10px' }}
-                onChange={(date, dateString) =>
-                  handleDatePickerChange(date, dateString)
-                }
-              />
+            <Col span={12}>
+              <Typography.Title level={3}>คลังจัดเก็บ</Typography.Title>
             </Col>
           </Row>
-          <Modal
-            title={statusPreview ? '' : 'คุณแน่ใจจะลบภาพนี้?'}
-            visible={modalRemoveMedia}
-            onOk={confirm}
-            onCancel={() => setModalRemoveMedia(false)}
-            okText="Ok"
-            cancelText="Cancel">
-            <img style={{ width: '100%' }} src={urlImageName} alt="" />
-          </Modal>
-          {/* <Upload
+          <Row>
+            <Form
+              form={form}
+              name="manageMedia"
+              onFinish={onFinish}
+              layout="vertical">
+              <Form.Item
+                label="Upload image"
+                name="uploadImage"
+                valuePropName="upload">
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  beforeUpload={beforeUpload}
+                  onChange={handleChange}>
+                  <div>
+                    {imageUrl && loading ? (
+                      <img
+                        src={imageUrl}
+                        alt="avatar"
+                        style={{ height: '100px' }}
+                      />
+                    ) : (
+                      <div style={{ marginTop: 8 }}>
+                        {loading ? (
+                          <LoadingOutlined />
+                        ) : (
+                          <div>
+                            <PlusOutlined />
+                            <br />
+                            <label>อัพโหลด</label>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </Upload>
+              </Form.Item>
+            </Form>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Typography.Title level={3}>แกลลอรี่</Typography.Title>
+            </Col>
+            <Row>
+              <Col span={24}>
+                <MonthPicker
+                  defaultValue={moment(defaultDate[0] + '-' + defaultDate[1])}
+                  size="default"
+                  placeholder="Select Month"
+                  style={{ margin: '10px' }}
+                  onChange={(date, dateString) =>
+                    handleDatePickerChange(date, dateString)
+                  }
+                />
+              </Col>
+            </Row>
+            <Modal
+              title={statusPreview ? '' : 'คุณแน่ใจจะลบภาพนี้?'}
+              visible={modalRemoveMedia}
+              onOk={confirm}
+              onCancel={() => setModalRemoveMedia(false)}
+              okText="Ok"
+              cancelText="Cancel">
+              <img style={{ width: '100%' }} src={urlImageName} alt="" />
+            </Modal>
+            {/* <Upload
             name="avatar"
             listType="picture-card"
             className="avatar-uploader"
@@ -192,18 +213,25 @@ const media = () => {
             onRemove={(file, actionThis) => onPreview(file, false)}
             onPreview={(file, actionThis) => onPreview(file, true)}
           /> */}
-        </Row>
-        <Row>
-          {
-            mediaList.map((item, positionImageMedia)=> <Col style={{padding: 3}} span={3} key={positionImageMedia}><Headmediaimage >
-               <Mediaicon id={positionImageMedia} onClick={(e)=>onPreview(e.currentTarget.id)} />
-                  <Mediaimagelist
-                    src={item.name}
-              /></Headmediaimage></Col>)
-          }
           </Row>
-      </div>
-    </MainLayout>
+          <Row>
+            {mediaList.map((item, positionImageMedia) => (
+              <Col style={{ padding: 3 }} span={3} key={positionImageMedia}>
+                <Headmediaimage>
+                  <Mediaicon
+                    id={positionImageMedia}
+                    onClick={(e) => onPreview(e.currentTarget.id)}
+                    twoToneColor="#eb2f96"
+                  />
+                  <Copyicon onClick={(e) => onCopyUrl(item.name)} />
+
+                  <Mediaimagelist src={item.name} />
+                </Headmediaimage>
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </MainLayout>
     </Spin>
   )
 }

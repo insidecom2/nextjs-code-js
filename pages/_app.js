@@ -8,6 +8,9 @@ import 'antd/dist/antd.css'
 import locale from 'antd/lib/locale/th_TH'
 import { ConfigProvider } from 'antd'
 import { AuthProvider } from 'components/AuthProvider'
+import NProgress from 'nprogress' //nprogress module
+import 'nprogress/nprogress.css' //styles of nprogress
+import Router from 'next/router'
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;500&family=Open+Sans:wght@400;700&display=swap');
@@ -60,6 +63,9 @@ const WrappedApp = ({ Component, pageProps }) => {
   const store = useStore((state) => {
     return state
   })
+  Router.events.on('routeChangeStart', () => NProgress.start())
+  Router.events.on('routeChangeComplete', () => NProgress.done())
+  Router.events.on('routeChangeError', () => NProgress.done())
 
   return (
     <>

@@ -45,6 +45,10 @@ const MainLayout = (props) => {
     await dispatch(setMenu(e.key))
   }
 
+  const onOpenTab = async (e, url) => {
+    window.open(url)
+  }
+
   const menu = (
     <Menu>
       <Menu.Item key="0">
@@ -78,7 +82,7 @@ const MainLayout = (props) => {
           <Menu.Item
             key="15"
             icon={<HomeOutlined />}
-            onClick={(e) => onClick(e, 'home')}>
+            onClick={(e) => onOpenTab(e, 'http://3.134.114.182')}>
             หน้าแรก
           </Menu.Item>
 
@@ -98,24 +102,24 @@ const MainLayout = (props) => {
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item
+          {/* <Menu.Item
             key="3"
             icon={<AntDesignOutlined />}
             onClick={(e) => onClick(e, 'broadcast')}>
             บรอดแคสต์
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item
             key="4"
             icon={<TrophyOutlined />}
             onClick={(e) => onClick(e, 'promotion')}>
             จัดการแคมเปญ
           </Menu.Item>
-          <Menu.Item
+          {/* <Menu.Item
             key="5"
             icon={<BgColorsOutlined />}
             onClick={(e) => onClick(e, 'broadcast')}>
             จัดการธีม
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item
             key="6"
             icon={<HddFilled />}
