@@ -43,7 +43,7 @@ const ManageProducts = (props) => {
     }
     fetchData()
   }, [])
-
+ 
   const onFinish = (values) => {
     const quantityDataList = []
     quantityList.forEach((item, index) => {

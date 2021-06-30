@@ -38,12 +38,16 @@ const StepQuantity = (props) => {
           const targetValue = form.getFieldValue(`quantity_${item.id}_${index}`)
           if (value === Number(targetValue) && indexInput !== index) {
             callback(`ไม่สามารถใส่ ปริมาณ ซ้ำได้`)
+          } else {
+            if (value < 0) {
+              callback(`ไม่สามารถใส่ ปริมาณ ติดลบ`)
+            } else {
+              callback()
+            }
           }
         })
 
-        if (value < 0) {
-          callback(`ไม่สามารถใส่ ปริมาณ ติดลบ`)
-        }
+        
       } else {
         callback('ไม่สามารถกรอกค่า 0 ')
       }
@@ -54,7 +58,8 @@ const StepQuantity = (props) => {
 
   const validatePrice = (rule, value, callback, id, indexInput) => {
     if (!_.isNull(value)) {
-      if (value < 0) callback('กรุณากรอกเป็นตัวเลข')
+      if (value < 0) callback('กรอกเป็นค่าติดลบไม่ได้')
+      callback()
     } else {
       callback()
     }
