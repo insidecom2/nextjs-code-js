@@ -8,6 +8,15 @@ import _ from 'lodash'
 
 const StepProduct = (props) => {
   const { action, categoryList, typeList, productSelected, form } = props
+  const [selectCategory,setSelectCategory] = useState();
+  
+  useDeepEffect(() => {
+    if  (_.filter(_.filter(categoryList,"category_type[0]"),{id:Number(selectCategory)}).length>0) {
+      form.setFieldsValue({
+        type: _.filter(_.filter(categoryList,"category_type[0]"),{id:Number(selectCategory)})[0].category_type[0].id,
+      })
+    }
+  }, [selectCategory])
 
   useDeepEffect(() => {
     if (action === ACTION.EDIT && !_.isEmpty(productSelected)) {
@@ -69,7 +78,7 @@ const StepProduct = (props) => {
                 message: 'Please input your Category!'
               }
             ]}>
-            <Select>
+            <Select onChange={(e)=>setSelectCategory(e)}>
               {categoryList.map((val) => (
                 <Select.Option key={val.id} value={val.id}>
                   {val.name}

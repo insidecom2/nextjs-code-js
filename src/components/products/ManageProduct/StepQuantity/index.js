@@ -46,8 +46,6 @@ const StepQuantity = (props) => {
             }
           }
         })
-
-        
       } else {
         callback('ไม่สามารถกรอกค่า 0 ')
       }
