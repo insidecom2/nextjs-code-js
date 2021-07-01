@@ -79,7 +79,7 @@ const StepQuantity = (props) => {
       title: 'ปริมาณ',
       key: 'quantity',
       render: (text, record, index) => (
-        <Form.Item
+        <Form.Item 
           name={`quantity_${record.id}_${quantityList.findIndex(
             (FindPos) => FindPos.id === text.id
           )}`}
@@ -99,7 +99,7 @@ const StepQuantity = (props) => {
                 )
             }
           ]}>
-          <InputNumber style={{ width: '100%' }} size="small" />
+          <InputNumber onChange={(e)=>onChange(e, record.id, "quantity")} style={{ width: '100%' }} size="small" />
         </Form.Item>
       )
     },
@@ -128,7 +128,7 @@ const StepQuantity = (props) => {
                 )
             }
           ]}>
-          <InputNumber style={{ width: '100%' }} size="small" />
+          <InputNumber onChange={ (e)=>onChange(e, record.id, "price")} style={{ width: '100%' }} size="small" />
         </Form.Item>
       )
     },
@@ -161,9 +161,32 @@ const StepQuantity = (props) => {
     })
   }
 
+  const onChange =(e,id,key)=> {
+    let oldQuantityList = [...quantityList];
+    let positionIndex = oldQuantityList.findIndex((FindPos) => FindPos.id === id)
+    if (String(key)==="quantity") {
+      oldQuantityList[positionIndex].quantity = e;
+    }
+    if (String(key)==="price") {
+      oldQuantityList[positionIndex].price = e;
+    }
+    setQuantityList(oldQuantityList);
+  }
+ 
+  useDeepEffect(() => {
+    if (!_.isEmpty(quantityList)) {
+      quantityList.map((item, index) => {
+          form.setFieldsValue({
+            [`quantity_${item.id}_${index}`]: item.quantity,
+            [`price_${item.id}_${index}`]: item.price
+          })
+      })
+    }
+  }, [quantityList])
+
   const onDelete = async (e, id) => {
-    e.preventDefault()
-    setQuantityList((prevState) => {
+     e.preventDefault()
+    await setQuantityList((prevState) => {
       const arr = prevState.filter((item) => item.id !== id)
       return [...arr]
     })
