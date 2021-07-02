@@ -79,7 +79,7 @@ const Products = (props) => {
       title: 'ชื่อ',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <span>{text.toString()}</span>
+      render: (text) => <span>{text.substring(0,15)+(text.length>15?"...":"")}</span>
     },
     {
       title: 'Category / Type',
