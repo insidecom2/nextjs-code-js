@@ -59,7 +59,7 @@ const media = () => {
 
   useDeepEffect(() => {
     setDefaultImg()
-    if (mediaList.length > 0) {
+    if (mediaList.length >= 0) {
       setLoading(false)
     }
   }, [mediaList])
