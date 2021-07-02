@@ -50,19 +50,19 @@ const media = () => {
     }),
     []
   )
-
+  
   const setDefaultImg = async () => {
     const defaultImg = []
     await mediaList.map((ListImg) => defaultImg.push({ url: ListImg.name }))
     await setFileList(defaultImg)
   }
-
+  //console.log(mediaList)
   useDeepEffect(() => {
     setDefaultImg()
-    if (mediaList.length >= 0) {
+    //if (mediaList.length > 0 || mediaList.length == []) {
       setLoading(false)
-    }
-  }, [mediaList])
+    //}
+  }, [mediaList.length])
 
   const fetchData = async (Year, Month) => {
     dispatch(getMedia(Year, Month))
@@ -84,7 +84,7 @@ const media = () => {
     const data = {
       image: values.file.originFileObj
     }
-    await setLoading(true)
+    //await setLoading(true)
     await onOkUpload(data)
   }
 

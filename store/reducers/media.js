@@ -122,7 +122,7 @@ export const getMedia = (year,month) => {
         }
       }
       )
-  
+      
       if (response.status === HTTP_STATUS_CODE.OK) {
         // console.log("ok"+response.data)
         dispatch({
@@ -181,7 +181,7 @@ export const deleteMedia = (name) => {
           data,
           config
           )
-          
+         //console.log(response.status)
         if (response.status === HTTP_STATUS_CODE.CREATED) {
           
           dispatch({
