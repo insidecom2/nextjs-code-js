@@ -59,7 +59,7 @@ const media = () => {
   //console.log(mediaList)
   useDeepEffect(() => {
     setDefaultImg()
-    //if (mediaList.length > 0 || mediaList.length == []) {
+    //if (mediaList.length > 0) {
       setLoading(false)
     //}
   }, [mediaList.length])
@@ -69,14 +69,14 @@ const media = () => {
   }
 
   useDeepEffect(() => {
-    fetchData(defaultDate[0], defaultDate[1])
-  }, [])
+    fetchData(defaultDate[0],defaultDate[1])
+  }, [defaultDate])
 
   const onOkUpload = async (data) => {
     const formData = new FormData()
     formData.append('image', data.image)
     await dispatch(createMedia(formData))
-    await fetchData(defaultDate[0], defaultDate[1])
+    await fetchData(defaultDate[0],defaultDate[1])
     await setDefaultImg()
   }
 
@@ -91,7 +91,7 @@ const media = () => {
   const confirm = async () => {
     if (!statusPreview) {
       await dispatch(deleteMedia(urlImageName))
-      await fetchData(defaultDate[0], defaultDate[1])
+      await fetchData(defaultDate[0],defaultDate[1])
       await setLoading(true)
       await setDefaultImg()
     }
@@ -119,7 +119,8 @@ const media = () => {
 
   const handleDatePickerChange = async (date, dateString) => {
     const Res = dateString.split('-')
-    await fetchData(Res[0], Res[1])
+    await setDefaultDate(Res)
+    //await fetchData(Res[0], Res[1])
   }
 
   const onCopyUrl = (url) => {
