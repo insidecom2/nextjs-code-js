@@ -9,17 +9,11 @@ import {
   BtnCenter
 } from 'styles/dashboard/index.style'
 import { LineAndChart } from 'components/Shared/Chart/LineChart'
+import ClickDate from 'components/Shared/ClickAddActive'
 
 const DashboardChart = (props) => {
-  const { value } = props
+  const { value } = props;
   const [clickDateStatus, setClickDateStatus] = useState([false, false, true])
-
-  const ClickDate = (GetKeyValue) => {
-    const SetTrue = [...clickDateStatus]
-    SetTrue.map((SetFalse, index) => (SetTrue[index] = false))
-    SetTrue[GetKeyValue] = true
-    setClickDateStatus(SetTrue)
-  }
 
   return (
     <DashboardCardDiv>
@@ -32,18 +26,21 @@ const DashboardChart = (props) => {
             <Col span={20}>
               <Row justify="end">
                 <BtnLeft
-                  onClick={(key) => ClickDate(0)}
-                  status={clickDateStatus[0]}>
+                  onClick={(key) => setClickDateStatus( ClickDate(0,clickDateStatus))}
+                  status={clickDateStatus[0]}
+                  >
                   ปี
                 </BtnLeft>
                 <BtnCenter
-                  onClick={(key) => ClickDate(1)}
-                  status={clickDateStatus[1]}>
+                  onClick={(key) => setClickDateStatus( ClickDate(1,clickDateStatus))}
+                  status={clickDateStatus[1]}
+                  >
                   เดือน
                 </BtnCenter>
                 <BtnRight
-                  onClick={(key) => ClickDate(2)}
-                  status={clickDateStatus[2]}>
+                  onClick={(key) => setClickDateStatus( ClickDate(2,clickDateStatus))}
+                  status={clickDateStatus[2]}
+                  >
                   วัน
                 </BtnRight>
               </Row>

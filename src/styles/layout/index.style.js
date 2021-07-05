@@ -3,12 +3,20 @@ import { Layout, Menu } from 'antd'
 
 const { Header, Sider } = Layout
 
+export const OutLayOut = styled(Layout)`
+   padding:40px;
+   margin-top: 10px;
+   margin-right:30px;
+   margin-left: 30px;
+   border-radius: 48px;
+`
+
 export const AvatarTextStatus = styled.label`
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 20px;
-  color: #ffffff;
+  color: #6A707E;
   padding-right: 10px;
   span:after {
     content: url('https://media.discordapp.net/attachments/775978814693441568/844422554948337684/Group_18.png');
@@ -23,32 +31,63 @@ export const Logo = styled.div`
 `
 
 export const HeaderEx = styled(Header)`
-  background: #2e26d9 !important;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.08) !important;
+  background: #FFFFFF !important;
+  padding-left: 20px !important;
 `
 
 export const SiderEx = styled(Sider)`
+      .ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-light {
+        border-radius: 29px;
+      }
+      .ant-menu-item {
+       display: flex;
+      }
+      .ant-menu-item svg{
+        margin:auto;
+      }
+      .ant-layout-sider-children {
+        height: 685px !important;
+      }
+      border-radius: 29px;
+     .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light {
+      border-radius: 29px;
+     }
   .ant-layout-sider-children .ant-menu-submenu-title {
-    background: #f9f9ff !important;
     font-size: 16px !important;
-    padding-top: 9px !important;
-    height: 56px !important;
+    //padding-top: 9px !important;
+    height: 40px !important;
     max-height: 100% !important;
+    color: #6A707E !important;
+    border-radius: 34px;
+  }
+
+  .ant-layout-sider-children .ant-menu-submenu-title:hover {
+    background: linear-gradient(180deg, #438AFE -36.03%, #82E3E3 133.09%);
+    border-radius: 34px;
+    height: 40px !important;
+  }
+  .ant-layout-sider-children .ant-menu-submenu-title:hover span,.ant-layout-sider-children .ant-menu-submenu-title:hover i {
+    color: white;
   }
 
   .ant-layout-sider-children {
-    background: #f9f9ff !important;
-    box-shadow: 0px -10px 30px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 29px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   }
+
   .ant-layout-sider-trigger {
-    background: #f9f9ff !important;
+    background: unset !important;
     font-style: normal !important;
     font-weight: normal !important;
     font-size: 16px !important;
     color: #7f63f4 !important;
   }
+
   .ant-layout-sider-trigger {
-    background-color: #f0eeff !important;
+    color:  #6A707E !important;
+    bottom: unset;
+   // background-color: #f0eeff !important;
   }
 `
 
@@ -58,6 +97,13 @@ export const MenuEx = styled(Menu)`
     max-height: 100% !important;
     padding-top: 10px !important;
     margin: 0 !important;
+    border-radius: 34px!important;
+    height: 41px !important;
+    margin-top: 10px !important;
+  }
+
+  .ant-menu-item.ant-menu-item-selected {
+     background: linear-gradient(180deg, #438AFE -36.03%, #82E3E3 133.09%);
   }
 
   .ant-menu-item span {
@@ -65,26 +111,28 @@ export const MenuEx = styled(Menu)`
     font-weight: normal;
     font-size: 15px;
     line-height: 51px;
-    color: #6a707e;
+    color: #6A707E;
+  }
+
+  .ant-menu-item svg {
+    padding-bottom: 2px;
+  }
+  .ant-menu-item .ant-menu-title-content {
+    padding-bottom: 8px;
   }
 
   .ant-menu-item:hover span {
     color: #7f63f4;
   }
 
-  .ant-menu-item::after,
-  .ant-menu-submenu-open .ant-menu-submenu-title,
-  .ant-menu-item:hover {
-    border-right: 3px solid #7f63f4 !important;
-  }
-
   .ant-menu-item.ant-menu-item-selected:hover {
     border-right: unset !important;
+    
   }
 
   .ant-menu-item.ant-menu-item-selected span,
   .ant-menu-submenu-open .ant-menu-submenu-title span {
-    color: #7f63f4 !important;
+    color: white !important;
     font-size: 15px !important;
     font-style: normal;
     font-weight: 500;
@@ -97,6 +145,7 @@ export const MenuEx = styled(Menu)`
   .ant-menu-submenu.ant-menu-submenu-inline ul {
     background: #f9f9ff !important;
   }
+
   .ant-menu-submenu.ant-menu-submenu-inline ul li {
     color: #7f63f4 !important;
     font-weight: 300 !important;
@@ -104,19 +153,32 @@ export const MenuEx = styled(Menu)`
   }
 
   .ant-menu-submenu.ant-menu-submenu-inline ul li:hover {
-    background: #f0eeff !important;
+    background: linear-gradient(180deg, #438AFE -36.03%, #82E3E3 133.09%);
   }
 
   .ant-menu-submenu.ant-menu-submenu-inline .ant-menu-submenu-title {
     margin: 0 !important;
+    
   }
 
   .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open
     .ant-menu-submenu-title {
-    background: #f0eeff !important;
+    background: linear-gradient(180deg, #438AFE -36.03%, #82E3E3 133.09%);
   }
 
+  .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open
+    .ant-menu-submenu-title i {
+      color: white;
+    }
+
   .ant-menu-item:hover {
-    background: #f0eeff !important;
+    background: linear-gradient(180deg, #438AFE -36.03%, #82E3E3 133.09%);
   }
+  .ant-menu-item:hover span {
+   color: white;
+  }
+  .ant-menu-item::after {
+    border-right: none;
+  }
+  
 `

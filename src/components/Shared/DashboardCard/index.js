@@ -5,7 +5,7 @@ import { Col, Row, Typography } from 'antd'
 import { numberWithCommas } from 'utils/number'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
-import { ArrowItem, DashboardCardDiv } from 'styles/dashboard/index.style'
+import { StatusIcon, DashboardCardDiv } from 'styles/dashboard/index.style'
 
 const DashboardCard = (props) => {
   const { name, value, percent, text, status } = props
@@ -20,19 +20,22 @@ const DashboardCard = (props) => {
               {numberWithCommas(value)}
             </Typography.Title>
           </Row>
-          <Row gutter={8}>
+          
+        </Col>
+        <Col span={10}>
+          <StatusIcon status={status} />
+        </Col>
+      </Row>
+        <Row style={{height:1, backgroundColor:"#82E3E3"}}>
+        </Row>
+      <Row gutter={12}>
             <Col>
               <span>{percent}</span>
             </Col>
-          </Row>
-          <Row>
+            <Col>
             <span>{text}</span>
+            </Col>
           </Row>
-        </Col>
-        <Col span={10}>
-          <ArrowItem status={status} />
-        </Col>
-      </Row>
     </DashboardCardDiv>
   )
 }

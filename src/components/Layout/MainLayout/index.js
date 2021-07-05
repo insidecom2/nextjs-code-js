@@ -20,7 +20,7 @@ import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from 'store/reducers/auth'
 import { setMenu } from 'store/reducers/menu'
-import { HeaderEx, MenuEx, SiderEx } from 'styles/layout/index.style'
+import { HeaderEx, MenuEx, SiderEx, OutLayOut } from 'styles/layout/index.style'
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
 import AvatarStatus from 'components/Shared/AvatarStatus'
@@ -64,15 +64,26 @@ const MainLayout = (props) => {
   }
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <SiderEx collapsible collapsed={collapsed} onCollapse={onCollapse}>
-        <TitleDashboard>Digiboxs</TitleDashboard>
-        <Divider />
+    <div >
+      <HeaderEx style={{ padding: 0 }}>
+      <TitleDashboard>Digiboxs</TitleDashboard>
+          <div style={{ float: 'right', margin: '0 10px', cursor: 'pointer' }}>
+            <AvatarStatus name={'George Martin'} status={'Admin'} />
+            <Dropdown overlay={menu} trigger={['click']}>
+              <Avatar size="large" icon={<UserOutlined />} />
+            </Dropdown>
+          </div>
+        </HeaderEx>
+    <OutLayOut style={{ minHeight: '100vh' }}>
+      
+      <SiderEx collapsible collapsed={collapsed} onCollapse={onCollapse} >
+        {/* <Divider /> */}
         <MenuEx
           selectedKeys={[selectedMenu]}
           mode="inline"
           //defaultOpenKeys={['sub1', 'sub2']}
         >
+          
           <Menu.Item
             key="1"
             icon={<AppstoreOutlined />}
@@ -170,19 +181,14 @@ const MainLayout = (props) => {
         </MenuEx>
       </SiderEx>
       <Layout>
-        <HeaderEx style={{ padding: 0 }}>
-          <div style={{ float: 'right', margin: '0 10px', cursor: 'pointer' }}>
-            <AvatarStatus name={'George Martin'} status={'Admin'} />
-            <Dropdown overlay={menu} trigger={['click']}>
-              <Avatar size="large" icon={<UserOutlined />} />
-            </Dropdown>
-          </div>
-        </HeaderEx>
+        
         <Content style={{ margin: '0 16px', padding: 10 }}>
           {props.children}
         </Content>
       </Layout>
-    </Layout>
+
+    </OutLayOut>
+    </div>
   )
 }
 

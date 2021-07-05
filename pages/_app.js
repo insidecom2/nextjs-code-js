@@ -40,9 +40,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 0 !important;
   }
 
-  .ant-layout-content {
-    background:#F0EEFF !important;
-  }
 
   .ant-layout-content .ant-col.ant-col-6 .jamDOl,.ant-layout-content .ant-col.jamDOl {
     background: #FFFFFF !important;
@@ -56,6 +53,9 @@ const GlobalStyle = createGlobalStyle`
   }
   .tox-notification.tox-notification--in.tox-notification--warning {
     display:none;
+  }
+  .ant-layout-sider {
+     background-color: unset;
   }
 `
 

@@ -1,5 +1,11 @@
 import styled from 'styled-components'
 
+export const DivDashPage = styled.div`
+     padding: '30px' !important; 
+     padding-top:0 !important;
+     background-color:"#f0f2f5" !important;
+`
+
 export const BtnLeft = styled.button`
   height: 24px;
   max-height: 100%;
@@ -22,7 +28,7 @@ export const BtnLeft = styled.button`
 export const BtnRight = styled.button`
   height: 24px;
   max-height: 100%;
-  ${(props) => (props.status ? `background:#2E27D9;` : `background:#FFFFFF;`)}
+  ${(props) => (Boolean(props.status) ? `background:#2E27D9;` : `background:#FFFFFF;`)}
   border: 1px solid #F3F4F6;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.05);
   border-top-right-radius: 7px;
@@ -32,7 +38,7 @@ export const BtnRight = styled.button`
   font-weight: normal;
   font-size: 12px;
   line-height: 16px;
-  ${(props) => (props.status ? `color:#FFFFFF;` : `color:#6A707E;`)}
+  ${(props) => (Boolean(props.status) ? `color:#FFFFFF;` : `color:#6A707E;`)}
   text-align: center;
   width: 50px;
   max-width: 100%;
@@ -62,14 +68,15 @@ export const TitleDashboard = styled.div`
     font-style: normal;
     font-weight: 500;
     font-size: 30px;
-    color: #F2F2F2;
-     background: #2e26d9;
+    color: #6A707E;
+     background: #FFFFFF;
     margin-top: 0 !important;
     height: 64px;
     text-align:center;
     max-height: 100% !important;
     font-weight: 500 !important;
     font-size: 37px !important;
+    float: left;
 }
 `
 
@@ -91,7 +98,8 @@ export const DashboardCardDiv = styled.div`
   max-height: 100%;
   background-color: white;
   border-radius: 30px;
-  border: 20px solid #f5f4ff;
+  border: 20px solid #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   .sell-promotion,
   .date-promotion {
     font-family: Open Sans;
@@ -169,4 +177,22 @@ export const ArrowItem = styled.div`
   ${(props) =>
     !props.status &&
     `background-image: url('https://media.discordapp.net/attachments/775978814693441568/843736502297952276/Group.png');`}
+`
+export const StatusIcon = styled.span`
+&:before {
+  position: absolute;
+  right: 0;
+  ${(props) =>
+     props.status==="eye" &&
+    `content: url('https://media.discordapp.net/attachments/775978814693441568/861536766779588608/Group.png');`}
+  ${(props) =>
+     props.status==="person" &&
+    `content: url('https://media.discordapp.net/attachments/775978814693441568/861539083461197844/Group.jpg');`}
+  ${(props) =>
+     props.status==="order" &&
+    `content: url('https://media.discordapp.net/attachments/775978814693441568/861539176910815292/Group_1.jpg');`}
+    ${(props) =>
+     props.status==="sell" &&
+    `content: url('https://media.discordapp.net/attachments/775978814693441568/861539248275980308/Group_2.jpg');`}     
+}
 `
