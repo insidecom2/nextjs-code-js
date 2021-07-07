@@ -16,7 +16,7 @@ const DashboardCard = (props) => {
         <Col span={14}>
           <Row className='span01'>{name}</Row>
           <Row className='span02'>
-            <Typography.Title level={4}>
+            <Typography.Title level={4} style={{color:"#438AFE"}}>
               {numberWithCommas(value)}
             </Typography.Title>
           </Row>
@@ -26,7 +26,7 @@ const DashboardCard = (props) => {
           <StatusIcon status={status} />
         </Col>
       </Row>
-        <Row style={{height:1, backgroundColor:"#82E3E3"}}>
+        <Row style={{height:2, backgroundColor:"#82E3E3"}}>
         </Row>
       <Row gutter={12}>
             <Col>

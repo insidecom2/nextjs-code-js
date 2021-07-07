@@ -9,16 +9,17 @@ const data02 = [
   { name: 'Group E', value: 3908 },
   { name: 'Group F', value: 4800 }
 ]
-export const DonutChart = () => {
+export const DonutChart = (props) => {
+  const { setCX, setCY, setWidth, setHeight, setOuterRadius } = props;
   return (
-    <PieChart width={200} height={150}>
+    <PieChart width={setWidth} height={setHeight}>
       <Pie
         dataKey="value"
         data={data02}
-        cx={80}
-        cy={70}
+        cx={setCX}
+        cy={setCY}
         innerRadius={40}
-        outerRadius={80}
+        outerRadius={setOuterRadius}
         fill="#82ca9d"
       />
       <Tooltip />

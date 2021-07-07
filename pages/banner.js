@@ -85,7 +85,6 @@ const banner = () => {
   const styleCSS = {
     display: 'block',
     margin: 'auto',
-
     maxWidth: '100%',
     height: '300px'
   }

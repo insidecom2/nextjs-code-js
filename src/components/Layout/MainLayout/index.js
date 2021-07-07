@@ -84,12 +84,15 @@ const MainLayout = (props) => {
           //defaultOpenKeys={['sub1', 'sub2']}
         >
           
-          <Menu.Item
+          <Menu.Item 
             key="1"
             icon={<AppstoreOutlined />}
             onClick={(e) => onClick(e, 'dashboard')}>
             แดชบอร์ด
           </Menu.Item>
+          <div style={{display:"block",margin:"auto",textAlign:"center",borderBottom: "2px solid #DADADA" ,paddingTop:20, width:"80%"}}>
+
+          </div>  
           <Menu.Item
             key="15"
             icon={<HomeOutlined />}

@@ -21,10 +21,10 @@ const DashboardMSCard = (props) => {
       <Row>
       <Col span={24}>
           <Row>
-            <Col span={4}>
+            <Col span={8}>
               <Shocked>{value}</Shocked>
             </Col>
-            <Col span={20}>
+            <Col span={16}>
               <Row justify="end">
                 <BtnLeft
                   onClick={(key) => setClickDateStatus( ClickDate(0,clickDateStatus))}
@@ -46,7 +46,7 @@ const DashboardMSCard = (props) => {
           </Row>
         </Col>
         <Col className="lay" span={24}>
-          <DonutChart />
+          <DonutChart setWidth={285} setHeight={335} setCX={140} setCY={170} setOuterRadius={140} />
         </Col>
       </Row>
     </DashboardCardDiv>

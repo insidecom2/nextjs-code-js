@@ -57,6 +57,9 @@ const GlobalStyle = createGlobalStyle`
   .ant-layout-sider {
      background-color: unset;
   }
+  .ant-layout-sider-trigger {
+    display: none;
+  }
 `
 
 const WrappedApp = ({ Component, pageProps }) => {
