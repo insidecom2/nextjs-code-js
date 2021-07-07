@@ -93,7 +93,7 @@ const Dashboard = (props) => {
                <DashboardCardItem 
               value="ความเคลื่อนไหว"
               post='เผยแพร่ล่าสุด'
-              image="https://media.discordapp.net/attachments/775978814693441568/844072825182617670/Mask_Group.png"
+              image="https://media.discordapp.net/attachments/775978814693441568/862279150521155584/image_16.png"
               detail={['Sale Promotion Design  “ค่าออกแบบเพียง 950 บาท”','Sale Promotion Design  “ค่าออกแบบเพียง 950 บาท”']}
               date={['วันนี้, 3:59 am','4 พ.ค., 6:50 am']}
            />
