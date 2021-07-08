@@ -5,6 +5,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import ManageBanner from 'components/Settings/ManageBanner'
+import {
+  AddCreate
+} from 'styles/BtnCreate/index.style'
+import {
+  NewTable
+} from 'styles/NewTable/index.style'
 
 import {
   deletebanner,
@@ -139,15 +145,15 @@ const banner = () => {
           </Col>
           <Col span={12}>
             <Row justify="end">
-              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
                 Add banner
-              </Button>
+              </AddCreate>
             </Row>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <Table
+            <NewTable
               bordered
               columns={columns}
               loading={isLoading}

@@ -26,6 +26,7 @@ import {
   Copyicon,
   AlertCopied
 } from 'styles/media/index.style'
+
 import { CloseSquareOutlined } from '@ant-design/icons'
 
 const media = () => {

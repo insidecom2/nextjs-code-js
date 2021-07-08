@@ -10,22 +10,21 @@ const CardProducts =(props)=> {
     return<DivCardProducts>
          <Col span={24}>
           <Row>
-           <Col style={{paddingLeft:20}}>
-           <TextTopProducts>
-            <span>Top</span><br/>
-            <span>{Ranking}</span>
-          </TextTopProducts>   
-           </Col>
-           <Col style={{paddingTop:10,paddingLeft:5}}>
-           <Rating  ratingValue={ratingProduct} />
-           </Col>
+            <Col style={{paddingLeft:20}}>
+            <TextTopProducts>
+             <span>Top</span><br/>
+             <span>{Ranking}</span>
+            </TextTopProducts>   
+            </Col>
+             <Col style={{paddingTop:10,paddingLeft:5}}>
+                 <Rating  ratingValue={ratingProduct} />
+             </Col>
+            </Row>    
+            <Row>
+              <HeadAndSpanProducts theImg={theImg} head={head} detail={detail} />
           </Row>    
-          <Row>
-            <HeadAndSpanProducts theImg={theImg} head={head} detail={detail} />
-          </Row>    
-         </Col>
+                                             </Col>
         </DivCardProducts>
 }
-
 
 export { CardProducts };

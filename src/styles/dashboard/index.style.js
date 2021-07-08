@@ -34,8 +34,20 @@ export const TextTopProducts = styled.span`
   font-style: normal;
    font-weight: bold !important;
    font-size: 12px;
-   line-height: 15px;
    color: white !important;
+  }
+
+  @media (max-width: 1410px) {
+    width: 25.73px;
+  height: 43.48px;
+  max-width: 100%;
+  max-height: 100%;
+  span {
+    font-style: normal;
+   font-weight: bold !important;
+   font-size: 6px !important;
+   color: white !important;
+  }
   }
 
 `
@@ -49,6 +61,12 @@ export const DivCardProducts = styled.div`
  width: 285px;
  max-width: 100%;
   max-height: 100%;
+  @media (max-width: 1410px) {
+    height: 140px;
+    width: 160px;
+    max-width: 100%;
+    max-height: 100%;
+  }
 `
 
 export const DivDashPage = styled.div`

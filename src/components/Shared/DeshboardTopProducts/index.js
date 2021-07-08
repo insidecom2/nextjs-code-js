@@ -25,7 +25,6 @@ const DashboardTopProducts = (props) => {
             {<CardProducts Ranking={3} theImg="https://media.discordapp.net/attachments/775978814693441568/862244530857574450/image_18.jpg" ratingProduct={3} head="ถุงกระดาษ" detail="กระดาษอาร์ตการ์ด 350g..."  />}
             </Col>
           </Row>    
-
         </Col>
       </Row>
     </DashboardCardDiv>

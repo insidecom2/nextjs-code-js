@@ -16,6 +16,12 @@ import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import ManageContentType from 'components/Settings/ContentType'
 import { getContentTypeList, updateActiveContentType, deleteContentType, updateContentType, createContentType } from 'store/reducers/contentType'
+import {
+  AddCreate
+} from 'styles/BtnCreate/index.style'
+import {
+  NewTable
+} from 'styles/NewTable/index.style'
 
 const contentType = () => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -130,17 +136,17 @@ const contentType = () => {
           </Col>
           <Col span={12}>
             <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>เพิ่ม xitg4mบทความ</Button>
+            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>เพิ่มบทความ</AddCreate>
             </Row>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <Table bordered columns={columns}
+            <NewTable bordered columns={columns}
                  loading={isLoading}
                  dataSource={contentTypeList}
                  rowKey={(record) => record.id}
-            ></Table>
+            ></NewTable>
             {visible && (
         <ManageContentType
           visible={visible}

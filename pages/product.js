@@ -23,6 +23,12 @@ import {
   updateActiveProducts,
   updateProducts
 } from 'store/reducers/products'
+import {
+  NewTable
+} from 'styles/NewTable/index.style'
+import {
+  AddCreate
+} from 'styles/BtnCreate/index.style'
 
 const Products = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -169,13 +175,13 @@ const Products = (props) => {
           </Col>
           <Col span={12}>
             <Row justify="end">
-              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
                 เพิ่ม สินค้า
-              </Button>
+              </AddCreate>
             </Row>
           </Col>
         </Row>
-        <Table
+        <NewTable
           bordered
           loading={isLoading}
           columns={columns}

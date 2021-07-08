@@ -21,6 +21,12 @@ import {
   updateActiveContent,
   updateContent
 } from 'store/reducers/content'
+import {
+  AddCreate
+} from 'styles/BtnCreate/index.style'
+import {
+  NewTable
+} from 'styles/NewTable/index.style'
 
 const content = () => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -152,15 +158,15 @@ const content = () => {
           </Col>
           <Col span={12}>
             <Row justify="end">
-              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
                 เพิ่ม บทความ
-              </Button>
+              </AddCreate>
             </Row>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <Table
+            <NewTable
               bordered
               columns={columns}
               loading={isLoading}

@@ -6,6 +6,12 @@ import ManageSize from 'components/Settings/Size/ManageSize'
 import { useDispatch, useSelector } from 'react-redux'
 import { createSize, deleteSize, getSizeList, getSizeTypeListById, updateActiveSizeType, updateSize } from 'store/reducers/size'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
+import {
+  AddCreate
+} from 'styles/BtnCreate/index.style'
+import {
+  NewTable
+} from 'styles/NewTable/index.style'
 
 const Size = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -131,11 +137,11 @@ const Size = (props) => {
         </Col>
         <Col span={12}>
           <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>เพิ่ม ขนาด</Button>
+            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>เพิ่ม ขนาด</AddCreate>
           </Row>
         </Col>
       </Row>
-      <Table
+      <NewTable
         bordered
         loading={isLoading}
         columns={columns}

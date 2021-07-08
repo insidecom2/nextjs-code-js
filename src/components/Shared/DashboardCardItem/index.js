@@ -14,16 +14,16 @@ const DashboardCardItem = (props) => {
   return (
     <DashboardCardDiv>
       <Row>
-        <Col style={{display:'flex'}} lg={9} md={24}>
-          <img style={styleImage} src={image}/>
-        </Col>
-        <Col lg={15} md={24}>
-          <Row><Shocked>{value}</Shocked></Row>
-          <Row className='post' style={{ marginBottom: 10 }}>{post}</Row>
-          <HrBar style={{ marginBottom: 20 }}/>
-          {/* <Row style={{ marginBottom: 20 }}>
+           <Col style={{display:'flex'}} lg={9} md={24}>
+             <img style={styleImage} src={image}/>
+           </Col>
+           <Col lg={15} md={24}>
+           <Row><Shocked>{value}</Shocked></Row>
+           <Row className='post' style={{ marginBottom: 10 }}>{post}</Row>
+           <HrBar style={{ marginBottom: 20 }}/>
+           {/* <Row style={{ marginBottom: 20 }}>
             <img style={{margin:'unset'}} src={image}  />
-          </Row> */}
+            </Row> */}
           <Row className='sell-promotion' style={{ marginBottom: 10 }}>{detail[0]}</Row>  
           <Row className='date-promotion' style={{ marginBottom: 10 }}>{date[0]}</Row>
           <HrBar style={{ marginBottom: 10 }}/>

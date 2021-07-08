@@ -13,6 +13,12 @@ import {
   getPrintSideById,
   updatePrintSide
 } from 'store/reducers/printSide'
+import {
+  AddCreate
+} from 'styles/BtnCreate/index.style'
+import {
+  NewTable
+} from 'styles/NewTable/index.style'
 
 const PrintSides = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -136,13 +142,13 @@ const PrintSides = (props) => {
         </Col>
         <Col span={12}>
           <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
               เพิ่ม พิมพ์ด้าน
-            </Button>
+            </AddCreate>
           </Row>
         </Col>
       </Row>
-      <Table
+      <NewTable
         bordered
         loading={isLoading}
         columns={columns}

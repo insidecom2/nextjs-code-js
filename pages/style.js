@@ -6,6 +6,12 @@ import ManageStyle from 'components/Settings/Style/ManageStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { createStyle, deleteStyle, getStyleList, updateActiveStyle, getStyleById, updateStyle } from 'store/reducers/style'
+import {
+  AddCreate
+} from 'styles/BtnCreate/index.style'
+import {
+  NewTable
+} from 'styles/NewTable/index.style'
 
 const Style = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -119,13 +125,13 @@ const Style = (props) => {
         </Col>
         <Col span={12}>
           <Row justify="end">
-            <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
               เพิ่ม คุณลักษณะ
-            </Button>
+            </AddCreate>
           </Row>
         </Col>
       </Row>
-      <Table
+      <NewTable
         bordered
         loading={isLoading}
         columns={columns}

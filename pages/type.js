@@ -24,7 +24,12 @@ import {
   updateActiveCategoryType
 } from 'store/reducers/categoryType'
 import { getCategoryList } from 'store/reducers/category'
-import { unset } from 'lodash'
+import {
+  AddCreate
+} from 'styles/BtnCreate/index.style'
+import {
+  NewTable
+} from 'styles/NewTable/index.style'
 
 const Type = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -167,13 +172,13 @@ const Type = (props) => {
           </Col>
           <Col span={12}>
             <Row justify="end">
-              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
                 เพิ่ม ประเภท
-              </Button>
+              </AddCreate>
             </Row>
           </Col>
         </Row>
-        <Table
+        <NewTable
           bordered
           loading={isLoading}
           columns={columns}
