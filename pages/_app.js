@@ -60,6 +60,51 @@ const GlobalStyle = createGlobalStyle`
   .ant-layout-sider-trigger {
     display: none;
   }
+  .ant-switch.ant-switch-checked {
+    background: #60CECE;
+  }
+  .ant-table-thead th {
+    text-align: center !important;
+    border-right: none !important;
+    border-left: none !important;
+    font-style: normal;
+font-weight: normal;
+font-size: 15px;
+color: #6A707E !important;
+  }
+  .ant-table.ant-table-bordered > .ant-table-container {
+    border: none;
+  }
+  .ant-table-tbody td{
+    text-align: center !important;
+    color: #6A707E !important;
+  }
+
+  .ant-pagination-item-link {
+    border: 3px solid #DADADA !important;
+border-radius: 18.5px !important;
+width: 48px !important;
+height: 27px !important;
+max-width: 100% !important;
+max-height: 100% !important;
+  }
+
+  .ant-pagination-item {
+border-radius: 18.5px !important;
+width: 48px !important;
+height: 27px !important;
+max-width: 100% !important;
+max-height: 100% !important;
+  }
+
+  .anticon.anticon-left svg,.anticon.anticon-right svg {
+    padding-bottom: 6px !important;
+  }
+  .ant-table-tbody tr td:first-child {
+    border-left:1px solid #f0f0f0;
+  }
+
+
 `
 
 const WrappedApp = ({ Component, pageProps }) => {
