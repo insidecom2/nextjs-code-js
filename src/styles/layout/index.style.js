@@ -5,7 +5,7 @@ const { Header, Sider } = Layout
 
 
 export const SpreadLayout = styled.div`
-background: #E5E5E5;
+background: #82E3E3;
 padding: 60px;
 div.Digiboxs {
   background-color: #FFFFFF;
