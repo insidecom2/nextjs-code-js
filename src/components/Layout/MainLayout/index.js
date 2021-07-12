@@ -20,7 +20,7 @@ import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from 'store/reducers/auth'
 import { setMenu } from 'store/reducers/menu'
-import { HeaderEx, MenuEx, SiderEx, OutLayOut } from 'styles/layout/index.style'
+import { HeaderEx, MenuEx, SiderEx, OutLayOut, SpreadLayout } from 'styles/layout/index.style'
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
 import AvatarStatus from 'components/Shared/AvatarStatus'
@@ -63,8 +63,8 @@ const MainLayout = (props) => {
     await router.push(`/`)
   }
 
-  return (
-    <div >
+  return (<SpreadLayout>
+    <div className='Digiboxs'>
       <HeaderEx style={{ padding: 0 }}>
       <TitleDashboard>Digiboxs</TitleDashboard>
           <div style={{ float: 'right', margin: '0 10px', cursor: 'pointer' }}>
@@ -192,7 +192,7 @@ const MainLayout = (props) => {
 
     </OutLayOut>
     </div>
-  )
+  </SpreadLayout>)
 }
 
 export default MainLayout

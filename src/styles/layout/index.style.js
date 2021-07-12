@@ -3,6 +3,18 @@ import { Layout, Menu } from 'antd'
 
 const { Header, Sider } = Layout
 
+
+export const SpreadLayout = styled.div`
+background: #E5E5E5;
+padding: 60px;
+div.Digiboxs {
+  background-color: #FFFFFF;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 42px !important;
+  padding-bottom: 40px;
+}
+`
+
 export const OutLayOut = styled(Layout)`
    padding:40px;
    margin-top: 10px;
@@ -31,6 +43,7 @@ export const Logo = styled.div`
 `
 
 export const HeaderEx = styled(Header)`
+  border-radius: 42px !important;
   background: #FFFFFF !important;
   padding-left: 20px !important;
 `

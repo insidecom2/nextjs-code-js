@@ -145,6 +145,7 @@ export const TitleDashboard = styled.div`
     max-height: 100% !important;
     font-weight: 500 !important;
     font-size: 37px !important;
+    margin-left:20px;
     float: left;
 }
 `
