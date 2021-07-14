@@ -104,7 +104,24 @@ max-height: 100% !important;
     border-left:1px solid #f0f0f0;
   }
 
-
+  .ant-table-tbody tr:first-child td:first-child {
+      border-top-left-radius: 28px;
+  }
+  .ant-table-tbody tr:first-child td:last-child {
+     border-top-right-radius: 28px;
+  }
+  .ant-table-tbody tr:last-child td:first-child {
+      border-bottom-left-radius: 28px;
+  }
+  .ant-table-tbody tr:last-child td:last-child {
+      border-bottom-right-radius: 28px;
+  }
+  .ant-table-thead tr th {
+    border:none;
+  }
+  .ant-table-tbody tr:first-child td {
+    border-top:1px solid #f0f0f0;
+  }
 `
 
 const WrappedApp = ({ Component, pageProps }) => {
