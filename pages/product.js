@@ -29,6 +29,9 @@ import {
 import {
   AddCreate
 } from 'styles/BtnCreate/index.style'
+import {
+  AllDivImageEveryPage
+} from 'styles/divImgEveryPage/index.style'
 
 const Products = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -80,6 +83,13 @@ const Products = (props) => {
             1}
         </span>
       )
+    }
+    ,
+    {
+      title: 'สินค้า',
+      dataIndex: 'product_image',
+      key: 'product_image',
+      render: (text) => <AllDivImageEveryPage><img src={text[0]!=undefined?text[0].image:''} /></AllDivImageEveryPage>
     },
     {
       title: 'ชื่อ',
