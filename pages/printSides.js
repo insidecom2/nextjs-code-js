@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import { Switch, Button, Col, Popconfirm, Row, Space, Table, Typography, Form } from 'antd'
+import {
+  Switch,
+  Button,
+  Col,
+  Popconfirm,
+  Row,
+  Space,
+  Table,
+  Typography,
+  Form
+} from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManagePrintSide from 'components/Settings/PrintSide/ManagePrintSide'
 import { useDispatch, useSelector } from 'react-redux'
@@ -102,16 +112,16 @@ const PrintSides = (props) => {
 
   const onOk = async (data) => {
     const formData = new FormData()
-      formData.set('name', data.name)
-      formData.set('code', data.code)
-      formData.append('image', data.image)
+    formData.set('name', data.name)
+    formData.set('code', data.code)
+    formData.append('image', data.image)
     await setVisible(false)
-    if(action===ACTION.CREATE) {
+    if (action === ACTION.CREATE) {
       await dispatch(createPrintSide(formData))
     } else {
       await dispatch(updatePrintSide(data.id, formData))
-    } 
-      await dispatch(getPrintSideList())
+    }
+    await dispatch(getPrintSideList())
   }
 
   const onCancel = () => {
@@ -135,6 +145,7 @@ const PrintSides = (props) => {
   }
 
   return (
+<<<<<<< HEAD
     <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
       <Row>
         <Col span={12}>
@@ -163,8 +174,39 @@ const PrintSides = (props) => {
           action={action}
           TrNo={AntSelectNo}
           allData={printSideList}
+=======
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>Print Sides List</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
+                Add Print Side
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+        <Table
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={printSideList}
+          rowKey={(record) => record.id}
+>>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
         />
-      )}</div>
+        {visible && (
+          <ManagePrintSide
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }

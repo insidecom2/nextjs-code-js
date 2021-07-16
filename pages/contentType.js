@@ -15,13 +15,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import ManageContentType from 'components/Settings/ContentType'
-import { getContentTypeList, updateActiveContentType, deleteContentType, updateContentType, createContentType } from 'store/reducers/contentType'
 import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+  getContentTypeList,
+  updateActiveContentType,
+  deleteContentType,
+  updateContentType,
+  createContentType
+} from 'store/reducers/contentType'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
 const contentType = () => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -70,7 +72,7 @@ const contentType = () => {
 
   const onOk = async (data) => {
     await setVisible(false)
-    const formData = data;
+    const formData = data
     if (action === ACTION.CREATE) {
       await dispatch(createContentType(formData))
     } else if (action === ACTION.EDIT) {
@@ -106,16 +108,19 @@ const contentType = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => contentTypeList[Number(contentTypeList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
-        <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
-          <Popconfirm
-            title="คุณแน่ใจที่จะลบ?"
-            onConfirm={(e) => confirm(e, record)}>
-            <a>ลบ</a>
-          </Popconfirm>
-        </Space>
-      )
+      render: (text, record, index) =>
+        contentTypeList[
+          Number(contentTypeList.findIndex((FindPos) => FindPos.id === text.id))
+        ].is_active && (
+          <Space>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
+            <Popconfirm
+              title="คุณแน่ใจที่จะลบ?"
+              onConfirm={(e) => confirm(e, record)}>
+              <a>ลบ</a>
+            </Popconfirm>
+          </Space>
+        )
     },
     {
       title: 'Active',
@@ -136,27 +141,30 @@ const contentType = () => {
           </Col>
           <Col span={12}>
             <Row justify="end">
-            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>เพิ่มบทความ</AddCreate>
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
+                เพิ่มบทความ
+              </AddCreate>
             </Row>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <NewTable bordered columns={columns}
-                 loading={isLoading}
-                 dataSource={contentTypeList}
-                 rowKey={(record) => record.id}
-            ></NewTable>
+            <NewTable
+              bordered
+              columns={columns}
+              loading={isLoading}
+              dataSource={contentTypeList}
+              rowKey={(record) => record.id}></NewTable>
             {visible && (
-        <ManageContentType
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          typeSelected={typeSelected}
-          TrNo={AntSelectNo}
-        />
-      )}
+              <ManageContentType
+                visible={visible}
+                onOk={onOk}
+                onCancel={onCancel}
+                action={action}
+                typeSelected={typeSelected}
+                TrNo={AntSelectNo}
+              />
+            )}
           </Col>
         </Row>
       </div>

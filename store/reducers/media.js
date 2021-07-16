@@ -105,24 +105,20 @@ const media = (state = initialState, action) => {
 export default media
 
 // Action Creators
-export const getMedia = (year,month) => {
-  
+export const getMedia = (year, month) => {
   return async (dispatch) => {
     try {
       dispatch({
         type: FETCH_MEDIA_REQUEST
       })
 
-      const response = await API.get(EndPoints.MEDIA 
-      ,
-      {
-        params:{
-          year:year,
-          month:month
+      const response = await API.get(EndPoints.MEDIA, {
+        params: {
+          year: year,
+          month: month
         }
-      }
-      )
-      
+      })
+
       if (response.status === HTTP_STATUS_CODE.OK) {
         // console.log("ok"+response.data)
         dispatch({
@@ -131,7 +127,6 @@ export const getMedia = (year,month) => {
         })
       }
     } catch (err) {
-     
       message.error(RESPONSE_MESSAGE.DATANOTFOUND)
       dispatch({
         type: FETCH_MEDIA_FAILURE
@@ -141,63 +136,64 @@ export const getMedia = (year,month) => {
 }
 
 export const deleteMedia = (name) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: DELETE_MEDIA_REQUEST
+      })
 
-    
-    return async (dispatch) => {
-      try {
+      const response = await API.post(EndPoints.MEDIA + `/upload-delete`, {
+        path: name
+      })
+
+      if (response.status === HTTP_STATUS_CODE.CREATED) {
         dispatch({
-          type: DELETE_MEDIA_REQUEST
+          type: DELETE_MEDIA_SUCCESS
         })
-  
-        const response = await API.post(EndPoints.MEDIA + `/upload-delete`,{ path: name})
-   
-        if (response.status === HTTP_STATUS_CODE.CREATED) {
-          dispatch({
-            type: DELETE_MEDIA_SUCCESS
-          })
-          message.success(RESPONSE_MESSAGE.DELETED)
-        }
-      } catch (err) {
-        message.error(RESPONSE_MESSAGE.FAILURE)
-        dispatch({
-          type: DELETE_MEDIA_FAILURE
-        })
+        message.success(RESPONSE_MESSAGE.DELETED)
       }
+    } catch (err) {
+      message.error(RESPONSE_MESSAGE.FAILURE)
+      dispatch({
+        type: DELETE_MEDIA_FAILURE
+      })
     }
   }
+}
 
-  export const createMedia = (data) => {
-    return async (dispatch) => {
-      try {
-        dispatch({
-          type: CREATE_MEDIA_REQUEST
-        })
+export const createMedia = (data) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: CREATE_MEDIA_REQUEST
+      })
 
-        const config = {
-          headers: { 'content-type': 'multipart/form-data' }
-        }
-  
-        const response = await API.post(EndPoints.MEDIA + '/upload', 
-          data,
-          config
-          )
-         //console.log(response.status)
-        if (response.status === HTTP_STATUS_CODE.CREATED) {
-          
-          dispatch({
-            type: CREATE_MEDIA_SUCCESS
-          })
-          //message.success(RESPONSE_MESSAGE.SUCCESS)
-        }
-
-      } catch (err) {
-        message.error(RESPONSE_MESSAGE.FAILURE)
-        dispatch({
-          type: CREATE_MEDIA_FAILURE
-        })
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
       }
+
+      const response = await API.post(EndPoints.MEDIA + '/upload', data, config)
+      //console.log(response.status)
+      if (response.status === HTTP_STATUS_CODE.CREATED) {
+        dispatch({
+          type: CREATE_MEDIA_SUCCESS
+        })
+        //message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+
+      const response = await API.post(EndPoints.MEDIA + '/upload', data, config)
+
+      if (response.status === HTTP_STATUS_CODE.CREATED) {
+        dispatch({
+          type: CREATE_MEDIA_SUCCESS
+        })
+        message.success(RESPONSE_MESSAGE.SUCCESS)
+      }
+    } catch (err) {
+      message.error(RESPONSE_MESSAGE.FAILURE)
+      dispatch({
+        type: CREATE_MEDIA_FAILURE
+      })
     }
   }
-
-
-
+}

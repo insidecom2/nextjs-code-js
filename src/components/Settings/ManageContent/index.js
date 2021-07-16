@@ -34,6 +34,7 @@ const ManageContent = (props) => {
   const [mediaModal, setMediaModal] = useState(false)
   const [imageList, setImageList] = useState([])
   const [abountCurSor, SetAbountCurSor] = useState()
+<<<<<<< HEAD
   const [headOne, setHeadOne] = useState(0)
   const [headTwo, setHeadTwo] = useState(0)
   const [headThree, setHeadThree] = useState(0)
@@ -55,6 +56,8 @@ const ManageContent = (props) => {
   const [contentInnerText, setContentInnerText] = useState()
   const [checkImage, setCheckImage] = useState()
   const [checkLink, setCheckLink] = useState()
+=======
+>>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
 
   const { contentTypeList } = useSelector(
     (state) => ({
@@ -262,6 +265,11 @@ const ManageContent = (props) => {
     }
     onOk(data)
   }
+<<<<<<< HEAD
+=======
+
+  const changeEditor = (html) => setContentEditor(html)
+>>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
 
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
@@ -289,7 +297,10 @@ const ManageContent = (props) => {
       range.insertNode(newNode)
     }
     setContentEditor(abountCurSor.editor.getContent())
+<<<<<<< HEAD
     setCheckImage(imageList.length)
+=======
+>>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
     setMediaModal(false)
     // const pushImg = imageList.map((item)=>"<img  src={item}/>")
     // console.log(...pushImg)
@@ -323,6 +334,7 @@ const ManageContent = (props) => {
         name="ManageContentType"
         onFinish={onFinish}
         layout="vertical">
+<<<<<<< HEAD
         <Row>
           <Col span={20}>
             <Row>
@@ -466,6 +478,87 @@ const ManageContent = (props) => {
                   ]}>
                   <Input
                     onChange={(e) => setDescription(e.target.value.length)}
+=======
+        <Form.Item
+          label="Content type"
+          name="content_type"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your content type!'
+            }
+          ]}>
+          <Select>
+            {contentTypeList.map((val) => (
+              <Select.Option key={val.id} value={val.id}>
+                {val.name}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Title"
+          name="title"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Title!'
+            }
+          ]}>
+          <Input />
+        </Form.Item>
+        <Form.Item>
+          <div className="mt-4">
+            <Button
+              onClick={() => setMediaModal(true)}
+              style={{ marginBottom: 10 }}>
+              เพิ่มสื่อ
+            </Button>
+            <Editor
+              clickCurSor={clickCurSor}
+              textData={action === ACTION.EDIT ? typeSelected.detail : ''}
+              changeEditor={changeEditor}
+            />
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Seo title"
+          name="seo_title"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your seo title!'
+            }
+          ]}>
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Meta description"
+          name="seo_meta_description"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your description!'
+            }
+          ]}>
+          <Input />
+        </Form.Item>
+        <Row justify="center">
+          <Form.Item label="Image" name="image" valuePropName="upload">
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+              onChange={handleChange}>
+              <div>
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{ height: '100px' }}
+>>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
                   />
                 </Form.Item>
               </Col>

@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
-import {Switch, Button, Col, Popconfirm, Row, Space, Table, Typography,Form  } from 'antd'
+import {
+  Switch,
+  Button,
+  Col,
+  Popconfirm,
+  Row,
+  Space,
+  Table,
+  Typography,
+  Form
+} from 'antd'
 import { ACTION } from 'utils/constants.js'
 import ManageStyle from 'components/Settings/Style/ManageStyle'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,7 +26,7 @@ import {
 const Style = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const [AntSelectNo, SetAntSelectNo] = useState(1);
+  const [AntSelectNo, SetAntSelectNo] = useState(1)
   const [form] = Form.useForm()
   const dispatch = useDispatch()
 
@@ -40,7 +50,11 @@ const Style = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{Number(styleList.findIndex(FindPos=>FindPos.id===text.id)) + 1}</span>
+      render: (text, record, index) => (
+        <span>
+          {Number(styleList.findIndex((FindPos) => FindPos.id === text.id)) + 1}
+        </span>
+      )
     },
     {
       title: 'ชื่อ',
@@ -100,8 +114,9 @@ const Style = (props) => {
   }
 
   const onEdit = async (e, action, id) => {
-    let GetPosition = Number(styleList.findIndex(FindPos=>FindPos.id===id)) + 1;
-    SetAntSelectNo(GetPosition);
+    let GetPosition =
+      Number(styleList.findIndex((FindPos) => FindPos.id === id)) + 1
+    SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
     await dispatch(getStyleById(id))
@@ -146,7 +161,16 @@ const Style = (props) => {
           action={action}
           TrNo={AntSelectNo}
         />
-      )}</div>
+        {visible && (
+          <ManageStyle
+            visible={visible}
+            onOk={onOk}
+            onCancel={onCancel}
+            action={action}
+            TrNo={AntSelectNo}
+          />
+        )}
+      </div>
     </MainLayout>
   )
 }

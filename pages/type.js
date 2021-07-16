@@ -24,12 +24,8 @@ import {
   updateActiveCategoryType
 } from 'store/reducers/categoryType'
 import { getCategoryList } from 'store/reducers/category'
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
 const Type = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
