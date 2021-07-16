@@ -33,21 +33,14 @@ const ManagePrintSide = (props) => {
       code: values.code,
       image: values.image === undefined ? [] : values.image.file.originFileObj
     }
-<<<<<<< HEAD
-    if (action===ACTION.EDIT) {
-      data.id = typeId;
-    } 
-    //if (action===ACTION.EDIT || Number(_.filter(allData,{"name":data.name}).length)===0) {
-      onOk(data)
-    //} else {
-    //  console.log("ชื่อซ้ำ")
-    //}
-=======
     if (action === ACTION.EDIT) {
       data.id = typeId
     }
+    //if (action===ACTION.EDIT || Number(_.filter(allData,{"name":data.name}).length)===0) {
     onOk(data)
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
+    //} else {
+    //  console.log("ชื่อซ้ำ")
+    //}
   }
 
   useEffect(() => {
@@ -90,22 +83,14 @@ const ManagePrintSide = (props) => {
         <p>No : {TrNo}</p>
         <Form.Item
           label="ชื่อ"
-          name="name"    
+          name="name"
           rules={[
             {
               required: true,
               message: 'Please input your name!'
-<<<<<<< HEAD
-            },
-      
-          ]}
-        >
-          <Input  />
-=======
             }
           ]}>
           <Input />
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
         </Form.Item>
         <Form.Item
           label="code"

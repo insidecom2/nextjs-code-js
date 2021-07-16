@@ -24,12 +24,8 @@ import {
 } from 'store/reducers/printFinish'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
 const PrintFinish = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -68,20 +64,19 @@ const PrintFinish = (props) => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => printFinishList[Number(printFinishList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
-        <Space>
-<<<<<<< HEAD
-           <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
-=======
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
-          <Popconfirm
-            title="คุณแน่ใจที่จะลบ?"
-            onConfirm={(e) => confirm(e, record)}>
-            <a>ลบ</a>
-          </Popconfirm>
-        </Space>
-      )
+      render: (text, record, index) =>
+        printFinishList[
+          Number(printFinishList.findIndex((FindPos) => FindPos.id === text.id))
+        ].is_active && (
+          <Space>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
+            <Popconfirm
+              title="คุณแน่ใจที่จะลบ?"
+              onConfirm={(e) => confirm(e, record)}>
+              <a>ลบ</a>
+            </Popconfirm>
+          </Space>
+        )
     },
     {
       title: 'Active',
@@ -141,35 +136,6 @@ const PrintFinish = (props) => {
   }
 
   return (
-<<<<<<< HEAD
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>รายการพิมพ์เสร็จ</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
-              เพิ่ม พิมพ์เสร็จ
-            </AddCreate>
-          </Row>
-        </Col>
-      </Row>
-      <NewTable
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={printFinishList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManagePrintFinish
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
-=======
     <MainLayout>
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
@@ -190,7 +156,6 @@ const PrintFinish = (props) => {
           columns={columns}
           dataSource={printFinishList}
           rowKey={(record) => record.id}
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
         />
         {visible && (
           <ManagePrintFinish

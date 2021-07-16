@@ -23,12 +23,8 @@ import {
   getPrintSideById,
   updatePrintSide
 } from 'store/reducers/printSide'
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
 const PrintSides = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -57,9 +53,13 @@ const PrintSides = (props) => {
     {
       title: 'No.',
       key: 'no',
-      render: (text, record, index) => <span>{Number(
-        printSideList.findIndex((FindPos) => FindPos.id === text.id)
-      ) + 1}</span>
+      render: (text, record, index) => (
+        <span>
+          {Number(
+            printSideList.findIndex((FindPos) => FindPos.id === text.id)
+          ) + 1}
+        </span>
+      )
     },
     {
       title: 'ชื่อ',
@@ -69,16 +69,19 @@ const PrintSides = (props) => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => printSideList[Number(printSideList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
-        <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
-          <Popconfirm 
-            title="คุณแน่ใจที่จะลบ?"
-            onConfirm={(e) => confirm(e, record)}>
-            <a>ลบ</a>
-          </Popconfirm>
-        </Space>
-      )
+      render: (text, record, index) =>
+        printSideList[
+          Number(printSideList.findIndex((FindPos) => FindPos.id === text.id))
+        ].is_active && (
+          <Space>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
+            <Popconfirm
+              title="คุณแน่ใจที่จะลบ?"
+              onConfirm={(e) => confirm(e, record)}>
+              <a>ลบ</a>
+            </Popconfirm>
+          </Space>
+        )
     },
     {
       title: 'Active',
@@ -145,58 +148,28 @@ const PrintSides = (props) => {
   }
 
   return (
-<<<<<<< HEAD
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>รายการพิมพ์ด้าน</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
-              เพิ่ม พิมพ์ด้าน
-            </AddCreate>
-          </Row>
-        </Col>
-      </Row>
-      <NewTable
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={printSideList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManagePrintSide
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
-          allData={printSideList}
-=======
     <MainLayout>
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>Print Sides List</Typography.Title>
+            <Typography.Title level={3}>รายการพิมพ์ด้าน</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
-              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add Print Side
-              </Button>
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
+                เพิ่ม พิมพ์ด้าน
+              </AddCreate>
             </Row>
           </Col>
         </Row>
-        <Table
+        <NewTable
           bordered
           loading={isLoading}
           columns={columns}
           dataSource={printSideList}
           rowKey={(record) => record.id}
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
         />
+
         {visible && (
           <ManagePrintSide
             visible={visible}

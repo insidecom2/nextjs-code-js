@@ -23,12 +23,8 @@ import {
   updateSize
 } from 'store/reducers/size'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
 const Size = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -81,20 +77,19 @@ const Size = (props) => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => sizeList[Number(sizeList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
-        <Space>
-<<<<<<< HEAD
-          <a  onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
-=======
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>edit</a>
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
-          <Popconfirm
-            title="คุณแน่ใจที่จะลบ?"
-            onConfirm={(e) => confirm(e, record)}>
-            <a>ลบ</a>
-          </Popconfirm>
-        </Space>
-      )
+      render: (text, record, index) =>
+        sizeList[
+          Number(sizeList.findIndex((FindPos) => FindPos.id === text.id))
+        ].is_active && (
+          <Space>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
+            <Popconfirm
+              title="คุณแน่ใจที่จะลบ?"
+              onConfirm={(e) => confirm(e, record)}>
+              <a>ลบ</a>
+            </Popconfirm>
+          </Space>
+        )
     },
     {
       title: 'Active',
@@ -131,12 +126,8 @@ const Size = (props) => {
   }
 
   const setActive = async (e, record) => {
-<<<<<<< HEAD
-    await dispatch(updateActiveSizeType(record.id, e));
-    await dispatch(getSizeList())
-=======
     await dispatch(updateActiveSizeType(record.id, e))
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
+    await dispatch(getSizeList())
   }
 
   const onEdit = async (e, action, id) => {
@@ -159,55 +150,28 @@ const Size = (props) => {
   }
 
   return (
-<<<<<<< HEAD
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>รายการขนาด</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>เพิ่ม ขนาด</AddCreate>
-          </Row>
-        </Col>
-      </Row>
-      <NewTable
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={sizeList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageSize
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
-=======
     <MainLayout>
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>Size List</Typography.Title>
+            <Typography.Title level={3}>รายการขนาด</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
-              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add Size
-              </Button>
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
+                เพิ่ม ขนาด
+              </AddCreate>
             </Row>
           </Col>
         </Row>
-        <Table
+        <NewTable
           bordered
           loading={isLoading}
           columns={columns}
           dataSource={sizeList}
           rowKey={(record) => record.id}
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
         />
+
         {visible && (
           <ManageSize
             visible={visible}

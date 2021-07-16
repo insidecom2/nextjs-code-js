@@ -15,13 +15,16 @@ import { ACTION } from 'utils/constants.js'
 import ManageStyle from 'components/Settings/Style/ManageStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import { createStyle, deleteStyle, getStyleList, updateActiveStyle, getStyleById, updateStyle } from 'store/reducers/style'
 import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+  createStyle,
+  deleteStyle,
+  getStyleList,
+  updateActiveStyle,
+  getStyleById,
+  updateStyle
+} from 'store/reducers/style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
 const Style = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -64,16 +67,19 @@ const Style = (props) => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record, index) => styleList[Number(styleList.findIndex((FindPos) => FindPos.id === text.id))].is_active&&(
-        <Space>
-          <a  onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
-          <Popconfirm
-            title="คุณแน่ใจที่จะลบ?"
-            onConfirm={(e) => confirm(e, record)}>
-            <a>ลบ</a>
-          </Popconfirm>
-        </Space>
-      )
+      render: (text, record, index) =>
+        styleList[
+          Number(styleList.findIndex((FindPos) => FindPos.id === text.id))
+        ].is_active && (
+          <Space>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
+            <Popconfirm
+              title="คุณแน่ใจที่จะลบ?"
+              onConfirm={(e) => confirm(e, record)}>
+              <a>ลบ</a>
+            </Popconfirm>
+          </Space>
+        )
     },
     {
       title: 'Active',
@@ -109,7 +115,7 @@ const Style = (props) => {
     setVisible(false)
   }
   const setActive = async (e, record) => {
-    await dispatch(updateActiveStyle(record.id, e));
+    await dispatch(updateActiveStyle(record.id, e))
     await dispatch(getStyleList())
   }
 
@@ -133,33 +139,26 @@ const Style = (props) => {
   }
 
   return (
-    <MainLayout><div style={{ margin: '0 16px', padding: 10 }}>
-      <Row>
-        <Col span={12}>
-          <Typography.Title level={3}>รายการคุณลักษณะ</Typography.Title>
-        </Col>
-        <Col span={12}>
-          <Row justify="end">
-            <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
-              เพิ่ม คุณลักษณะ
-            </AddCreate>
-          </Row>
-        </Col>
-      </Row>
-      <NewTable
-        bordered
-        loading={isLoading}
-        columns={columns}
-        dataSource={styleList}
-        rowKey={(record) => record.id}
-      />
-      {visible && (
-        <ManageStyle
-          visible={visible}
-          onOk={onOk}
-          onCancel={onCancel}
-          action={action}
-          TrNo={AntSelectNo}
+    <MainLayout>
+      <div style={{ margin: '0 16px', padding: 10 }}>
+        <Row>
+          <Col span={12}>
+            <Typography.Title level={3}>รายการคุณลักษณะ</Typography.Title>
+          </Col>
+          <Col span={12}>
+            <Row justify="end">
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
+                เพิ่ม คุณลักษณะ
+              </AddCreate>
+            </Row>
+          </Col>
+        </Row>
+        <NewTable
+          bordered
+          loading={isLoading}
+          columns={columns}
+          dataSource={styleList}
+          rowKey={(record) => record.id}
         />
         {visible && (
           <ManageStyle

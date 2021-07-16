@@ -24,12 +24,8 @@ import {
 } from 'store/reducers/category'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import ManageCategory from 'components/Settings/Category/ManageCategory'
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
 const Category = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -157,7 +153,6 @@ const Category = (props) => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-<<<<<<< HEAD
             <Typography.Title level={3}>รายการหมวดหมู่</Typography.Title>
           </Col>
           <Col span={12}>
@@ -169,19 +164,6 @@ const Category = (props) => {
           </Col>
         </Row>
         <NewTable
-=======
-            <Typography.Title level={3}>Category List</Typography.Title>
-          </Col>
-          <Col span={12}>
-            <Row justify="end">
-              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add Category
-              </Button>
-            </Row>
-          </Col>
-        </Row>
-        <Table
->>>>>>> a534e9247d5e8ecdcd63fed6b3bded7cf05af97c
           bordered
           loading={isLoading}
           columns={columns}
