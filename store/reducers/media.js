@@ -180,15 +180,6 @@ export const createMedia = (data) => {
         })
         //message.success(RESPONSE_MESSAGE.SUCCESS)
       }
-
-      const response = await API.post(EndPoints.MEDIA + '/upload', data, config)
-
-      if (response.status === HTTP_STATUS_CODE.CREATED) {
-        dispatch({
-          type: CREATE_MEDIA_SUCCESS
-        })
-        message.success(RESPONSE_MESSAGE.SUCCESS)
-      }
     } catch (err) {
       message.error(RESPONSE_MESSAGE.FAILURE)
       dispatch({
