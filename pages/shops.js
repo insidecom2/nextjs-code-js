@@ -11,33 +11,20 @@ import {
   Typography
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
-import  ManageShops  from 'components/Shops'
+import ManageShops from 'components/Shops'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
 
-import {
-  createProducts,
-  updateActiveProducts
-} from 'store/reducers/products'
+import { createProducts, updateActiveProducts } from 'store/reducers/products'
 
-import {
-  getShopsList,
-  deleteShops,
-  updateShops
-} from 'store/reducers/shops'
+import { getShopsList, deleteShops, updateShops } from 'store/reducers/shops'
 
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
 
-import {
-  AllDivImageEveryPage
-} from 'styles/divImgEveryPage/index.style'
+import { AllDivImageEveryPage } from 'styles/divImgEveryPage/index.style'
 
 const Products = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -49,13 +36,13 @@ const Products = (props) => {
   const { shopsList, isLoading } = useSelector(
     (state) => ({
       shopsList: state.shops.shopsList,
-      isLoading: state.shops.isLoading,
+      isLoading: state.shops.isLoading
     }),
     []
   )
 
   const fetchData = async () => {
-    await dispatch(getShopsList());
+    await dispatch(getShopsList())
   }
 
   useDeepEffect(() => {
@@ -74,39 +61,39 @@ const Products = (props) => {
       key: 'no',
       render: (text) => (
         <span>
-          {Number(shopsList.findIndex((FindPos) => FindPos.id === text.id)) +
-            1}
+          {Number(shopsList.findIndex((FindPos) => FindPos.id === text.id)) + 1}
         </span>
       )
-    }
-    ,
+    },
     {
       title: 'ร้านค้า',
       dataIndex: 'logo',
       key: 'logo',
-      render: (text) => <AllDivImageEveryPage><img src={text!=undefined?text:''} /></AllDivImageEveryPage>
+      render: (text) => (
+        <AllDivImageEveryPage>
+          <img src={text != undefined ? text : ''} />
+        </AllDivImageEveryPage>
+      )
     },
     {
       title: 'ชื่อ',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <span>{text.substring(0,15)+(text.length>15?"...":"")}</span>
+      render: (text) => (
+        <span>{text.substring(0, 15) + (text.length > 15 ? '...' : '')}</span>
+      )
     },
     {
       title: 'Domain name',
       dataIndex: 'domain_name',
       key: 'domain_name',
-      render: (text) => (
-        <span>{text}</span>
-      )
+      render: (text) => <span>{text}</span>
     },
     {
       title: 'Url',
       dataIndex: 'url',
       key: 'url',
-      render: (text) => (
-        <span>{text}</span>
-      )
+      render: (text) => <span>{text}</span>
     },
     {
       title: 'Action',
@@ -142,16 +129,16 @@ const Products = (props) => {
     setVisible(true)
   }
 
-  const onOk = async (data) => {                                                                                           
+  const onOk = async (data) => {
     const formData = new FormData()
     formData.set('domain_name', data.domain_name)
     formData.set('name', data.name)
     formData.set('url', data.url)
     formData.append('logo', data.logo)
     if (action === ACTION.CREATE) {
-      await dispatch(createProducts(formData))
+      await dispatch(createProducts(data.id, formData))
     } else if (action === ACTION.EDIT) {
-      await dispatch(updateShops(formData))
+      await dispatch(updateShops(data.id, formData))
     }
     await dispatch(getShopsList())
     await setVisible(false)

@@ -23,12 +23,9 @@ const DELETE_SHOPS_REQUEST = 'shops/DELETE_SHOPS_REQUEST'
 const DELETE_SHOPS_SUCCESS = 'shops/DELETE_SHOPS_SUCCESS'
 const DELETE_SHOPS_FAILURE = 'shops/DELETE_SHOPS_FAILURE'
 
-const DELETE_SHOPS_QUANTITY_REQUEST =
-  'shops/DELETE_PRODUCT_QUANTITY_REQUEST'
-const DELETE_SHOPS_QUANTITY_SUCCESS =
-  'shops/DELETE_PRODUCT_QUANTITY_SUCCESS'
-const DELETE_SHOPS_QUANTITY_FAILURE =
-  'shops/DELETE_SHOPS_QUANTITY_FAILURE'
+const DELETE_SHOPS_QUANTITY_REQUEST = 'shops/DELETE_PRODUCT_QUANTITY_REQUEST'
+const DELETE_SHOPS_QUANTITY_SUCCESS = 'shops/DELETE_PRODUCT_QUANTITY_SUCCESS'
+const DELETE_SHOPS_QUANTITY_FAILURE = 'shops/DELETE_SHOPS_QUANTITY_FAILURE'
 // Initialize State
 const initialState = {
   isLoading: false,
@@ -138,27 +135,27 @@ export const getShopsList = () => {
 }
 
 export const getShopsById = (id) => {
-    return async (dispatch) => {
-      try {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: FETCH_SHOPS_ID_REQUEST
+      })
+
+      const response = await API.get(EndPoints.MATERIAL + '/' + id)
+
+      if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
-          type: FETCH_SHOPS_ID_REQUEST
-        })
-  
-        const response = await API.get(EndPoints.MATERIAL + '/' + id)
-  
-        if (response.status === HTTP_STATUS_CODE.OK) {
-          dispatch({
-            type: FETCH_SHOPS_ID_SUCCESS,
-            payload: response.data.data
-          })
-        }
-      } catch (err) {
-        dispatch({
-          type: FETCH_SHOPS_ID_FAILURE
+          type: FETCH_SHOPS_ID_SUCCESS,
+          payload: response.data.data
         })
       }
+    } catch (err) {
+      dispatch({
+        type: FETCH_SHOPS_ID_FAILURE
+      })
     }
   }
+}
 
 export const createShops = (data) => {
   // console.log(data)
@@ -213,8 +210,7 @@ export const deleteShops = (id) => {
   }
 }
 
-export const updateShops = (data) => {
-    console.log(data)
+export const updateShops = (id, data) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -225,11 +221,7 @@ export const updateShops = (data) => {
         headers: { 'content-type': 'application/json' }
       }
 
-      const response = await API.patch(
-        EndPoints.SHOPS + `/${data.id}`,
-        data,
-        config
-      )
+      const response = await API.patch(EndPoints.SHOPS + `/${id}`, data, config)
 
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
@@ -246,5 +238,3 @@ export const updateShops = (data) => {
     }
   }
 }
-
-
