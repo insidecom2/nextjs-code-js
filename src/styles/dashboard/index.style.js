@@ -53,7 +53,7 @@ export const DivCardProducts = styled.div`
   border-radius: 22px;
   margin: 10px;
   height: 167px;
-  width: 285px;
+  /* width: 285px; */
   max-width: 100%;
   max-height: 100%;
   @media (max-width: 1410px) {

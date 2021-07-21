@@ -119,8 +119,20 @@ max-height: 100% !important;
   .ant-table-thead tr th {
     border:none;
   }
+
   .ant-table-tbody tr:first-child td {
     border-top:1px solid #f0f0f0;
+  }
+
+  .ant-menu-item span {
+     padding-top: 5px;
+  }
+
+  .ant-menu-item .ant-menu-title-content{
+     padding-top: 5px;
+  }
+  .ant-spin-nested-loading {
+    margin-bottom: 20px;
   }
 `
 

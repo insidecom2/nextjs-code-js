@@ -197,7 +197,6 @@ export const createProducts = (data) => {
         type: CREATE_PRODUCTS_REQUEST
       })
 
-      console.log(data)
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }

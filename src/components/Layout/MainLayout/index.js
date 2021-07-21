@@ -195,6 +195,12 @@ const MainLayout = (props) => {
                 onClick={(e) => onClick(e, 'banner')}>
                 แบนเนอร์
               </Menu.Item>
+              <Menu.Item
+                key="102"
+                icon={<PicRightOutlined />}
+                onClick={(e) => onClick(e, 'shops')}>
+                ร้านค้า
+              </Menu.Item>
             </MenuEx>
           </SiderEx>
           <Layout>

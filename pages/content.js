@@ -20,13 +20,15 @@ import {
   getContentList,
   updateActiveContent,
   updateContent
-} from 'store/reducers/content'
+} from 'store/reducers/content';
+
 import {
   AddCreate
-} from 'styles/BtnCreate/index.style'
+} from 'styles/BtnCreate/index.style';
+
 import {
   NewTable
-} from 'styles/NewTable/index.style'
+} from 'styles/NewTable/index.style';
 
 const content = () => {
   const [action, setAction] = useState(ACTION.CREATE)
