@@ -13,7 +13,8 @@ import {
   HomeOutlined,
   FileTextOutlined,
   SettingOutlined,
-  PicRightOutlined
+  PicRightOutlined,
+  ShopOutlined
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
@@ -197,7 +198,7 @@ const MainLayout = (props) => {
               </Menu.Item>
               <Menu.Item
                 key="102"
-                icon={<PicRightOutlined />}
+                icon={<ShopOutlined />}
                 onClick={(e) => onClick(e, 'shops')}>
                 ร้านค้า
               </Menu.Item>
