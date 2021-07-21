@@ -11,12 +11,15 @@ const ManageShops = (props) => {
   const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
 
+  //console.log('On Modal',ShopsSelected)
+
   const onFinish = (values) => {
+    console.log(values)
     const data = {
       domain_name: values.domain_name,
       name: values.name,
       url: values.url,
-      logo: values.logo === undefined?[] : values.logo.file.originFileObj,
+      logo: values.logo === undefined?'' : values.logo.file.originFileObj,
     }
     if (action===ACTION.EDIT) {
         data.id = ShopsSelected.id;

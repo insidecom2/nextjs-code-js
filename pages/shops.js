@@ -16,9 +16,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import _ from 'lodash'
 
-import { createProducts, updateActiveProducts } from 'store/reducers/products'
+import { updateActiveProducts } from 'store/reducers/products'
 
-import { getShopsList, deleteShops, updateShops } from 'store/reducers/shops'
+import { getShopsList, deleteShops, updateShops, createShops } from 'store/reducers/shops'
 
 import { NewTable } from 'styles/NewTable/index.style'
 
@@ -40,6 +40,8 @@ const Products = (props) => {
     }),
     []
   )
+
+  //console.log(shopsList)
 
   const fetchData = async () => {
     await dispatch(getShopsList())
@@ -71,7 +73,7 @@ const Products = (props) => {
       key: 'logo',
       render: (text) => (
         <AllDivImageEveryPage>
-          <img src={text != undefined ? text : ''} />
+          <img   src={text != (undefined||'') ? text : 'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'} />
         </AllDivImageEveryPage>
       )
     },
@@ -136,7 +138,7 @@ const Products = (props) => {
     formData.set('url', data.url)
     formData.append('logo', data.logo)
     if (action === ACTION.CREATE) {
-      await dispatch(createProducts(data.id, formData))
+      await dispatch(createShops(formData))
     } else if (action === ACTION.EDIT) {
       await dispatch(updateShops(data.id, formData))
     }

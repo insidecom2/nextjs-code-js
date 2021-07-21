@@ -30,7 +30,7 @@ const DELETE_SHOPS_QUANTITY_FAILURE = 'shops/DELETE_SHOPS_QUANTITY_FAILURE'
 const initialState = {
   isLoading: false,
   shopsList: [],
-  productImageUpdate: {},
+  shopsImageUpdate: {},
   error: {}
 }
 
@@ -47,7 +47,7 @@ const shops = (state = initialState, action) => {
         ...state,
         isLoading: false,
         shopsList: action.payload,
-        productImageUpdate: {}
+        shopsImageUpdate: {}
       }
     case FETCH_SHOPS_LIST_FAILURE:
       return {
@@ -158,7 +158,7 @@ export const getShopsById = (id) => {
 }
 
 export const createShops = (data) => {
-  // console.log(data)
+  //console.log(data)
   return async (dispatch) => {
     try {
       dispatch({
