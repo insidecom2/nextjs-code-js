@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
+import {
+  Row,
+  Button,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Upload,
+  Icon,
+  message
+} from 'antd'
 import { ACTION } from 'utils/constants.js'
 import { beforeUpload, getBase64 } from 'utils/images'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
@@ -19,10 +29,10 @@ const ManageShops = (props) => {
       domain_name: values.domain_name,
       name: values.name,
       url: values.url,
-      logo: values.logo === undefined?'' : values.logo.file.originFileObj,
+      logo: values.logo === undefined ? [] : values.logo.file.originFileObj
     }
-    if (action===ACTION.EDIT) {
-        data.id = ShopsSelected.id;
+    if (action === ACTION.EDIT) {
+      data.id = ShopsSelected.id
     }
     onOk(data)
   }

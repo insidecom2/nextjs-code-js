@@ -18,7 +18,12 @@ import _ from 'lodash'
 
 import { updateActiveProducts } from 'store/reducers/products'
 
-import { getShopsList, deleteShops, updateShops, createShops } from 'store/reducers/shops'
+import {
+  getShopsList,
+  deleteShops,
+  updateShops,
+  createShops
+} from 'store/reducers/shops'
 
 import { NewTable } from 'styles/NewTable/index.style'
 
@@ -73,7 +78,13 @@ const Products = (props) => {
       key: 'logo',
       render: (text) => (
         <AllDivImageEveryPage>
-          <img   src={text != (undefined||'') ? text : 'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'} />
+          <img
+            src={
+              text != (undefined || '')
+                ? text
+                : 'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'
+            }
+          />
         </AllDivImageEveryPage>
       )
     },
