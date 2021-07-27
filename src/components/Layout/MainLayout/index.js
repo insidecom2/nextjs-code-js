@@ -202,6 +202,18 @@ const MainLayout = (props) => {
                 onClick={(e) => onClick(e, 'shops')}>
                 ร้านค้า
               </Menu.Item>
+              <Menu.Item
+                key="103"
+                icon={<ShopOutlined />}
+                onClick={(e) => onClick(e, 'estimateSetting')}>
+                ตั้งค่า Estimate
+              </Menu.Item>
+              <Menu.Item
+                key="104"
+                icon={<ShopOutlined />}
+                onClick={(e) => onClick(e, 'threeDSetting')}>
+                ตั้งค่า 3D
+              </Menu.Item>
             </MenuEx>
           </SiderEx>
           <Layout>
