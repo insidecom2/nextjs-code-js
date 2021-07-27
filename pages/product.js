@@ -23,15 +23,9 @@ import {
   updateActiveProducts,
   updateProducts
 } from 'store/reducers/products'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  AllDivImageEveryPage
-} from 'styles/divImgEveryPage/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { AllDivImageEveryPage } from 'styles/divImgEveryPage/index.style'
 
 const Products = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
@@ -83,19 +77,30 @@ const Products = (props) => {
             1}
         </span>
       )
-    }
-    ,
+    },
     {
       title: 'สินค้า',
       dataIndex: 'product_image',
       key: 'product_image',
-      render: (text) => <AllDivImageEveryPage><img src={text[0]!=(undefined||'')?text[0].image:'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'} /></AllDivImageEveryPage>
+      render: (text) => (
+        <AllDivImageEveryPage>
+          <img
+            src={
+              text[0]
+                ? text[0].image
+                : 'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'
+            }
+          />
+        </AllDivImageEveryPage>
+      )
     },
     {
       title: 'ชื่อ',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <span>{text.substring(0,15)+(text.length>15?"...":"")}</span>
+      render: (text) => (
+        <span>{text.substring(0, 15) + (text.length > 15 ? '...' : '')}</span>
+      )
     },
     {
       title: 'Category / Type',
