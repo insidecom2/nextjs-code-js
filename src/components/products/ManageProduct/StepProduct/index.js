@@ -32,7 +32,7 @@ const StepProduct = (props) => {
         weight: productSelected.weight,
         size: productSelected.size,
         estimate: productSelected.estimate,
-        threedSettingId: productSelected.threedSettingId
+        threed: productSelected.threed
       })
       setStatCheckBox(productSelected.estimate)
     }
@@ -164,7 +164,7 @@ const StepProduct = (props) => {
   <Col span={12} style={{paddingTop:17}} >
     <Form.Item
             label="เลือกโมเดล 3D"
-            name="threedSettingId"
+            name="threed"
             rules={[
               {
                 required: true,

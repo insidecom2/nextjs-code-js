@@ -69,7 +69,7 @@ const ManageProducts = (props) => {
         weight: values.weight,
         size: values.size,
         estimate: values.estimate,
-        threedSettingId: values.threedSettingId === undefined?"":values.threedSettingId
+        threed: values.threed === undefined?"":values.threed
       },
       quantityList: quantityDataList,
       images:
