@@ -5,11 +5,13 @@ import PropTypes from 'prop-types'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { ACTION } from 'utils/constants'
 import _ from 'lodash'
+import threeDSetting from 'store/reducers/threeDSetting'
 
 const StepProduct = (props) => {
-  const { action, categoryList, typeList, productSelected, form } = props
+  const { action, categoryList, typeList, productSelected, form, setThreeD } = props
   const [selectCategory,setSelectCategory] = useState();
-  
+  const [statCheckBox, setStatCheckBox] = useState();
+
   useDeepEffect(() => {
     if  (_.filter(_.filter(categoryList,"category_type[0]"),{id:Number(selectCategory)}).length>0) {
       form.setFieldsValue({
@@ -29,8 +31,10 @@ const StepProduct = (props) => {
         price: productSelected.price,
         weight: productSelected.weight,
         size: productSelected.size,
-        estimate: productSelected.estimate
+        estimate: productSelected.estimate,
+        threedSettingId: productSelected.threedSettingId
       })
+      setStatCheckBox(productSelected.estimate)
     }
   }, [productSelected])
   const tailLayout = {
@@ -152,9 +156,31 @@ const StepProduct = (props) => {
         </Col>
         <Col style={{paddingTop:10}} span={5}>
         <Form.Item {...tailLayout} name="estimate" valuePropName="checked">
-            <Checkbox>estimate</Checkbox>
+            <Checkbox onChange={(e)=>setStatCheckBox(e.target.checked)}>estimate</Checkbox>
           </Form.Item>
         </Col>
+        {statCheckBox&&(
+             
+  <Col span={12} style={{paddingTop:17}} >
+    <Form.Item
+            label="เลือกโมเดล 3D"
+            name="threedSettingId"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your model!'
+              }
+            ]}>
+            <Select onChange={(e)=>setSelectCategory(e)}>
+              {setThreeD.map((val, index) => (
+                <Select.Option key={index} value={val.id}>
+                  {val.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          </Col>
+)}
       </Row>
     </div>
   )

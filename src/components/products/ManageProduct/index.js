@@ -10,6 +10,7 @@ import useDeepEffect from 'utils/hooks/useDeepEffect'
 import StepProduct from 'components/products/ManageProduct/StepProduct'
 import StepImage from 'components/products/ManageProduct/StepImage'
 import StepQuantity from 'components/products/ManageProduct/StepQuantity'
+import { getThreeDSettingList } from 'store/reducers/threeDSetting'
 
 const ManageProducts = (props) => {
   const { visible, onOk, onCancel, action, productSelected } = props
@@ -20,10 +21,11 @@ const ManageProducts = (props) => {
 
   const { Step } = Steps
 
-  const { categoryList, typeList } = useSelector(
+  const { categoryList, typeList, threeD } = useSelector(
     (state) => ({
       categoryList: state.category.categoryList,
-      typeList: state.categoryType.categoryTypeList
+      typeList: state.categoryType.categoryTypeList,
+      threeD:state.threeDSetting.ThreeDSettingList
     }),
     []
   )
@@ -36,11 +38,13 @@ const ManageProducts = (props) => {
     setCurrent(current - 1)
   }
 
+  async function fetchData() {
+    await dispatch(getCategoryList())
+    await dispatch(getCategoryTypeList())
+    await dispatch(getThreeDSettingList())
+  }
+
   useDeepEffect(() => {
-    async function fetchData() {
-      await dispatch(getCategoryList())
-      await dispatch(getCategoryTypeList())
-    }
     fetchData()
   }, [])
  
@@ -48,7 +52,8 @@ const ManageProducts = (props) => {
     const quantityDataList = []
     quantityList.forEach((item, index) => {
       quantityDataList.push({
-        id: action === ACTION.EDIT ? 0 : item.id,
+        // id: action === ACTION.EDIT ? 0 : item.id,
+        id: item.id,
         quantity: values[`quantity_${item.id}_${index}`],
         price: values[`price_${item.id}_${index}`]
       })
@@ -63,7 +68,8 @@ const ManageProducts = (props) => {
         price: values.price,
         weight: values.weight,
         size: values.size,
-        estimate: values.estimate
+        estimate: values.estimate,
+        threedSettingId: values.threedSettingId === undefined?"":values.threedSettingId
       },
       quantityList: quantityDataList,
       images:
@@ -88,6 +94,7 @@ const ManageProducts = (props) => {
       title: 'Product',
       content: (
         <StepProduct
+          setThreeD={threeD}
           productSelected={productSelected}
           action={action}
           form={form}

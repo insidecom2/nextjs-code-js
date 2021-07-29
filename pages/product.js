@@ -34,15 +34,13 @@ const Products = (props) => {
   const dispatch = useDispatch()
   const [productSelected, setProductSelected] = useState(null)
 
-  const { productsList, isLoading } = useSelector(
+  const { productsList, isLoading} = useSelector(
     (state) => ({
       productsList: state.products.productsList,
-      isLoading: state.products.isLoading
+      isLoading: state.products.isLoading,
     }),
     []
   )
-
-  //console.log(productsList)
 
   // useDeepEffect(() => {
   //   if (!_.isNull(productSelected)) {
