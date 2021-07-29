@@ -32,7 +32,7 @@ const StepProduct = (props) => {
         weight: productSelected.weight,
         size: productSelected.size,
         estimate: productSelected.estimate,
-        threed: productSelected.threed
+        threed: productSelected.threed===null?'':productSelected.threed.id
       })
       setStatCheckBox(productSelected.estimate)
     }
