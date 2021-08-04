@@ -28,11 +28,7 @@ const ManageShops = (props) => {
       domain_name: values.domain_name,
       name: values.name,
       url: values.url,
-<<<<<<< HEAD
-      logo: values.logo === undefined?[] : values.logo.file.originFileObj,
-=======
       logo: values.logo === undefined ? [] : values.logo.file.originFileObj
->>>>>>> 1c14321effa5dcacf3a39142c74b320ec5af1bd4
     }
     if (action === ACTION.EDIT) {
       data.id = ShopsSelected.id
