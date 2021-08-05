@@ -15,9 +15,7 @@ const ManageShipping = (props) => {
   const onFinish = (values) => {
     console.log(values)
     const data = {
-      title: values.title,
-      type: values.type,
-      price: values.price,
+      name: values.name,
       logo: values.image === undefined ? [] : values.image.file.originFileObj
     }
     if (action === ACTION.EDIT) {
@@ -31,9 +29,7 @@ const ManageShipping = (props) => {
   useEffect(() => {
     if (action === ACTION.EDIT) {
       form.setFieldsValue({
-        title: typeSelected.title,
-        type: typeSelected.type,
-        price: typeSelected.price
+        name: typeSelected.name
       })
       setimageUrl(typeSelected.logo)
     }
@@ -68,32 +64,7 @@ const ManageShipping = (props) => {
         <p>No : {TrNo}</p>
         <Form.Item
           label="หัวข้อ"
-          name="title"
-          rules={[
-            {
-              required: true,
-              message: 'กรุณาระบุข้อมูล!'
-            }
-          ]}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="ประเภท"
-          name="type"
-          rules={[
-            {
-              required: true,
-              message: 'กรุณาระบุข้อมูล!'
-            }
-          ]}>
-          <Radio.Group>
-            <Radio.Button value="Pick-Up">Pick-Up</Radio.Button>
-            <Radio.Button value="Drop-Off">Drop-Off</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item
-          label="ราคา"
-          name="price"
+          name="name"
           rules={[
             {
               required: true,

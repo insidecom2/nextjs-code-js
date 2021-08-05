@@ -14,12 +14,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ACTION } from 'utils/constants.js'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import ManageShipping from 'components/Settings/ManageShipping'
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
-import {
-  NewTable
-} from 'styles/NewTable/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
+import { NewTable } from 'styles/NewTable/index.style'
 
 import {
   deleteShipping,
@@ -81,9 +77,8 @@ const shipping = () => {
     await setVisible(false)
     const formData = new FormData()
     formData.set('title', data.title)
-    formData.set('username', data.username)
-    formData.set('password', data.password)
-    formData.set('secert_key', data.secert_key)
+    formData.set('type', data.type)
+    formData.set('price', data.price)
     formData.append('logo', data.logo)
     if (action === ACTION.CREATE) {
       await dispatch(createShipping(formData))
@@ -112,20 +107,30 @@ const shipping = () => {
       )
     },
     {
-      title: 'title',
+      title: 'Logo',
+      key: 'logo',
+      render: (text, record, index) => <img src={record.logo} height="100" />
+    },
+    {
+      title: 'Title',
       dataIndex: 'title',
       key: 'title'
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type'
     },
     {
       title: 'Action',
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>edit</a>
+          <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
-            <a>delete</a>
+            <a>ลบ</a>
           </Popconfirm>
         </Space>
       )
@@ -150,7 +155,7 @@ const shipping = () => {
           <Col span={12}>
             <Row justify="end">
               <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add Shipping
+                เพิ่มข้อมูลขนส่ง
               </AddCreate>
             </Row>
           </Col>

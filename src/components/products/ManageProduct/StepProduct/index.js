@@ -8,14 +8,27 @@ import _ from 'lodash'
 import threeDSetting from 'store/reducers/threeDSetting'
 
 const StepProduct = (props) => {
-  const { action, categoryList, typeList, productSelected, form, setThreeD } = props
-  const [selectCategory,setSelectCategory] = useState();
-  const [statCheckBox, setStatCheckBox] = useState();
+  const {
+    action,
+    categoryList,
+    typeList,
+    productSelected,
+    form,
+    setThreeD
+  } = props
+  const [selectCategory, setSelectCategory] = useState()
+  const [statCheckBox, setStatCheckBox] = useState()
 
   useDeepEffect(() => {
-    if  (_.filter(_.filter(categoryList,"category_type[0]"),{id:Number(selectCategory)}).length>0) {
+    if (
+      _.filter(_.filter(categoryList, 'category_type[0]'), {
+        id: Number(selectCategory)
+      }).length > 0
+    ) {
       form.setFieldsValue({
-        type: _.filter(_.filter(categoryList,"category_type[0]"),{id:Number(selectCategory)})[0].category_type[0].id,
+        type: _.filter(_.filter(categoryList, 'category_type[0]'), {
+          id: Number(selectCategory)
+        })[0].category_type[0].id
       })
     }
   }, [selectCategory])
@@ -32,14 +45,14 @@ const StepProduct = (props) => {
         weight: productSelected.weight,
         size: productSelected.size,
         estimate: productSelected.estimate,
-        threed: productSelected.threed===null?'':productSelected.threed.id
+        threed: productSelected.threed === null ? '' : productSelected.threed.id
       })
       setStatCheckBox(productSelected.estimate)
     }
   }, [productSelected])
   const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-  };
+    wrapperCol: { offset: 8, span: 16 }
+  }
 
   return (
     <div>
@@ -82,7 +95,7 @@ const StepProduct = (props) => {
                 message: 'Please input your Category!'
               }
             ]}>
-            <Select onChange={(e)=>setSelectCategory(e)}>
+            <Select onChange={(e) => setSelectCategory(e)}>
               {categoryList.map((val) => (
                 <Select.Option key={val.id} value={val.id}>
                   {val.name}
@@ -93,7 +106,7 @@ const StepProduct = (props) => {
         </Col>
         <Col span={12}>
           <Form.Item
-            label="Type"
+            label="ประเภท"
             name="type"
             rules={[
               {
@@ -130,7 +143,7 @@ const StepProduct = (props) => {
         </Col>
         <Col span={8}>
           <Form.Item
-            label="Price"
+            label="ราคา"
             name="price"
             rules={[
               {
@@ -154,33 +167,34 @@ const StepProduct = (props) => {
             <InputNumber value="0" style={{ width: '100%' }} />
           </Form.Item>
         </Col>
-        <Col style={{paddingTop:10}} span={5}>
-        <Form.Item {...tailLayout} name="estimate" valuePropName="checked">
-            <Checkbox onChange={(e)=>setStatCheckBox(e.target.checked)}>estimate</Checkbox>
+        <Col style={{ paddingTop: 10 }} span={5}>
+          <Form.Item {...tailLayout} name="estimate" valuePropName="checked">
+            <Checkbox onChange={(e) => setStatCheckBox(e.target.checked)}>
+              estimate
+            </Checkbox>
           </Form.Item>
         </Col>
-        {statCheckBox&&(
-             
-  <Col span={12} style={{paddingTop:17}} >
-    <Form.Item
-            label="เลือกโมเดล 3D"
-            name="threed"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your model!'
-              }
-            ]}>
-            <Select onChange={(e)=>setSelectCategory(e)}>
-              {setThreeD.map((val, index) => (
-                <Select.Option key={index} value={val.id}>
-                  {val.name}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
+        {statCheckBox && (
+          <Col span={12} style={{ paddingTop: 17 }}>
+            <Form.Item
+              label="เลือกโมเดล 3D"
+              name="threed"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your model!'
+                }
+              ]}>
+              <Select onChange={(e) => setSelectCategory(e)}>
+                {setThreeD.map((val, index) => (
+                  <Select.Option key={index} value={val.id}>
+                    {val.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
           </Col>
-)}
+        )}
       </Row>
     </div>
   )
