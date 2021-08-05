@@ -143,7 +143,7 @@ const StepQuantity = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a onClick={(e) => onDelete(e, record.id)}>delete</a>
+          <a onClick={(e) => onDelete(e, record.id)}>ลบ</a>
         </Space>
       )
     }

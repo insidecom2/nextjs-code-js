@@ -17,6 +17,9 @@ import promotion from 'store/reducers/promotion'
 import setting from 'store/reducers/setting'
 import banner from 'store/reducers/banner'
 import shops from 'store/reducers/shops'
+import estimateSetting from 'store/reducers/estimateSetting'
+import threeDSetting from 'store/reducers/threeDSetting'
+import payment from 'store/reducers/payment'
 
 export default combineReducers({
   auth,
@@ -36,5 +39,8 @@ export default combineReducers({
   promotion,
   setting,
   banner,
-  shops
+  shops,
+  estimateSetting,
+  threeDSetting,
+  payment
 })

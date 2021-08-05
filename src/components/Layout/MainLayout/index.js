@@ -14,7 +14,8 @@ import {
   FileTextOutlined,
   SettingOutlined,
   PicRightOutlined,
-  ShopOutlined
+  ShopOutlined,
+  CreditCardOutlined
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
@@ -158,6 +159,12 @@ const MainLayout = (props) => {
                 onClick={(e) => onClick(e, 'shipping')}>
                 การจัดส่ง
               </Menu.Item>
+              <Menu.Item
+                key="8"
+                icon={<CreditCardOutlined />}
+                onClick={(e) => onClick(e, 'payment')}>
+                การชำระเงิน
+              </Menu.Item>
               <SubMenu
                 key="sub1"
                 icon={<ControlFilled />}
@@ -201,6 +208,18 @@ const MainLayout = (props) => {
                 icon={<ShopOutlined />}
                 onClick={(e) => onClick(e, 'shops')}>
                 ร้านค้า
+              </Menu.Item>
+              <Menu.Item
+                key="103"
+                icon={<ShopOutlined />}
+                onClick={(e) => onClick(e, 'estimateSetting')}>
+                ตั้งค่า Estimate
+              </Menu.Item>
+              <Menu.Item
+                key="104"
+                icon={<ShopOutlined />}
+                onClick={(e) => onClick(e, 'threeDSetting')}>
+                ตั้งค่า 3D
               </Menu.Item>
             </MenuEx>
           </SiderEx>

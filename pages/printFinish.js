@@ -145,7 +145,7 @@ const PrintFinish = (props) => {
           <Col span={12}>
             <Row justify="end">
               <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                Add Print Finish
+                เพิ่มข้อมูล
               </Button>
             </Row>
           </Col>

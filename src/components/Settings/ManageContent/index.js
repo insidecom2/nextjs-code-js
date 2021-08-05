@@ -355,7 +355,7 @@ const ManageContent = (props) => {
               <Col span={24}>
                 <Form.Item
                   onChange={(e) => setDetectTitle(e.target.value)}
-                  label="Title"
+                  label="หัวข้อ"
                   name="title"
                   rules={[
                     {

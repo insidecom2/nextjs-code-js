@@ -4,9 +4,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { getSettingList, updateSetting } from 'store/reducers/setting'
-import {
-  AddCreate
-} from 'styles/BtnCreate/index.style'
+import { AddCreate } from 'styles/BtnCreate/index.style'
 
 const setting = () => {
   const dispatch = useDispatch()
@@ -82,7 +80,7 @@ const setting = () => {
               name="manageWebSetting"
               onFinish={onFinish}
               layout="vertical">
-              <Form.Item label="Title" name="title">
+              <Form.Item label="หัวข้อ" name="title">
                 <Input />
               </Form.Item>
               <Form.Item label="Email" name="email">

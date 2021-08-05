@@ -51,7 +51,7 @@ const media = () => {
     }),
     []
   )
-  
+
   const setDefaultImg = async () => {
     const defaultImg = []
     await mediaList.map((ListImg) => defaultImg.push({ url: ListImg.name }))
@@ -61,7 +61,7 @@ const media = () => {
   useDeepEffect(() => {
     setDefaultImg()
     //if (mediaList.length > 0) {
-      setLoading(false)
+    setLoading(false)
     //}
   }, [mediaList.length])
 
@@ -70,14 +70,14 @@ const media = () => {
   }
 
   useDeepEffect(() => {
-    fetchData(defaultDate[0],defaultDate[1])
+    fetchData(defaultDate[0], defaultDate[1])
   }, [defaultDate])
 
   const onOkUpload = async (data) => {
     const formData = new FormData()
     formData.append('image', data.image)
     await dispatch(createMedia(formData))
-    await fetchData(defaultDate[0],defaultDate[1])
+    await fetchData(defaultDate[0], defaultDate[1])
     await setDefaultImg()
   }
 
@@ -92,7 +92,7 @@ const media = () => {
   const confirm = async () => {
     if (!statusPreview) {
       await dispatch(deleteMedia(urlImageName))
-      await fetchData(defaultDate[0],defaultDate[1])
+      await fetchData(defaultDate[0], defaultDate[1])
       await setLoading(true)
       await setDefaultImg()
     }
@@ -145,7 +145,7 @@ const media = () => {
               onFinish={onFinish}
               layout="vertical">
               <Form.Item
-                label="Upload image"
+                label="อัพโหลดรูปภาพ"
                 name="uploadImage"
                 valuePropName="upload">
                 <Upload

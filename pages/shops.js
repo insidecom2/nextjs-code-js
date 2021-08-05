@@ -97,7 +97,7 @@ const Products = (props) => {
       )
     },
     {
-      title: 'Domain name',
+      title: 'โดเมนเนม',
       dataIndex: 'domain_name',
       key: 'domain_name',
       render: (text) => <span>{text}</span>
@@ -182,12 +182,12 @@ const Products = (props) => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>รายการ สินค้า</Typography.Title>
+            <Typography.Title level={3}>รายการ ร้านค้า</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
               <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
-                เพิ่ม สินค้า
+                เพิ่ม ร้านค้า
               </AddCreate>
             </Row>
           </Col>

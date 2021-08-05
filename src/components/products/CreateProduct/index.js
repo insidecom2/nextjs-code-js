@@ -90,7 +90,7 @@ const ModalQP = (props) => {
             </Form.Item>
 
             <Form.Item
-              label="Price"
+              label="ราคา"
               name="price"
               rules={[
                 {
@@ -367,11 +367,11 @@ const CreateProducts = (props) => {
       key: 'action',
       render: (text, record, index) => (
         <Space>
-          <a onClick={(e) => onEdit(e, record)}>edit</a>
+          <a onClick={(e) => onEdit(e, record)}>แก้ไข</a>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={(e) => confirm(e, record)}>
-            <a>delete</a>
+            <a>ลบ</a>
           </Popconfirm>
         </Space>
       )
@@ -423,7 +423,7 @@ const CreateProducts = (props) => {
             </Select>
           </Form.Item>
           <Form.Item
-            label="Type"
+            label="ประเภท"
             name="type"
             rules={[
               {
@@ -454,7 +454,7 @@ const CreateProducts = (props) => {
             <Input placeholder="W x H x L" />
           </Form.Item>
           <Form.Item
-            label="Price"
+            label="ราคา"
             name="price"
             rules={[
               {
@@ -527,7 +527,7 @@ const CreateProducts = (props) => {
             {!EditQP && (
               <>
                 <Row justify="end">
-                  <Button onClick={onClick}>Add Quantity</Button>
+                  <Button onClick={onClick}>เพิ่มข้อมูล</Button>
                 </Row>
 
                 <Table

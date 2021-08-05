@@ -24,7 +24,6 @@ const ManageShops = (props) => {
   //console.log('On Modal',ShopsSelected)
 
   const onFinish = (values) => {
-    console.log(values)
     const data = {
       domain_name: values.domain_name,
       name: values.name,

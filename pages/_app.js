@@ -51,12 +51,15 @@ const GlobalStyle = createGlobalStyle`
     padding:0 !important;
     margin:0 !important;
   }
+
   .tox-notification.tox-notification--in.tox-notification--warning {
     display:none;
   }
+
   .ant-layout-sider {
      background-color: unset;
   }
+  
   .ant-layout-sider-trigger {
     display: none;
   }
