@@ -183,7 +183,7 @@ const MainLayout = (props) => {
                 <Menu.Item key="14" onClick={(e) => onClick(e, 'printSides')}>
                     รูปแบบการเคลือบ
                 </Menu.Item>
-                <Menu.Item key="15" onClick={(e) => onClick(e, 'printSides')}>
+                <Menu.Item key="15" onClick={(e) => onClick(e, 'specialTechnic')}>
                     เทคนิคพิเศษ
                 </Menu.Item>
               </SubMenu>
