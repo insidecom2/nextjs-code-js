@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { AddCreate } from 'styles/BtnCreate/index.style'
 import { NewTable } from 'styles/NewTable/index.style'
+import { getspecialTechnicList } from 'store/reducers/specialTechnic'
 
 const SpecialTechnic = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
