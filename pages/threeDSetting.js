@@ -14,41 +14,35 @@ import {
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  createCategory,
-  deleteCategory,
-  getCategoryList,
-  updateActiveCategory,
-  getCategoryListById,
-  updateCategory
-} from 'store/reducers/category'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import ManageCategory from 'components/Settings/Category/ManageCategory'
+import ManageThreeDSetting from 'components/Settings/ManageThreeDSetting'
 import { AddCreate } from 'styles/BtnCreate/index.style'
 import { NewTable } from 'styles/NewTable/index.style'
+import { getThreeDSettingList, updateActiveThreeDSetting, getThreeDSettingListById ,updateThreeDSetting, createThreeDSetting,  deleteThreeDSetting } from 'store/reducers/threeDSetting'
 
-const Category = (props) => {
+const threeDSetting = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
   const [AntSelectNo, SetAntSelectNo] = useState(1)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
-
-  const { categoryList, isLoading } = useSelector(
+  const [threeDSettingSelected, setThreeDSettingSelected] = useState(null)
+  
+  const { threeDSettingList, isLoading } = useSelector(
     (state) => ({
-      categoryList: state.category.categoryList,
-      isLoading: state.category.isLoading
+      threeDSettingList: state.threeDSetting.ThreeDSettingList,
+      isLoading: state.threeDSetting.isLoading
     }),
     []
   )
 
   const setActive = async (e, record) => {
-    await dispatch(updateActiveCategory(record.id, e))
-    await dispatch(getCategoryList())
+    await dispatch(updateActiveThreeDSetting(record.id, e))
+    await dispatch(getThreeDSettingList())
   }
 
   const fetchData = async () => {
-    await dispatch(getCategoryList())
+    await dispatch(getThreeDSettingList())
   }
 
   useDeepEffect(() => {
@@ -57,8 +51,8 @@ const Category = (props) => {
 
   const confirm = async (e, record) => {
     e.preventDefault()
-    await dispatch(deleteCategory(record.id))
-    await dispatch(getCategoryList())
+    await dispatch(deleteThreeDSetting(record.id))
+    await dispatch(getThreeDSettingList())
   }
 
   const columns = [
@@ -66,21 +60,6 @@ const Category = (props) => {
       title: 'ลำดับ.',
       key: 'no',
       render: (text, record, index) => <span>{index + 1}</span>
-    },
-    {
-      title: 'ภาพ',
-      key: 'image',
-      render: (text, record, index) => (
-        <Image
-          width={200}
-          src={
-            text.image === (undefined || '')
-              ? 'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'
-              : String(text.image)
-          }
-        />
-      ),
-      width: '10%'
     },
     {
       title: 'ชื่อ',
@@ -91,11 +70,11 @@ const Category = (props) => {
       title: 'Action',
       key: 'action',
       render: (text, record, index) =>
-        categoryList[
-          Number(categoryList.findIndex((FindPos) => FindPos.id === text.id))
+        threeDSettingList[
+          Number(threeDSettingList.findIndex((FindPos) => FindPos.id === text.id))
         ].is_active && (
           <Space>
-            <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
             <Popconfirm
               title="คุณแน่ใจที่จะลบ?"
               onConfirm={(e) => confirm(e, record)}>
@@ -122,37 +101,39 @@ const Category = (props) => {
   ]
 
   const onClick = (e, action) => {
-    SetAntSelectNo(categoryList.length + 1)
+    SetAntSelectNo(threeDSettingList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
   }
 
-  const onEdit = async (e, action, id) => {
+  const onEdit = async (e, action, record) => {
     let GetPosition =
-      Number(categoryList.findIndex((FindPos) => FindPos.id === id)) + 1
+      Number(threeDSettingList.findIndex((FindPos) => FindPos.id === record.id)) + 1
     SetAntSelectNo(GetPosition)
     e.preventDefault()
-    setAction(action)
-    await dispatch(getCategoryListById(id))
+    await setThreeDSettingSelected(record)
+    await setAction(action)
+    await dispatch(getThreeDSettingListById(record.id))
     setVisible(true)
   }
 
   const onCancel = () => {
     setVisible(false)
+    setThreeDSettingSelected(null)
   }
 
   const onOk = async (data) => {
-    const formData = new FormData()
-    formData.set('name', data.name)
-    formData.set('code', data.code)
-    formData.set('description', data.description)
-    formData.append('image', data.image)
+    const formData = 
+    {
+     'name': data.name,
+     'code': data.code,
+    }
     await setVisible(false)
     String(action) !== 'Edit'
-      ? await dispatch(createCategory(formData))
-      : await dispatch(updateCategory(data.id, formData))
-    await dispatch(getCategoryList())
+      ? await dispatch(createThreeDSetting(formData))
+      : await dispatch(updateThreeDSetting(data.id, formData))
+    await dispatch(getThreeDSettingList())
   }
 
   return (
@@ -160,7 +141,7 @@ const Category = (props) => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>รายการหมวดหมู่</Typography.Title>
+            <Typography.Title level={3}>รายการตั้งค่ากระดาษ Estimate</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
@@ -174,16 +155,17 @@ const Category = (props) => {
           bordered
           loading={isLoading}
           columns={columns}
-          dataSource={categoryList}
+          dataSource={threeDSettingList}
           rowKey={(record) => record.id}
         />
         {visible && (
-          <ManageCategory
+          <ManageThreeDSetting
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
             action={action}
             TrNo={AntSelectNo}
+            threeDSettingSelected={threeDSettingSelected}
           />
         )}
       </div>
@@ -191,4 +173,4 @@ const Category = (props) => {
   )
 }
 
-export default Category
+export default threeDSetting;

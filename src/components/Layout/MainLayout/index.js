@@ -175,13 +175,16 @@ const MainLayout = (props) => {
                   ขนาด
                 </Menu.Item>
                 <Menu.Item key="12" onClick={(e) => onClick(e, 'material')}>
-                  วัสดุ
-                </Menu.Item>
+                     ชนิดกระดาษ
+                 </Menu.Item>
                 <Menu.Item key="13" onClick={(e) => onClick(e, 'printFinish')}>
-                  พิมพ์เสร็จสิ้น
+                    รูปแบบการพิมพ์
                 </Menu.Item>
                 <Menu.Item key="14" onClick={(e) => onClick(e, 'printSides')}>
-                  พิมพ์ด้าน
+                    รูปแบบการเคลือบ
+                </Menu.Item>
+                <Menu.Item key="15" onClick={(e) => onClick(e, 'specialTechnic')}>
+                    เทคนิคพิเศษ
                 </Menu.Item>
               </SubMenu>
               <Menu.Item
@@ -201,6 +204,18 @@ const MainLayout = (props) => {
                 icon={<ShopOutlined />}
                 onClick={(e) => onClick(e, 'shops')}>
                 ร้านค้า
+              </Menu.Item>
+              <Menu.Item
+                key="103"
+                icon={<ShopOutlined />}
+                onClick={(e) => onClick(e, 'estimateSetting')}>
+                ตั้งค่า Estimate
+              </Menu.Item>
+              <Menu.Item
+                key="104"
+                icon={<ShopOutlined />}
+                onClick={(e) => onClick(e, 'threeDSetting')}>
+                ตั้งค่า 3D
               </Menu.Item>
             </MenuEx>
           </SiderEx>

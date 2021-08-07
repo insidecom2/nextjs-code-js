@@ -18,3 +18,6 @@ export const PROMOTION = `/promotion`
 export const SETTING = `/web-setting`
 export const BANNER = `/slide-image`
 export const SHOPS = `/shops`
+export const ESTIMATESETTING = `/estimate-setting`
+export const THREEDSETTING = `/threed-setting`
+export const SPECIALTECHNIC = `/special-technic`

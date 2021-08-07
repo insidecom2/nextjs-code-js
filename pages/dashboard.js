@@ -11,7 +11,7 @@ import DashboardChart from 'components/Shared/DashboardChart'
 import CardMsn from 'components/Shared/CardMsn'
 import { HeaderTitle } from 'styles/shared.style'
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   return (
     <MainLayout>
       <Row

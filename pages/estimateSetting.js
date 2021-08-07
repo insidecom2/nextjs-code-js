@@ -14,41 +14,35 @@ import {
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  createCategory,
-  deleteCategory,
-  getCategoryList,
-  updateActiveCategory,
-  getCategoryListById,
-  updateCategory
-} from 'store/reducers/category'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import ManageCategory from 'components/Settings/Category/ManageCategory'
+import ManageEstimateSetting from 'components/Settings/ManageEstimateSetting'
 import { AddCreate } from 'styles/BtnCreate/index.style'
 import { NewTable } from 'styles/NewTable/index.style'
+import { getEstimateSettingList, updateActiveEstimateSetting, getEstimateSettingListById ,updateEstimateSetting, createEstimateSetting,  deleteEstimateSetting } from 'store/reducers/estimateSetting'
 
-const Category = (props) => {
+const estimateSetting = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
   const [AntSelectNo, SetAntSelectNo] = useState(1)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
+  const [estimateSettingSelected, setEstimateSettingSelected] = useState(null)
 
-  const { categoryList, isLoading } = useSelector(
+  const { estimateSettingList, isLoading } = useSelector(
     (state) => ({
-      categoryList: state.category.categoryList,
-      isLoading: state.category.isLoading
+      estimateSettingList: state.estimateSetting.EstimateSettingList,
+      isLoading: state.estimateSetting.isLoading,
     }),
     []
   )
-
+  
   const setActive = async (e, record) => {
-    await dispatch(updateActiveCategory(record.id, e))
-    await dispatch(getCategoryList())
+    await dispatch(updateActiveEstimateSetting(record.id, e))
+    await dispatch(getEstimateSettingList())
   }
 
   const fetchData = async () => {
-    await dispatch(getCategoryList())
+    await dispatch(getEstimateSettingList())
   }
 
   useDeepEffect(() => {
@@ -57,8 +51,8 @@ const Category = (props) => {
 
   const confirm = async (e, record) => {
     e.preventDefault()
-    await dispatch(deleteCategory(record.id))
-    await dispatch(getCategoryList())
+    await dispatch(deleteEstimateSetting(record.id))
+    await dispatch(getEstimateSettingList())
   }
 
   const columns = [
@@ -66,21 +60,6 @@ const Category = (props) => {
       title: 'ลำดับ.',
       key: 'no',
       render: (text, record, index) => <span>{index + 1}</span>
-    },
-    {
-      title: 'ภาพ',
-      key: 'image',
-      render: (text, record, index) => (
-        <Image
-          width={200}
-          src={
-            text.image === (undefined || '')
-              ? 'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'
-              : String(text.image)
-          }
-        />
-      ),
-      width: '10%'
     },
     {
       title: 'ชื่อ',
@@ -91,11 +70,11 @@ const Category = (props) => {
       title: 'Action',
       key: 'action',
       render: (text, record, index) =>
-        categoryList[
-          Number(categoryList.findIndex((FindPos) => FindPos.id === text.id))
+        estimateSettingList[
+          Number(estimateSettingList.findIndex((FindPos) => FindPos.id === text.id))
         ].is_active && (
           <Space>
-            <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
             <Popconfirm
               title="คุณแน่ใจที่จะลบ?"
               onConfirm={(e) => confirm(e, record)}>
@@ -122,37 +101,43 @@ const Category = (props) => {
   ]
 
   const onClick = (e, action) => {
-    SetAntSelectNo(categoryList.length + 1)
+    SetAntSelectNo(estimateSettingList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
   }
 
-  const onEdit = async (e, action, id) => {
+  const onEdit = async (e, action, record) => {
     let GetPosition =
-      Number(categoryList.findIndex((FindPos) => FindPos.id === id)) + 1
+      Number(estimateSettingList.findIndex((FindPos) => FindPos.id === record.id)) + 1
     SetAntSelectNo(GetPosition)
     e.preventDefault()
-    setAction(action)
-    await dispatch(getCategoryListById(id))
+    await setEstimateSettingSelected(record)
+    await setAction(action)
+    await dispatch(getEstimateSettingListById(record.id))
     setVisible(true)
   }
 
   const onCancel = () => {
     setVisible(false)
+    setEstimateSettingSelected(null)
   }
 
   const onOk = async (data) => {
-    const formData = new FormData()
-    formData.set('name', data.name)
-    formData.set('code', data.code)
-    formData.set('description', data.description)
-    formData.append('image', data.image)
+    const formData = 
+    {
+      'name': data.name,
+    'size': data.size,
+    'unit': data.unit,
+    'price100': data.price100,
+    'price500': data.price500,
+    'price1000': data.price1000
+    }
     await setVisible(false)
     String(action) !== 'Edit'
-      ? await dispatch(createCategory(formData))
-      : await dispatch(updateCategory(data.id, formData))
-    await dispatch(getCategoryList())
+      ? await dispatch(createEstimateSetting(formData))
+      : await dispatch(updateEstimateSetting(data.id, formData))
+    await dispatch(getEstimateSettingList())
   }
 
   return (
@@ -160,7 +145,7 @@ const Category = (props) => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>รายการหมวดหมู่</Typography.Title>
+            <Typography.Title level={3}>รายการตั้งค่ากระดาษ Estimate</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
@@ -174,16 +159,17 @@ const Category = (props) => {
           bordered
           loading={isLoading}
           columns={columns}
-          dataSource={categoryList}
+          dataSource={estimateSettingList}
           rowKey={(record) => record.id}
         />
         {visible && (
-          <ManageCategory
+          <ManageEstimateSetting
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
             action={action}
             TrNo={AntSelectNo}
+            estimateSettingSelected={estimateSettingSelected}
           />
         )}
       </div>
@@ -191,4 +177,4 @@ const Category = (props) => {
   )
 }
 
-export default Category
+export default estimateSetting;
