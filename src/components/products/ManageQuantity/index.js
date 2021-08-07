@@ -83,7 +83,7 @@ const ManageQuantity = (props) => {
                   onClick={() => add()}
                   block
                   icon={<PlusOutlined />}>
-                  Add Quantity
+                  เพิ่มข้อมูล
                 </Button>
               </Form.Item>
             </>

@@ -99,7 +99,7 @@ const ManagePromotion = (props) => {
         layout="vertical">
         <p>No : {TrNo}</p>
         <Form.Item
-          label="Title"
+          label="หัวข้อ"
           name="title"
           rules={[
             {

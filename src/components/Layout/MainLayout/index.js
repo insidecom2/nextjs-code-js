@@ -14,7 +14,8 @@ import {
   FileTextOutlined,
   SettingOutlined,
   PicRightOutlined,
-  ShopOutlined
+  ShopOutlined,
+  CreditCardOutlined
 } from '@ant-design/icons'
 import { TitleDashboard } from 'styles/dashboard/index.style'
 import { useRouter } from 'next/router'
@@ -157,6 +158,12 @@ const MainLayout = (props) => {
                 icon={<SendOutlined />}
                 onClick={(e) => onClick(e, 'shipping')}>
                 การจัดส่ง
+              </Menu.Item>
+              <Menu.Item
+                key="8"
+                icon={<CreditCardOutlined />}
+                onClick={(e) => onClick(e, 'payment')}>
+                การชำระเงิน
               </Menu.Item>
               <SubMenu
                 key="sub1"

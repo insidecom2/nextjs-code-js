@@ -19,6 +19,7 @@ import banner from 'store/reducers/banner'
 import shops from 'store/reducers/shops'
 import estimateSetting from 'store/reducers/estimateSetting'
 import threeDSetting from 'store/reducers/threeDSetting'
+import payment from 'store/reducers/payment'
 
 export default combineReducers({
   auth,
@@ -40,5 +41,6 @@ export default combineReducers({
   banner,
   shops,
   estimateSetting,
-  threeDSetting
+  threeDSetting,
+  payment
 })
