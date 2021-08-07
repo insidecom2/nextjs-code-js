@@ -71,7 +71,14 @@ const Category = (props) => {
       title: 'ภาพ',
       key: 'image',
       render: (text, record, index) => (
-        <Image width={200} src={text.image===(undefined||'')?'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg':text.image.toString()} />
+        <Image
+          width={200}
+          src={
+            text.image === (undefined || '')
+              ? 'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'
+              : String(text.image)
+          }
+        />
       ),
       width: '10%'
     },
