@@ -182,13 +182,16 @@ const MainLayout = (props) => {
                   ขนาด
                 </Menu.Item>
                 <Menu.Item key="12" onClick={(e) => onClick(e, 'material')}>
-                  วัสดุ
-                </Menu.Item>
+                     ชนิดกระดาษ
+                 </Menu.Item>
                 <Menu.Item key="13" onClick={(e) => onClick(e, 'printFinish')}>
-                  พิมพ์เสร็จสิ้น
+                    รูปแบบการพิมพ์
                 </Menu.Item>
                 <Menu.Item key="14" onClick={(e) => onClick(e, 'printSides')}>
-                  พิมพ์ด้าน
+                    รูปแบบการเคลือบ
+                </Menu.Item>
+                <Menu.Item key="15" onClick={(e) => onClick(e, 'specialTechnic')}>
+                    เทคนิคพิเศษ
                 </Menu.Item>
               </SubMenu>
               <Menu.Item
