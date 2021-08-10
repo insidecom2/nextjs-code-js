@@ -52,8 +52,8 @@ const ManageProducts = (props) => {
     const quantityDataList = []
     quantityList.forEach((item, index) => {
       quantityDataList.push({
-        // id: action === ACTION.EDIT ? 0 : item.id,
-        id: item.id,
+        id: action === ACTION.EDIT ? 0 : item.id,
+        // id: item.id,
         quantity: values[`quantity_${item.id}_${index}`],
         price: values[`price_${item.id}_${index}`]
       })
@@ -69,7 +69,7 @@ const ManageProducts = (props) => {
         weight: values.weight,
         size: values.size,
         estimate: values.estimate,
-        threed: values.threed === undefined?"":values.threed
+        threed: values.threed === undefined?[]:values.threed
       },
       quantityList: quantityDataList,
       images:
