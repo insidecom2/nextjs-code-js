@@ -1,6 +1,9 @@
+/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/display-name */
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
 import {
+  Switch,
   Button,
   Col,
   Popconfirm,
@@ -8,79 +11,56 @@ import {
   Space,
   Table,
   Typography,
-  Form,
-  Switch,
-  Image
+  Form
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
-import { useDispatch, useSelector } from 'react-redux'
+import ManageMaterial from 'components/Settings/Material/ManageMaterial'
 import {
-  createCategory,
-  deleteCategory,
-  getCategoryList,
-  updateActiveCategory,
-  getCategoryListById,
-  updateCategory
-} from 'store/reducers/category'
+  createMaterial,
+  deleteMaterial,
+  getMaterialList,
+  updateActiveMaterial,
+  getMaterialById,
+  updateMaterial
+} from 'store/reducers/material'
+import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-import ManageCategory from 'components/Settings/Category/ManageCategory'
 import { AddCreate } from 'styles/BtnCreate/index.style'
 import { NewTable } from 'styles/NewTable/index.style'
+import { getspecialTechnicList } from 'store/reducers/specialTechnic'
 
-const Category = (props) => {
+const SpecialTechnic = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
   const [AntSelectNo, SetAntSelectNo] = useState(1)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
 
-  const { categoryList, isLoading } = useSelector(
+  const { materialList, isLoading } = useSelector(
     (state) => ({
-      categoryList: state.category.categoryList,
-      isLoading: state.category.isLoading
+      materialList: state.material.materialList,
+      isLoading: state.material.isLoading
     }),
     []
   )
 
-  const setActive = async (e, record) => {
-    await dispatch(updateActiveCategory(record.id, e))
-    await dispatch(getCategoryList())
-  }
-
   const fetchData = async () => {
-    await dispatch(getCategoryList())
+    await dispatch(getMaterialList())
   }
 
   useDeepEffect(() => {
     fetchData()
   }, [])
 
-  const confirm = async (e, record) => {
-    e.preventDefault()
-    await dispatch(deleteCategory(record.id))
-    await dispatch(getCategoryList())
-  }
-
   const columns = [
     {
       title: 'ลำดับ.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
-    },
-    {
-      title: 'ภาพ',
-      key: 'image',
       render: (text, record, index) => (
-        <Image
-          width={200}
-          src={
-            text.image === (undefined || '')
-              ? 'http://188.166.184.117:9000/dev/media/2021/07/824724b8fc516c76d02cdaa8061d432b.jpeg'
-              : String(text.image)
-          }
-        />
-      ),
-      width: '10%'
+        <span>
+          {materialList.findIndex((FindPos) => FindPos.id === text.id) + 1}
+        </span>
+      )
     },
     {
       title: 'ชื่อ',
@@ -91,8 +71,8 @@ const Category = (props) => {
       title: 'Action',
       key: 'action',
       render: (text, record, index) =>
-        categoryList[
-          Number(categoryList.findIndex((FindPos) => FindPos.id === text.id))
+        materialList[
+          Number(materialList.findIndex((FindPos) => FindPos.id === text.id))
         ].is_active && (
           <Space>
             <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
@@ -109,11 +89,11 @@ const Category = (props) => {
       key: 'is_active',
       dataIndex: 'is_active',
       render: (text, record, index) => (
-        <Form form={form} name="CategoryActive" layout="vertical">
+        <Form form={form} name="typeActive" layout="vertical">
           <Form.Item
             valuePropName="checked"
             name={'active_' + record.id}
-            initialValue={text ? true : false}>
+            initialValue={!!text}>
             <Switch onChange={(e) => setActive(e, record)} />
           </Form.Item>
         </Form>
@@ -121,38 +101,51 @@ const Category = (props) => {
     }
   ]
 
+  const confirm = async (e, record) => {
+    e.preventDefault()
+    await dispatch(deleteMaterial(record.id))
+    await dispatch(getMaterialList())
+  }
+
   const onClick = (e, action) => {
-    SetAntSelectNo(categoryList.length + 1)
+    SetAntSelectNo(materialList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
-  }
-
-  const onEdit = async (e, action, id) => {
-    let GetPosition =
-      Number(categoryList.findIndex((FindPos) => FindPos.id === id)) + 1
-    SetAntSelectNo(GetPosition)
-    e.preventDefault()
-    setAction(action)
-    await dispatch(getCategoryListById(id))
-    setVisible(true)
-  }
-
-  const onCancel = () => {
-    setVisible(false)
   }
 
   const onOk = async (data) => {
     const formData = new FormData()
     formData.set('name', data.name)
     formData.set('code', data.code)
-    formData.set('description', data.description)
     formData.append('image', data.image)
     await setVisible(false)
-    String(action) !== 'Edit'
-      ? await dispatch(createCategory(formData))
-      : await dispatch(updateCategory(data.id, formData))
-    await dispatch(getCategoryList())
+    if (action === ACTION.CREATE) {
+      await dispatch(createMaterial(formData))
+    } else {
+      await dispatch(updateMaterial(data.id, formData))
+    }
+    await dispatch(getMaterialList())
+  }
+
+  const setActive = async (e, record) => {
+    await dispatch(updateActiveMaterial(record.id, e))
+    await dispatch(getMaterialList())
+  }
+
+  const onCancel = () => {
+    setVisible(false)
+  }
+
+  const onEdit = async (e, action, id) => {
+    const GetPosition =
+      Number(materialList.findIndex((FindPos) => FindPos.id === id)) + 1
+    SetAntSelectNo(GetPosition)
+    e.preventDefault()
+    setAction(action)
+    await dispatch(getMaterialById(id))
+    await dispatch(getMaterialList())
+    setVisible(true)
   }
 
   return (
@@ -160,12 +153,12 @@ const Category = (props) => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>รายการหมวดหมู่</Typography.Title>
+            <Typography.Title level={3}>รายการเทคนิคพิเศษ</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
               <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
-                เพิ่ม หมวดหมู่
+                เพิ่ม เทคนิคพิเศษ
               </AddCreate>
             </Row>
           </Col>
@@ -174,11 +167,11 @@ const Category = (props) => {
           bordered
           loading={isLoading}
           columns={columns}
-          dataSource={categoryList}
+          dataSource={materialList}
           rowKey={(record) => record.id}
         />
         {visible && (
-          <ManageCategory
+          <ManageMaterial
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
@@ -191,4 +184,6 @@ const Category = (props) => {
   )
 }
 
-export default Category
+SpecialTechnic.propTypes = {}
+
+export default SpecialTechnic
