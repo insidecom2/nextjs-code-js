@@ -25,12 +25,9 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/digibox-web-admin
-            git remote set-url origin git@github.com:RatchanikornCompany/digibox-web-admin.git
+            docker system prune -f
             git fetch -p
-            git add .
-            gut commit -m "new commit digibox web admin"
             git pull origin main
             docker-compose down
-            docker system prune -f
             docker-compose up -d --build
             docker ps -a
