@@ -1,34 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Input, Modal, Select, Upload, Icon, message } from 'antd'
-import { useSelector } from 'react-redux'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { ACTION } from 'utils/constants.js'
 import { beforeUpload, getBase64 } from 'utils/images'
 
-const ManageMaterial = (props) => {
-  const { visible, onOk, onCancel, action, TrNo } = props
+const ManageFoiling = (props) => {
+  const { visible, onOk, onCancel, action, TrNo, foilingTechnicSelected } = props
   const [form] = Form.useForm()
   const [loading, setloading] = useState(false)
   const [imageUrl, setimageUrl] = useState()
-  const { typeId, defaultImage, MaterialValue } = useSelector(
-    (state) => ({
-      MaterialValue: state.material.categoryType,
-      typeId: action === ACTION.EDIT ? state.material.categoryType.id : '',
-      defaultImage:
-        action === ACTION.EDIT ? state.material.categoryType.image : ''
-    }),
-    []
-  )
 
   const onFinish = (values) => {
     const data = {
       name: values.name,
-      code: values.code,
       image: values.image === undefined ? [] : values.image.file.originFileObj
     }
     if (action === ACTION.EDIT) {
-      data.id = typeId
+      data.id = foilingTechnicSelected.id
     }
     onOk(data)
   }
@@ -36,12 +25,12 @@ const ManageMaterial = (props) => {
   useEffect(() => {
     if (action === ACTION.EDIT) {
       form.setFieldsValue({
-        name: MaterialValue.name,
-        code: MaterialValue.code
+        name: foilingTechnicSelected.name,
+        code: foilingTechnicSelected.code
       })
+      setimageUrl(foilingTechnicSelected.image)
     }
-    setimageUrl(defaultImage)
-  }, [MaterialValue])
+  }, [foilingTechnicSelected])
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
       setloading(true)
@@ -57,7 +46,7 @@ const ManageMaterial = (props) => {
   return (
     <Modal
       closable={false}
-      title={`${action} ชนิดกระดาษ`}
+      title={`${action} Material`}
       visible={visible}
       destroyOnClose={true}
       footer={[
@@ -77,17 +66,6 @@ const ManageMaterial = (props) => {
             {
               required: true,
               message: 'Please input your name!'
-            }
-          ]}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="code"
-          name="code"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your code!'
             }
           ]}>
           <Input />
@@ -127,11 +105,11 @@ const ManageMaterial = (props) => {
   )
 }
 
-ManageMaterial.propTypes = {
+ManageFoiling.propTypes = {
   visible: PropTypes.bool,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
   action: PropTypes.string
 }
 
-export default ManageMaterial
+export default ManageFoiling

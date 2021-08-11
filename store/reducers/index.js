@@ -20,6 +20,8 @@ import shops from 'store/reducers/shops'
 import estimateSetting from 'store/reducers/estimateSetting'
 import threeDSetting from 'store/reducers/threeDSetting'
 import payment from 'store/reducers/payment'
+import foilingTechnic from 'store/reducers/foilingTechnic'
+import specialTechnic from 'store/reducers/specialTechnic'
 
 export default combineReducers({
   auth,
@@ -42,5 +44,7 @@ export default combineReducers({
   shops,
   estimateSetting,
   threeDSetting,
-  payment
+  payment,
+  foilingTechnic,
+  specialTechnic
 })

@@ -1,5 +1,3 @@
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/display-name */
 import React, { useState } from 'react'
 import MainLayout from 'components/Layout/MainLayout'
 import {
@@ -14,32 +12,33 @@ import {
   Form
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
-import ManageSpecialTechnic from 'components/Settings/SpecialTechnic/ManageSpecialTechnic'
+import ManageFoiling from 'components/Settings/Foiling/ManageFoiling'
+import { createfoilingTechnic, updatefoilingTechnic, deletefoilingTechnic, getfoilingTechnicById, updateActivefoilingTechnic, getfoilingTechnicList } from 'store/reducers/foilingTechnic'
 import { useDispatch, useSelector } from 'react-redux'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
 import { AddCreate } from 'styles/BtnCreate/index.style'
 import { NewTable } from 'styles/NewTable/index.style'
-import { updatespecialTechnic, getspecialTechnicById, updateActivespecialTechnic, deletespecialTechnic, createspecialTechnic, getspecialTechnicList } from 'store/reducers/specialTechnic'
 
-const SpecialTechnic = (props) => {
+const foilingTechnic = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
   const [AntSelectNo, SetAntSelectNo] = useState(1)
-  const [thisSelected,setThisSelected] = useState(null)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
+  const [foilingTechnicSelected, setfoilingTechnicSelected] = useState(null)
 
-  const { specialTechnicList, isLoading, dd } = useSelector(
+  const { foilingTechnicList, isLoading } = useSelector(
     (state) => ({
-      specialTechnicList: state.specialTechnic.specialTechnicList,
-      isLoading: state.specialTechnic.isLoading,
-      dd:state
+      foilingTechnicList: state.foilingTechnic.foilingTechnicList,
+      isLoading: state.foilingTechnic.isLoading
     }),
     []
   )
 
+//   console.log(foilingTechnicList)
+
   const fetchData = async () => {
-    await dispatch(getspecialTechnicList())
+    await dispatch(getfoilingTechnicList())
   }
 
   useDeepEffect(() => {
@@ -52,7 +51,7 @@ const SpecialTechnic = (props) => {
       key: 'no',
       render: (text, record, index) => (
         <span>
-          {specialTechnicList.findIndex((FindPos) => FindPos.id === text.id) + 1}
+          {foilingTechnicList.findIndex((FindPos) => FindPos.id === text.id) + 1}
         </span>
       )
     },
@@ -65,8 +64,8 @@ const SpecialTechnic = (props) => {
       title: 'Action',
       key: 'action',
       render: (text, record, index) =>
-        specialTechnicList[
-          Number(specialTechnicList.findIndex((FindPos) => FindPos.id === text.id))
+        foilingTechnicList[
+          Number(foilingTechnicList.findIndex((FindPos) => FindPos.id === text.id))
         ].is_active && (
           <Space>
             <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
@@ -97,12 +96,12 @@ const SpecialTechnic = (props) => {
 
   const confirm = async (e, record) => {
     e.preventDefault()
-    await dispatch(deletespecialTechnic(record.id))
-    await dispatch(getspecialTechnicList())
+    await dispatch(deletefoilingTechnic(record.id))
+    await dispatch(getfoilingTechnicList())
   }
 
   const onClick = (e, action) => {
-    SetAntSelectNo(specialTechnicList.length + 1)
+    SetAntSelectNo(foilingTechnicList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
@@ -114,32 +113,32 @@ const SpecialTechnic = (props) => {
     formData.append('image', data.image)
     await setVisible(false)
     if (action === ACTION.CREATE) {
-      await dispatch(createspecialTechnic(formData))
+      await dispatch(createfoilingTechnic(formData))
     } else {
-      await dispatch(updatespecialTechnic(data.id, formData))
+      await dispatch(updatefoilingTechnic(data.id, formData))
     }
-    await dispatch(getspecialTechnicList())
+    await dispatch(getfoilingTechnicList())
   }
 
   const setActive = async (e, record) => {
-    await dispatch(updateActivespecialTechnic(record.id, e))
-    await dispatch(getspecialTechnicList())
+    await dispatch(updateActivefoilingTechnic(record.id, e))
+    await dispatch(getfoilingTechnicList())
   }
 
   const onCancel = () => {
-    setThisSelected(null)
     setVisible(false)
+    setfoilingTechnicSelected(null)
   }
 
   const onEdit = async (e, action, record) => {
     const GetPosition =
-      Number(specialTechnicList.findIndex((FindPos) => FindPos.id === record.id)) + 1
+      Number(foilingTechnicList.findIndex((FindPos) => FindPos.id === record.id)) + 1
     SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
-    await setThisSelected(record)
-    await dispatch(getspecialTechnicById(record.id))
-    await dispatch(getspecialTechnicList())
+    await setfoilingTechnicSelected(record)
+    await dispatch(getfoilingTechnicById(record.id))
+    await dispatch(getfoilingTechnicList())
     setVisible(true)
   }
 
@@ -162,17 +161,17 @@ const SpecialTechnic = (props) => {
           bordered
           loading={isLoading}
           columns={columns}
-          dataSource={specialTechnicList}
+          dataSource={foilingTechnicList}
           rowKey={(record) => record.id}
         />
         {visible && (
-          <ManageSpecialTechnic
+          <ManageFoiling
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
             action={action}
             TrNo={AntSelectNo}
-            thisSelected={thisSelected}
+            foilingTechnicSelected={foilingTechnicSelected}
           />
         )}
       </div>
@@ -180,6 +179,6 @@ const SpecialTechnic = (props) => {
   )
 }
 
-SpecialTechnic.propTypes = {}
+foilingTechnic.propTypes = {}
 
-export default SpecialTechnic
+export default foilingTechnic

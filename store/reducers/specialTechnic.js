@@ -155,7 +155,7 @@ export const getspecialTechnicList = () => {
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: FETCH_specialTechnic_LIST_SUCCESS,
-          payload: response.data.data
+          payload: response.data
         })
       }
     } catch (err) {
@@ -234,7 +234,7 @@ export const updateActivespecialTechnic = (id, data) => {
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: ACTIVE_specialTechnic_SUCCESS,
-          payload: response.data.data
+          payload: response.data
         })
         message.success(RESPONSE_MESSAGE.SUCCESS)
       }
@@ -259,7 +259,7 @@ export const getspecialTechnicById = (id) => {
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: FETCH_specialTechnic_ID_SUCCESS,
-          payload: response.data.data
+          payload: response.data
         })
       }
     } catch (err) {
@@ -287,7 +287,7 @@ export const updatespecialTechnic = (id, data) => {
       if (response.status === HTTP_STATUS_CODE.OK) {
         dispatch({
           type: UPDATE_specialTechnic_SUCCESS,
-          payload: response.data.data
+          payload: response.data
         })
         message.success(RESPONSE_MESSAGE.SUCCESS)
       }

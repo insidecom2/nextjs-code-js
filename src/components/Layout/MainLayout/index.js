@@ -169,29 +169,32 @@ const MainLayout = (props) => {
                 key="sub1"
                 icon={<ControlFilled />}
                 title="ตั้งค่าสินค้า">
-                <Menu.Item key="8" onClick={(e) => onClick(e, 'category')}>
-                  หมวดหมู่
+                <Menu.Item key="20" onClick={(e) => onClick(e, 'category')}>
+                     หมวดหมู่
                 </Menu.Item>
                 <Menu.Item key="9" onClick={(e) => onClick(e, 'type')}>
-                  ประเภท
+                      ประเภท
                 </Menu.Item>
                 <Menu.Item key="10" onClick={(e) => onClick(e, 'style')}>
-                  คุณลักษณะ
+                     คุณลักษณะ
                 </Menu.Item>
                 <Menu.Item key="11" onClick={(e) => onClick(e, 'size')}>
-                  ขนาด
+                      ขนาด
                 </Menu.Item>
                 <Menu.Item key="12" onClick={(e) => onClick(e, 'material')}>
-                     ชนิดกระดาษ
+                      ชนิดกระดาษ
                  </Menu.Item>
                 <Menu.Item key="13" onClick={(e) => onClick(e, 'printFinish')}>
-                    รูปแบบการพิมพ์
+                     รูปแบบการพิมพ์
                 </Menu.Item>
                 <Menu.Item key="14" onClick={(e) => onClick(e, 'printSides')}>
-                    รูปแบบการเคลือบ
+                     รูปแบบการเคลือบ
                 </Menu.Item>
-                <Menu.Item key="15" onClick={(e) => onClick(e, 'specialTechnic')}>
-                    เทคนิคพิเศษ
+                <Menu.Item key="19" onClick={(e) => onClick(e, 'specialTechnic')}>
+                     เทคนิคพิเศษ
+                </Menu.Item>
+                <Menu.Item key="18" onClick={(e) => onClick(e, 'foilingTechnic')}>
+                     เทคนิคปั๊มฟอยล์
                 </Menu.Item>
               </SubMenu>
               <Menu.Item
