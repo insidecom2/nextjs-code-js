@@ -25,9 +25,9 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/digibox-web-admin
-            git fetch -p
-            git pull origin develop
-            docker-compose down
             docker system prune -f
+            git fetch -p
+            git pull origin main
+            docker-compose down
             docker-compose up -d --build
             docker ps -a
