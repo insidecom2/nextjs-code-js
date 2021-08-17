@@ -152,7 +152,7 @@ const foilingTechnic = (props) => {
           <Col span={12}>
             <Row justify="end">
               <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
-                เพิ่ม เทคนิคพิเศษ
+                เพิ่ม เทคนิคพิเศษ (ปั๊มฟอยล์)
               </AddCreate>
             </Row>
           </Col>
