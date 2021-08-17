@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next -p 4000",
+    "web": "next -p 4000",
     "build": "next build",
     "start": "next start -p 4000",
     "clear": "rm -rf .next out",
