@@ -22,6 +22,7 @@ import threeDSetting from 'store/reducers/threeDSetting'
 import payment from 'store/reducers/payment'
 import foilingTechnic from 'store/reducers/foilingTechnic'
 import specialTechnic from 'store/reducers/specialTechnic'
+import colorPrint from 'store/reducers/colorPrint'
 
 export default combineReducers({
   auth,
@@ -46,5 +47,6 @@ export default combineReducers({
   threeDSetting,
   payment,
   foilingTechnic,
-  specialTechnic
+  specialTechnic,
+  colorPrint
 })

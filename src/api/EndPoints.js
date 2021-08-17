@@ -22,3 +22,4 @@ export const ESTIMATESETTING = `/estimate-setting`
 export const THREEDSETTING = `/threed-setting`
 export const SPECIALTECHNIC = `/special-technic`
 export const FOILINGTECHNIC = `/special-foiling`
+export const COLORPRINT = `/color-print`

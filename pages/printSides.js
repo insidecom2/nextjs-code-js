@@ -152,7 +152,7 @@ const PrintSides = (props) => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>รายการพิมพ์ด้าน</Typography.Title>
+            <Typography.Title level={3}>รายการเคลือบ</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">

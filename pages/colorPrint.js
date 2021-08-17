@@ -12,38 +12,33 @@ import {
   Form
 } from 'antd'
 import { ACTION } from 'utils/constants.js'
-import ManagePrintFinish from 'components/Settings/PrintFinish/ManagePrintFinish'
+import ManageColorPrint from 'components/Settings/ColorPrint'
+import { updatecolorPrint, getcolorPrintById, updateActivecolorPrint, deletecolorPrint, createcolorPrint, getcolorPrintList } from 'store/reducers/colorPrint'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  createPrintFinish,
-  deletePrintFinish,
-  getPrintFinishList,
-  updateActivePrintFinish,
-  getPrintFinishById,
-  updatePrintFinish
-} from 'store/reducers/printFinish'
 import useDeepEffect from 'utils/hooks/useDeepEffect'
-
 import { AddCreate } from 'styles/BtnCreate/index.style'
 import { NewTable } from 'styles/NewTable/index.style'
 
-const PrintFinish = (props) => {
+const colorPrint = (props) => {
   const [action, setAction] = useState(ACTION.CREATE)
   const [visible, setVisible] = useState(false)
-  const dispatch = useDispatch()
   const [AntSelectNo, SetAntSelectNo] = useState(1)
+  const dispatch = useDispatch()
   const [form] = Form.useForm()
+  const [colorPrintSelected, setcolorPrintSelected] = useState(null)
 
-  const { printFinishList, isLoading } = useSelector(
+  const { colorPrintList, isLoading } = useSelector(
     (state) => ({
-      printFinishList: state.printFinish.printFinishList,
-      isLoading: state.printFinish.isLoading
+      colorPrintList: state.colorPrint.colorPrintList,
+      isLoading: state.colorPrint.isLoading,
     }),
     []
   )
 
+//   console.log(colorPrintList)
+
   const fetchData = async () => {
-    await dispatch(getPrintFinishList())
+    await dispatch(getcolorPrintList())
   }
 
   useDeepEffect(() => {
@@ -52,9 +47,13 @@ const PrintFinish = (props) => {
 
   const columns = [
     {
-      title: 'No.',
+      title: 'ลำดับ.',
       key: 'no',
-      render: (text, record, index) => <span>{index + 1}</span>
+      render: (text, record, index) => (
+        <span>
+          {colorPrintList.findIndex((FindPos) => FindPos.id === text.id) + 1}
+        </span>
+      )
     },
     {
       title: 'ชื่อ',
@@ -65,11 +64,11 @@ const PrintFinish = (props) => {
       title: 'Action',
       key: 'action',
       render: (text, record, index) =>
-        printFinishList[
-          Number(printFinishList.findIndex((FindPos) => FindPos.id === text.id))
+        colorPrintList[
+          Number(colorPrintList.findIndex((FindPos) => FindPos.id === text.id))
         ].is_active && (
           <Space>
-            <a onClick={(e) => onEdit(e, ACTION.EDIT, record.id)}>แก้ไข</a>
+            <a onClick={(e) => onEdit(e, ACTION.EDIT, record)}>แก้ไข</a>
             <Popconfirm
               title="คุณแน่ใจที่จะลบ?"
               onConfirm={(e) => confirm(e, record)}>
@@ -97,41 +96,49 @@ const PrintFinish = (props) => {
 
   const confirm = async (e, record) => {
     e.preventDefault()
-    await dispatch(deletePrintFinish(record.id))
-    await dispatch(getPrintFinishList())
+    await dispatch(deletecolorPrint(record.id))
+    await dispatch(getcolorPrintList())
   }
 
   const onClick = (e, action) => {
-    SetAntSelectNo(printFinishList.length + 1)
+    SetAntSelectNo(colorPrintList.length + 1)
     e.preventDefault()
     setAction(action)
     setVisible(true)
   }
 
-  const onOk = async (GetId, data) => {
+  const onOk = async (data) => {
+    const formData = new FormData()
+    formData.set('name', data.name)
+    formData.append('image', data.image)
     await setVisible(false)
-    String(action) !== 'Edit'
-      ? await dispatch(createPrintFinish(data))
-      : await dispatch(updatePrintFinish(GetId, data))
-    await dispatch(getPrintFinishList())
+    if (action === ACTION.CREATE) {
+      await dispatch(createcolorPrint(formData))
+    } else {
+      await dispatch(updatecolorPrint (data.id, formData))
+    }
+    await dispatch(getcolorPrintList())
+  }
+
+  const setActive = async (e, record) => {
+    await dispatch(updateActivecolorPrint(record.id, e))
+    await dispatch(getcolorPrintList())
   }
 
   const onCancel = () => {
     setVisible(false)
-  }
-  const setActive = async (e, record) => {
-    await dispatch(updateActivePrintFinish(record.id, e))
-    await dispatch(getPrintFinishList())
+    setcolorPrintSelected(null)
   }
 
-  const onEdit = async (e, action, id) => {
+  const onEdit = async (e, action, record) => {
     const GetPosition =
-      Number(printFinishList.findIndex((FindPos) => FindPos.id === id)) + 1
+      Number(colorPrintList.findIndex((FindPos) => FindPos.id === record.id)) + 1
     SetAntSelectNo(GetPosition)
     e.preventDefault()
     setAction(action)
-    await dispatch(getPrintFinishById(id))
-    await dispatch(getPrintFinishList())
+    await setcolorPrintSelected(record)
+    await dispatch(getcolorPrintById(record.id))
+    await dispatch(getcolorPrintList())
     setVisible(true)
   }
 
@@ -140,30 +147,31 @@ const PrintFinish = (props) => {
       <div style={{ margin: '0 16px', padding: 10 }}>
         <Row>
           <Col span={12}>
-            <Typography.Title level={3}>รูปแบบการพิมพ์</Typography.Title>
+            <Typography.Title level={3}>รายการสีพิมพ์</Typography.Title>
           </Col>
           <Col span={12}>
             <Row justify="end">
-              <Button onClick={(e) => onClick(e, ACTION.CREATE)}>
-                เพิ่มข้อมูล
-              </Button>
+              <AddCreate onClick={(e) => onClick(e, ACTION.CREATE)}>
+                เพิ่ม สีพิมพ์
+              </AddCreate>
             </Row>
           </Col>
         </Row>
-        <Table
+        <NewTable
           bordered
           loading={isLoading}
           columns={columns}
-          dataSource={printFinishList}
+          dataSource={colorPrintList}
           rowKey={(record) => record.id}
         />
         {visible && (
-          <ManagePrintFinish
+          <ManageColorPrint
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
             action={action}
             TrNo={AntSelectNo}
+            colorPrintSelected={colorPrintSelected}
           />
         )}
       </div>
@@ -171,6 +179,6 @@ const PrintFinish = (props) => {
   )
 }
 
-PrintFinish.propTypes = {}
+colorPrint.propTypes = {}
 
-export default PrintFinish
+export default colorPrint

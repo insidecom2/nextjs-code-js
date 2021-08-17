@@ -196,6 +196,9 @@ const MainLayout = (props) => {
                 <Menu.Item key="10" onClick={(e) => onClick(e, 'style')}>
                      คุณลักษณะ
                 </Menu.Item>   
+                <Menu.Item key="21" onClick={(e) => onClick(e, 'colorPrint')}>
+                สีพิมพ์
+                </Menu.Item>   
               </SubMenu>
               <Menu.Item
                 key="100"
