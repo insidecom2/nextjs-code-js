@@ -173,29 +173,29 @@ const MainLayout = (props) => {
                      หมวดหมู่
                 </Menu.Item>
                 <Menu.Item key="9" onClick={(e) => onClick(e, 'type')}>
-                      ประเภท
+                      ประเภทสินค้า
                 </Menu.Item>
-                <Menu.Item key="10" onClick={(e) => onClick(e, 'style')}>
-                     คุณลักษณะ
-                </Menu.Item>
-                <Menu.Item key="11" onClick={(e) => onClick(e, 'size')}>
-                      ขนาด
+                <Menu.Item key="14" onClick={(e) => onClick(e, 'printSides')}>
+                     รูปแบบการเคลือบ
                 </Menu.Item>
                 <Menu.Item key="12" onClick={(e) => onClick(e, 'material')}>
                       ชนิดกระดาษ
                  </Menu.Item>
                 <Menu.Item key="13" onClick={(e) => onClick(e, 'printFinish')}>
                      รูปแบบการพิมพ์
-                </Menu.Item>
-                <Menu.Item key="14" onClick={(e) => onClick(e, 'printSides')}>
-                     รูปแบบการเคลือบ
-                </Menu.Item>
+                </Menu.Item>       
                 <Menu.Item key="19" onClick={(e) => onClick(e, 'specialTechnic')}>
                      เทคนิคพิเศษ
                 </Menu.Item>
                 <Menu.Item key="18" onClick={(e) => onClick(e, 'foilingTechnic')}>
                      เทคนิคปั๊มฟอยล์
                 </Menu.Item>
+                <Menu.Item key="11" onClick={(e) => onClick(e, 'size')}>
+                      ขนาด
+                </Menu.Item>
+                <Menu.Item key="10" onClick={(e) => onClick(e, 'style')}>
+                     คุณลักษณะ
+                </Menu.Item>   
               </SubMenu>
               <Menu.Item
                 key="100"
